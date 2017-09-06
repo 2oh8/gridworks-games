@@ -18,16 +18,16 @@
         msg: "Austin's Component",
         cards: [],
         flippedCards: false,
-        foundCards:0,
-        time:0,
-
-
-
-
-
+        score: 0,
+        time: 0,
+        timer:null
       }
     },
-    computed: {},
+    computed: {
+      flippedCards(){
+        return cards.flipped = true
+      }
+    },
     methods: {
       //HOW DOES THE GAME START? BUTTON THAT SETS UP GAME
       startGame() { },
@@ -35,19 +35,19 @@
       resetGame() { },
       //ONCE GAME IS COMPLETED, DISPLAY WIN ALERT, TURNS IT TOOK TO WIN, AND TIME IT TOOK TO WIN
       finishGame() { },
-      //WHEN GAME STARTS RANDOMLY SHUFFLE CARDS
+      //WHEN GAME STARTS RANDOMLY SHUFFLE CARDS AND DRAW TO SCREEN
       shuffleCards() { },
-      //WHEN CLICKED, CARDFLIPPED IS TRUE AND BE ABLE TO SEE IMG OR CONTENT
+      //WHEN CLICKED, CARDFLIPPED IS TRUE AND BE ABLE TO SEE IMG OR CONTENT THEN HIDE MATCHED PAIR AND INCREMENT SCORE BY 1
+      //IF NOT RETURN CARDFLIPPED TO FALSE
       flipCards() { },
       // TODO: WORK ON TIMER AND HOW IT INCREMENTS
-      timer(){
-        setInterval(()=>{
-          if(time>0){
+      timer() {
+        setInterval(() => {
+          if (time > 0) {
             time++
           }
         })
       },
-      
     },
   }
 
