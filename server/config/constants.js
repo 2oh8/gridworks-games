@@ -7,6 +7,7 @@ const actions = {
 }
 
 const models = {
+  
   user: {
     name: 'User',
     endpoint: 'users',

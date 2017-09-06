@@ -8,4 +8,4 @@ let schema = new Schema({
   wins: { type: Number, required: true, default: 0 }
 })
 
-module.exports = mongoose.model('User', schema)
+module.exports = mongoose.model('Gamestats', schema)
