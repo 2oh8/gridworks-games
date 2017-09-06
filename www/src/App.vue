@@ -33,7 +33,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>GridWorks Games</v-toolbar-title>
 <!-- v-if="showLogout" -->
-      <v-list-tile-content position-x:300>
+      <v-list-tile-content>
         <v-btn type="submit" @click.prevent="userLogout" >Log Me Out</v-btn>
       </v-list-tile-content>
 
