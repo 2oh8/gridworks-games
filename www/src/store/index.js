@@ -30,7 +30,7 @@ var store = new vuex.Store({
   },
 
   mutations: {
-    setActiveUser1(state, data) {
+    setUser(state, data) {
       state.activeUser1 = data || {}
     },
     setLoggedIn(state, data) {
@@ -100,7 +100,7 @@ var store = new vuex.Store({
     login({ commit, dispatch }, accountUser) {
       auth.post('login', accountUser)
         .then(res => {
-          commit('setActiveUser1', res.data.data)
+          commit('setUser', res.data.data)
           commit('setLoggedIn', true)
           if (!res.data.data) {
             router.push('/Home');
