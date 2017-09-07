@@ -131,7 +131,7 @@
 
       </div>
       <!-- v-if="showLogout" -->
-      <form @submit.prevent="userLogout">
+      <form v-if="login" @submit.prevent="userLogout">
         <v-btn v-if="loggedIn" flat class="flipInX" type="submit">Log Me Out</v-btn>
       </form>
 
