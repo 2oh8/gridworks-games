@@ -1,8 +1,11 @@
 <template>
   <div class="Memory-Cards">
     <h1>{{ msg }}</h1>
-    <div class="cards"></div>
-    <div></div>
+    <button @click.prevent="startGame">start game</button>
+    <button @click.prevent="resetGame">reset game</button>
+    <div id="game" v-for="card in cards">
+    
+    </div>
   </div>
 </template>
 <!-- TODO: WHAT STEPS DO I NEED FOR CARD MATCHING. 
@@ -11,7 +14,7 @@
      ASSIGN CARDS INTO AN ARRAY OF CARDS  -->
 <script>
   export default {
-    name: 'Memory Cards',
+    name: 'Austin',
     data() {
       return {
 
@@ -21,6 +24,7 @@
         score: 0,
         time: 0,
         timer:null
+        //IF WE WORK ON SOCKETS, MULTIPLE PLAYERS CAN BE PART OF DATA AS OBJECTS
       }
     },
     computed: {
@@ -30,13 +34,23 @@
     },
     methods: {
       //HOW DOES THE GAME START? BUTTON THAT SETS UP GAME
-      startGame() { },
+      startGame(){
+        shuffleCards()
+
+      },
       //BUTTON THAT RESETS THE CARDS AND TIMERS TO DEFAULT
-      resetGame() { },
+      resetGame() {
+      },
       //ONCE GAME IS COMPLETED, DISPLAY WIN ALERT, TURNS IT TOOK TO WIN, AND TIME IT TOOK TO WIN
-      finishGame() { },
+      finishGame() {
+        if(score==10){
+
+        }
+      },
       //WHEN GAME STARTS RANDOMLY SHUFFLE CARDS AND DRAW TO SCREEN
-      shuffleCards() { },
+      shuffleCards() {
+        return state.store.cards
+      },
       //WHEN CLICKED, CARDFLIPPED IS TRUE AND BE ABLE TO SEE IMG OR CONTENT THEN HIDE MATCHED PAIR AND INCREMENT SCORE BY 1
       //IF NOT RETURN CARDFLIPPED TO FALSE
       flipCards() { },
@@ -55,22 +69,15 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  h1,
-  h2 {
-    font-weight: normal;
-  }
+  /* CARDS ARE STYLED */
+  .card{
 
-  ul {
-    list-style-type: none;
-    padding: 0;
+    width: 50px;
+    height: 80px
+    padding 10px;
+    align-self: center; 
   }
-
-  li {
-    display: inline-block;
-    margin: 0 10px;
-  }
-
-  a {
-    color: #42b983;
-  }
+    
+  
+  
 </style>
