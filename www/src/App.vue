@@ -29,90 +29,107 @@
       </v-list>
     </v-navigation-drawer>
     <v-toolbar fixed class="blue darken-1" dark>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>GridWorks Games</v-toolbar-title>
+      <v-toolbar-side-icon v-if="loggedIn" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title v-if="!login" class="title slideInRight">GridWorks Games</v-toolbar-title>
 
+      <div class="slideInRight" v-if="toggle">
 
+        <v-btn icon @click="toggleLogin">
+          <v-icon>fa-terminal</v-icon>
+        </v-btn>
 
-      <!-- LOG-IN BUTTON ON NAVBAR -->
+      </div>
+      <div class="slideInLeft" v-if="!toggle">
 
-      <div v-if="!loggedIn" class="text-xs-center">
-        <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
-          <v-btn flat dark slot="activator">Log In</v-btn>
-          <v-card>
-            <v-list>
-              <v-list-tile avatar>
-                <v-list-tile-avatar tile>
-                  <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title>Log In</v-list-tile-title>
-                  <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-            <v-divider></v-divider>
+        <v-btn icon @click="toggleLogin">
+          <v-icon>close</v-icon>
+        </v-btn>
 
-
-            <v-card-actions>
-              <form @submit.prevent="">
-
-                <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
-
-                <v-text-field class="flipInX" type="password" placeholder="Password" v-model="accountUser.password"></v-text-field>
-
-                <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
-
-              </form>
-
-            </v-card-actions>
-
-
-          </v-card>
-        </v-menu>
       </div>
 
+      <div class="slideInLeft" v-if="login">
+        <!-- LOG-IN BUTTON ON NAVBAR -->
+
+        <div v-if="!loggedIn" class="text-xs-center login-button">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
+            <v-btn flat dark slot="activator">Log In</v-btn>
+            <v-card>
+              <v-list>
+                <v-list-tile avatar>
+                  <v-list-tile-avatar tile>
+                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Log In</v-list-tile-title>
+                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+              <v-divider></v-divider>
 
 
-      <!-- REGISTER BUTTON ON NAVBAR -->
-      <div v-if="!loggedIn" class="text-xs-center">
-        <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
-          <v-btn flat dark slot="activator">Register</v-btn>
-          <v-card>
-            <v-list>
-              <v-list-tile avatar>
-                <v-list-tile-avatar tile>
-                  <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title>Log In</v-list-tile-title>
-                  <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </v-list>
-            <v-divider></v-divider>
+              <v-card-actions>
+                <form @submit.prevent="">
+
+                  <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
+
+                  <v-text-field class="flipInX" type="password" placeholder="Password" v-model="accountUser.password"></v-text-field>
+
+                  <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
+
+                </form>
+
+              </v-card-actions>
 
 
-            <v-card-actions>
-              <form @submit.prevent="">
+            </v-card>
+          </v-menu>
+        </div>
 
-                <!-- register -->
-                <v-text-field required class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
-
-                <v-text-field required class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
-
-                <v-text-field required class="flipInX" type="password" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
-
-                <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
-
-
-              </form>
-            </v-card-actions>
-
-          </v-card>
-        </v-menu>
       </div>
+      <div class="slideInLeft" v-if="login">
 
+        <!-- REGISTER BUTTON ON NAVBAR -->
+        <div v-if="!loggedIn" class="text-xs-center">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
+            <v-btn flat dark slot="activator">Register</v-btn>
+            <v-card>
+              <v-list>
+                <v-list-tile avatar>
+                  <v-list-tile-avatar tile>
+                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Log In</v-list-tile-title>
+                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                </v-list-tile>
+              </v-list>
+              <v-divider></v-divider>
+
+
+
+              <v-card-actions>
+                <form @submit.prevent="">
+
+                  <!-- register -->
+                  <v-text-field required class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
+
+                  <v-text-field required class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
+
+                  <v-text-field required class="flipInX" type="password" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
+
+                  <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
+
+
+                </form>
+              </v-card-actions>
+
+            </v-card>
+          </v-menu>
+        </div>
+
+      </div>
       <!-- v-if="showLogout" -->
       <form @submit.prevent="userLogout">
         <v-btn v-if="loggedIn" flat class="flipInX" type="submit">Log Me Out</v-btn>
@@ -155,6 +172,7 @@
       return {
         register: false,
         login: false,
+        toggle: true,
         log: true,
         reg: true,
         msg: 'Home',
@@ -218,7 +236,6 @@
       resetFields() {
         this.reg = true;
         this.log = true;
-        this.login = false;
         this.register = false;
         this.accountUser.name = '';
         this.accountUser.password = '';
@@ -230,12 +247,7 @@
 
       toggleLogin() {
         this.login = !this.login;
-
-        if (this.login == false) {
-          this.reg = true;
-        } else {
-          this.reg = false;
-        }
+        this.toggle = !this.toggle
       },
 
       toggleRegister() {
@@ -255,6 +267,40 @@
   * {
     text-decoration: none !important;
   }
+
+  .title {
+    margin-right: auto;
+  }
+  @keyframes slideInLeft {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInLeft {
+  animation-name: slideInLeft;
+  animation-duration: 500ms;
+}
+@keyframes slideInRight {
+  from {
+    transform: translate3d(100%, 0, 0);
+    visibility: visible;
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.slideInRight {
+  animation-name: slideInRight;
+  animation-duration: 500ms;
+}
 </style>
 
 <style lang="stylus">
