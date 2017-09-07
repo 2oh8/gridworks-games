@@ -37,7 +37,7 @@
       <!-- LOG-IN BUTTON ON NAVBAR -->
 
       <div class="text-xs-center">
-          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
             <v-btn flat dark slot="activator">Log In</v-btn>
             <v-card>
               <v-list>
@@ -49,11 +49,6 @@
                     <v-list-tile-title>Log In</v-list-tile-title>
                     <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
                   </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-btn icon :class="fav ? 'red--text' : ''" @click="fav = !fav">
-                      <v-icon>videogame_asset</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
                 </v-list-tile>
               </v-list>
               <v-divider></v-divider>
@@ -62,7 +57,7 @@
                   <v-card-actions>
                       <form @submit.prevent="">
                          
-                            <v-text-field class="flipInX" type="text" placeholder="email" v-model="accountUser.email" required="true"></v-text-field>
+                            <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
             
                             <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
             
@@ -81,7 +76,7 @@
 
       <!-- REGISTER BUTTON ON NAVBAR -->
       <div class="text-xs-center">
-          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
             <v-btn flat dark slot="activator">Register</v-btn>
             <v-card>
               <v-list>
@@ -93,11 +88,6 @@
                     <v-list-tile-title>Log In</v-list-tile-title>
                     <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
                   </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-btn icon :class="fav ? 'red--text' : ''" @click="fav = !fav">
-                      <v-icon>videogame_asset</v-icon>
-                    </v-btn>
-                  </v-list-tile-action>
                 </v-list-tile>
               </v-list>
               <v-divider></v-divider>
@@ -107,11 +97,11 @@
                     <form @submit.prevent="">
                         
                           <!-- register -->
-                          <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
+                          <v-text-field class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
           
-                          <v-text-field class="flipInX" type="text" placeholder="email" v-model="accountUser.email"></v-text-field>
+                          <v-text-field class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
           
-                          <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
+                          <v-text-field class="flipInX" type="text" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
           
                           <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
                             
@@ -179,11 +169,17 @@
         showCard: false,
         accountUser: {
           name: '',
+          password: ''
+        },
+        newAccountUser: {
+          name: '',
           email: '',
           password: ''
         },
+        registerMenu: false,
+        logInMenu: false,
         clipped: false,
-        drawer: true,
+        drawer: null,
         fixed: false,
         showLogout: false,
         items: [
@@ -218,14 +214,14 @@
         this.$store.dispatch('logout', this.accountUser)
       },
       userLogin() {
-        var user = { email: this.accountUser.email, password: this.accountUser.password }
+        var user = { user: this.accountUser.name, password: this.accountUser.password }
         this.$store.dispatch('login', user).then(() => {
           this.resetFields()
         })
       },
 
       userRegister() {
-        this.$store.dispatch('register', this.accountUser).then(() => {
+        this.$store.dispatch('register', this.newAccountUser).then(() => {
           this.resetFields()
         })
       },
@@ -235,7 +231,8 @@
         this.log = true;
         this.login = false;
         this.register = false;
-        this.accountUser = {};
+        this.accountUser.name = '';
+        this.accountUser.password = '';
       },
 
       logout() {

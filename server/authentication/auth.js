@@ -20,7 +20,7 @@ router.post('/register', (req, res) => {
 
 
 router.post('/login', (req, res) => {
-  Users.findOne({ email: req.body.email })
+  Users.findOne({ name: req.body.user })
     .then(user => {
       user.validatePassword(req.body.password)
         .then(valid => {
@@ -28,6 +28,7 @@ router.post('/login', (req, res) => {
             return res.send({error: 'Invalid Email or Password'})
           }
           req.session.uid = user._id;
+          req.session.username = user.name;
           req.session.save()
           user.password = null
           delete user.password
@@ -37,7 +38,7 @@ router.post('/login', (req, res) => {
           })
         })
         .catch(err => {
-          res.send({ error: err || 'Invalid Email or Password' })
+          res.send({ error: err || 'Invalid Username or Password' })
         })
     })
     .catch(err => {

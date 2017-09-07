@@ -1,5 +1,43 @@
 <template>
-  
+  <v-layout row wrap>
+    <v-flex lg4 xs12>
+
+      <v-card dark hover class="flipInX">
+        <v-list>
+          <v-list-tile avatar>
+            <v-list-tile-avatar>
+              <img src="https://i.imgur.com/BkpFnNP.jpg" alt="Profile Pic">
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>User Level Goes Here?</v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+
+          <v-list-tile>
+            <v-list-tile>
+              <v-icon>fa-trophy</v-icon>
+            </v-list-tile>
+            <v-list-tile-title>Games Won</v-list-tile-title>
+          </v-list-tile>
+          
+          <v-list-tile>
+              <v-list-tile>
+                <v-icon>fa-gamepad</v-icon>
+              </v-list-tile>
+              <v-list-tile-title>Games Played</v-list-tile-title>
+            </v-list-tile>
+
+        </v-list>
+
+      </v-card>
+    </v-flex>
+  </v-layout>
+
+
 </template>
 
 <script>
@@ -7,7 +45,7 @@
     name: 'home',
     data() {
       return {
-       
+
         showCard: false,
 
       }
@@ -18,7 +56,7 @@
     },
 
     methods: {
-      
+
     },
 
     computed: {
@@ -37,7 +75,6 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  
   /* ANIMATIONS */
 
   @keyframes flipInX {
