@@ -14,7 +14,7 @@
      ASSIGN CARDS INTO AN ARRAY OF CARDS  -->
 <script>
   export default {
-    name: 'Austin',
+    name: 'austin',
     data() {
       return {
 
