@@ -28,7 +28,7 @@
         </div>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar fixed class="indigo darken-1" dark>
+    <v-toolbar fixed class="blue darken-1" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>GridWorks Games</v-toolbar-title>
 
