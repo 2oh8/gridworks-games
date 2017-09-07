@@ -7,17 +7,8 @@
     name: 'home',
     data() {
       return {
-        register: false,
-        login: false,
-        log: true,
-        reg: true,
-        msg: 'Home',
+       
         showCard: false,
-        accountUser: {
-          name: '',
-          email: '',
-          password: ''
-        }
 
       }
     },
@@ -27,50 +18,7 @@
     },
 
     methods: {
-      userLogin() {
-        var user = { email: this.accountUser.email, password: this.accountUser.password }
-        this.$store.dispatch('login', user).then(() => {
-          this.resetFields()
-        })
-      },
-
-      userRegister() {
-        this.$store.dispatch('register', this.accountUser).then(() => {
-          this.resetFields()
-        })
-      },
-
-      resetFields() {
-        this.reg = true;
-        this.log = true;
-        this.login = false;
-        this.register = false;
-        this.accountUser = {};
-      },
-
-      logout() {
-        this.$store.dispatch('logout', this.accountUser)
-      },
-
-      toggleLogin() {
-        this.login = !this.login;
-
-        if (this.login == false) {
-          this.reg = true;
-        } else {
-          this.reg = false;
-        }
-      },
-
-      toggleRegister() {
-        this.register = !this.register
-        if (this.register == false) {
-          this.log = true;
-        } else {
-          this.log = false;
-        }
-      }
-
+      
     },
 
     computed: {
@@ -89,11 +37,7 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .tiny {
-    height: 2rem;
-    width: 2rem;
-    margin-left: 10%;
-  }
+  
   /* ANIMATIONS */
 
   @keyframes flipInX {
