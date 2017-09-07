@@ -1,11 +1,10 @@
 <template>
-  <v-app id="example-2" dark toolbar>
-    <v-navigation-drawer temporary v-model="drawer" light overflow absolute>
+  <v-app dark toolbar>
+    <v-navigation-drawer dark temporary v-model="drawer" light overflow absolute>
       <v-list class="pa-1">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
+          <v-list-tile-avatar tile>
             <!-- https://randomuser.me/api/portraits/men/85.jpg -->
-            <img src="#" />
+            <img src="https://i.imgur.com/VFfIiXb.png" />
           </v-list-tile-avatar>
           <v-list-tile-content>
             <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
@@ -32,10 +31,123 @@
     <v-toolbar fixed class="indigo darken-1" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>GridWorks Games</v-toolbar-title>
+<<<<<<< HEAD
+
+
+
+      <!-- LOG-IN BUTTON ON NAVBAR -->
+
+      <div class="text-xs-center">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
+            <v-btn flat dark slot="activator">Log In</v-btn>
+            <v-card>
+              <v-list>
+                <v-list-tile avatar>
+                  <v-list-tile-avatar tile>
+                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Log In</v-list-tile-title>
+                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-btn icon :class="fav ? 'red--text' : ''" @click="fav = !fav">
+                      <v-icon>videogame_asset</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </v-list>
+              <v-divider></v-divider>
+              
+                  
+                  <v-card-actions>
+                      <form @submit.prevent="">
+                         
+                            <v-text-field class="flipInX" type="text" placeholder="email" v-model="accountUser.email" required="true"></v-text-field>
+            
+                            <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
+            
+                            <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
+                        
+                        </form>
+            
+                      </v-card-actions>
+                  
+                
+            </v-card>
+          </v-menu>
+        </div>
+
+
+
+      <!-- REGISTER BUTTON ON NAVBAR -->
+      <div class="text-xs-center">
+          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
+            <v-btn flat dark slot="activator">Register</v-btn>
+            <v-card>
+              <v-list>
+                <v-list-tile avatar>
+                  <v-list-tile-avatar tile>
+                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                    <v-list-tile-title>Log In</v-list-tile-title>
+                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-btn icon :class="fav ? 'red--text' : ''" @click="fav = !fav">
+                      <v-icon>videogame_asset</v-icon>
+                    </v-btn>
+                  </v-list-tile-action>
+                </v-list-tile>
+              </v-list>
+              <v-divider></v-divider>
+              
+                  
+                  <v-card-actions>
+                    <form @submit.prevent="">
+                        
+                          <!-- register -->
+                          <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
+          
+                          <v-text-field class="flipInX" type="text" placeholder="email" v-model="accountUser.email"></v-text-field>
+          
+                          <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
+          
+                          <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
+                            
+                          
+                        </form>
+                      </v-card-actions>
+                  
+                
+            </v-card>
+          </v-menu>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <!-- v-if="showLogout" -->
+
+      <v-btn flat class="flipInX" type="submit" @click.prevent="userLogout">Log Me Out</v-btn>
+
+=======
 <!-- v-if="showLogout" -->
       <v-list-tile-content>
         <v-btn type="submit" @click.prevent="userLogout" >Log Me Out</v-btn>
       </v-list-tile-content>
+>>>>>>> 64d55b82f5b05af1607dbb204c070943407ca395
 
     </v-toolbar>
     <main>
@@ -66,6 +178,17 @@
 
     data() {
       return {
+        register: false,
+        login: false,
+        log: true,
+        reg: true,
+        msg: 'Home',
+        showCard: false,
+        accountUser: {
+          name: '',
+          email: '',
+          password: ''
+        },
         clipped: false,
         drawer: true,
         fixed: false,
@@ -88,9 +211,9 @@
     computed: {
       activeUser() {
         console.log(this.$store.state.activeUser1.name)
-        if(this.$store.state.activeUser1.name != ''){
+        if (this.$store.state.activeUser1.name != '') {
           showLogout = true;
-        } else{
+        } else {
           showLogout = false;
         }
         return this.$store.state.activeUser1
@@ -101,7 +224,60 @@
       userLogout() {
         this.$store.dispatch('logout', this.accountUser)
       },
+      userLogin() {
+        var user = { email: this.accountUser.email, password: this.accountUser.password }
+        this.$store.dispatch('login', user).then(() => {
+          this.resetFields()
+        })
+      },
+
+      userRegister() {
+        this.$store.dispatch('register', this.accountUser).then(() => {
+          this.resetFields()
+        })
+      },
+
+      resetFields() {
+        this.reg = true;
+        this.log = true;
+        this.login = false;
+        this.register = false;
+        this.accountUser = {};
+      },
+
+      logout() {
+        this.$store.dispatch('logout', this.accountUser)
+      },
+
+      toggleLogin() {
+        this.login = !this.login;
+
+        if (this.login == false) {
+          this.reg = true;
+        } else {
+          this.reg = false;
+        }
+      },
+
+      toggleRegister() {
+        this.register = !this.register
+        if (this.register == false) {
+          this.log = true;
+        } else {
+          this.log = false;
+        }
+      }
+    },
+    computed: {
+      activeUser() {
+        if (this.$store.state.activeUser1.name != '') {
+          showCard = true;
+        } else {
+          showCard = false;
+        }
+      }
     }
+
   }
 
 </script>
