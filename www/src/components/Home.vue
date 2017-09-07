@@ -76,9 +76,8 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .floating-logo {
-    height: 30vw;
-    position: absolute;
-
+    height: 10rem;
+    position: fixed;
     animation: moveX 3.05s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, rotate 10.05s infinite alternate;
   }
   /* ANIMATIONS */
@@ -97,13 +96,13 @@
       left: 0rem;
     }
     to {
-      left: 65%;
+      left: 70%;
     }
   }
 
   @keyframes moveY {
     from {
-      top: 5rem;
+      top: 4rem;
     }
     to {
       top: 80%;
