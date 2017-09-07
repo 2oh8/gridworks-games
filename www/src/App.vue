@@ -2,14 +2,14 @@
   <v-app dark toolbar>
     <v-navigation-drawer dark temporary v-model="drawer" light overflow absolute>
       <v-list class="pa-1">
-          <v-list-tile-avatar tile>
-            <!-- https://randomuser.me/api/portraits/men/85.jpg -->
-            <img src="https://i.imgur.com/VFfIiXb.png" />
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
-          </v-list-tile-content>
-          </v-list-tile-action>
+        <v-list-tile-avatar tile>
+          <!-- https://randomuser.me/api/portraits/men/85.jpg -->
+          <img src="https://i.imgur.com/VFfIiXb.png" />
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
+        </v-list-tile-content>
+        </v-list-tile-action>
         </v-list-tile>
       </v-list>
       <v-list class="pt-0" dense>
@@ -37,82 +37,82 @@
       <!-- LOG-IN BUTTON ON NAVBAR -->
 
       <div class="text-xs-center">
-          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
-            <v-btn flat dark slot="activator">Log In</v-btn>
-            <v-card>
-              <v-list>
-                <v-list-tile avatar>
-                  <v-list-tile-avatar tile>
-                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Log In</v-list-tile-title>
-                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-              <v-divider></v-divider>
-              
-                  
-                  <v-card-actions>
-                      <form @submit.prevent="">
-                         
-                            <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
-            
-                            <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
-            
-                            <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
-                        
-                        </form>
-            
-                      </v-card-actions>
-                  
-                
-            </v-card>
-          </v-menu>
-        </div>
+        <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
+          <v-btn flat dark slot="activator">Log In</v-btn>
+          <v-card>
+            <v-list>
+              <v-list-tile avatar>
+                <v-list-tile-avatar tile>
+                  <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>Log In</v-list-tile-title>
+                  <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+            <v-divider></v-divider>
+
+
+            <v-card-actions>
+              <form @submit.prevent="">
+
+                <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
+
+                <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
+
+                <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
+
+              </form>
+
+            </v-card-actions>
+
+
+          </v-card>
+        </v-menu>
+      </div>
 
 
 
       <!-- REGISTER BUTTON ON NAVBAR -->
       <div class="text-xs-center">
-          <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
-            <v-btn flat dark slot="activator">Register</v-btn>
-            <v-card>
-              <v-list>
-                <v-list-tile avatar>
-                  <v-list-tile-avatar tile>
-                    <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                    <v-list-tile-title>Log In</v-list-tile-title>
-                    <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-              <v-divider></v-divider>
-              
-                  
-                  <v-card-actions>
-                    <form @submit.prevent="">
-                        
-                          <!-- register -->
-                          <v-text-field class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
-          
-                          <v-text-field class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
-          
-                          <v-text-field class="flipInX" type="text" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
-          
-                          <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
-                            
-                          
-                        </form>
-                      </v-card-actions>
-                  
-                
-            </v-card>
-          </v-menu>
-        </div>
+        <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
+          <v-btn flat dark slot="activator">Register</v-btn>
+          <v-card>
+            <v-list>
+              <v-list-tile avatar>
+                <v-list-tile-avatar tile>
+                  <img src="https://i.imgur.com/VFfIiXb.png" alt="John">
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                  <v-list-tile-title>Log In</v-list-tile-title>
+                  <v-list-tile-sub-title>Register for GridWorks Games</v-list-tile-sub-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </v-list>
+            <v-divider></v-divider>
+
+
+            <v-card-actions>
+              <form @submit.prevent="">
+
+                <!-- register -->
+                <v-text-field required class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
+
+                <v-text-field required class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
+
+                <v-text-field required class="flipInX" type="text" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
+
+                <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
+
+
+              </form>
+            </v-card-actions>
+
+
+          </v-card>
+        </v-menu>
+      </div>
 
 
 
@@ -158,7 +158,9 @@
       Austin,
       Josh
     },
-
+    mounted() {
+      this.$store.dispatch('authenticate')
+    },
     data() {
       return {
         register: false,
