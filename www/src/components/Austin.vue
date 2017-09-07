@@ -1,11 +1,8 @@
 <template>
   <div class="Memory-Cards">
     <h1>{{ msg }}</h1>
-    <button @click.prevent="startGame">start game</button>
-    <button @click.prevent="resetGame">reset game</button>
-    <div id="game" v-for="card in cards">
-    
-    </div>
+    <div class="cards"></div>
+    <div></div>
   </div>
 </template>
 <!-- TODO: WHAT STEPS DO I NEED FOR CARD MATCHING. 
@@ -24,7 +21,6 @@
         score: 0,
         time: 0,
         timer:null
-        //IF WE WORK ON SOCKETS, MULTIPLE PLAYERS CAN BE PART OF DATA AS OBJECTS
       }
     },
     computed: {
@@ -34,23 +30,13 @@
     },
     methods: {
       //HOW DOES THE GAME START? BUTTON THAT SETS UP GAME
-      startGame(){
-        shuffleCards()
-
-      },
+      startGame() { },
       //BUTTON THAT RESETS THE CARDS AND TIMERS TO DEFAULT
-      resetGame() {
-      },
+      resetGame() { },
       //ONCE GAME IS COMPLETED, DISPLAY WIN ALERT, TURNS IT TOOK TO WIN, AND TIME IT TOOK TO WIN
-      finishGame() {
-        if(score==10){
-
-        }
-      },
+      finishGame() { },
       //WHEN GAME STARTS RANDOMLY SHUFFLE CARDS AND DRAW TO SCREEN
-      shuffleCards() {
-        return state.store.cards
-      },
+      shuffleCards() { },
       //WHEN CLICKED, CARDFLIPPED IS TRUE AND BE ABLE TO SEE IMG OR CONTENT THEN HIDE MATCHED PAIR AND INCREMENT SCORE BY 1
       //IF NOT RETURN CARDFLIPPED TO FALSE
       flipCards() { },
@@ -69,15 +55,22 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  /* CARDS ARE STYLED */
-  .card{
-
-    width: 50px;
-    height: 80px
-    padding 10px;
-    align-self: center; 
+  h1,
+  h2 {
+    font-weight: normal;
   }
-    
-  
-  
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+
+  a {
+    color: #42b983;
+  }
 </style>
