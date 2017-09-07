@@ -23,14 +23,18 @@ vue.use(vuex)
 var store = new vuex.Store({
 
   state: {
-    activeUser1: {}
+    activeUser1: {},
+    loggedIn: null
     // activeUser2: {},
     // gamestats: {}
   },
 
   mutations: {
     setActiveUser1(state, data) {
-      state.activeUser1 = data
+      state.activeUser1 = data || {}
+    },
+    setLoggedIn(state, data) {
+      state.loggedIn = data
     },
 
     // setActiveUser2(state, data) {
@@ -97,6 +101,7 @@ var store = new vuex.Store({
       auth.post('login', accountUser)
         .then(res => {
           commit('setActiveUser1', res.data.data)
+          commit('setLoggedIn', true)
           if (!res.data.data) {
             router.push('/Home');
           }
@@ -106,35 +111,31 @@ var store = new vuex.Store({
         })
     },
 
-    logout({ commit, dispatch }, accountUser) {
-      auth.delete('logout', accountUser)
+    logout({ commit, dispatch }, credentials) {
+      auth.delete('/logout')
         .then(res => {
-          commit('setActiveUser1', {})
-          // commit('setActiveBoard',{})
-          router.push('/')
-          window.location.reload()
-        })
-        .catch(err => {
-          //console.log('error: ', err)
+          console.log(res.message)
+          commit('setLoggedIn', false)
+        }).catch(err => {
           commit('handleError', err)
         })
     },
 
     authenticate({ commit, dispatch }) {
-      auth.get('authenticate')
+      auth('/authenticate')
         .then(res => {
-          if (!res.data.data) {
-            router.push('/Home');
+          if (res.data.data._id) {
+            console.log('Ready to commit!')
+            commit('setLoggedIn', true)
+            commit('setUser', res.data.data)
+            commit('setUser', res.data.data)
+          } else {
+            commit('setLoggedIn', false)
+            console.log('No session found!')
           }
-          router.push('/'); //boards
-          //console.log('res.data' + res.data)
-          commit('setActiveUser1', res.data.data)
-        })
-        .catch(err => {
-          console.log('err ' + err)
-          // commit('setUser', 'Nobody')
-          dispatch('getUsers')
+        }).catch(err => {
           commit('handleError', err)
+          commit('setLoggedIn', false)
         })
     },
 

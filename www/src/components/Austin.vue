@@ -11,7 +11,7 @@
      ASSIGN CARDS INTO AN ARRAY OF CARDS  -->
 <script>
   export default {
-    name: 'Memory Cards',
+    name: 'austin',
     data() {
       return {
 

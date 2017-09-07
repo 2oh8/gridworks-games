@@ -1,13 +1,13 @@
 <template>
   <v-app dark toolbar>
-    <v-navigation-drawer dark temporary v-model="drawer" light overflow absolute>
+    <v-navigation-drawer v-if="loggedIn" dark temporary v-model="drawer" light overflow absolute>
       <v-list class="pa-1">
         <v-list-tile-avatar tile>
           <!-- https://randomuser.me/api/portraits/men/85.jpg -->
           <img src="https://i.imgur.com/VFfIiXb.png" />
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
+          <v-list-tile-title>{{ username }}</v-list-tile-title>
         </v-list-tile-content>
         </v-list-tile-action>
         </v-list-tile>
@@ -36,7 +36,7 @@
 
       <!-- LOG-IN BUTTON ON NAVBAR -->
 
-      <div class="text-xs-center">
+      <div v-if="!loggedIn" class="text-xs-center">
         <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="logInMenu">
           <v-btn flat dark slot="activator">Log In</v-btn>
           <v-card>
@@ -59,7 +59,7 @@
 
                 <v-text-field class="flipInX" type="text" placeholder="Username" v-model="accountUser.name"></v-text-field>
 
-                <v-text-field class="flipInX" type="text" placeholder="Password" v-model="accountUser.password"></v-text-field>
+                <v-text-field class="flipInX" type="password" placeholder="Password" v-model="accountUser.password"></v-text-field>
 
                 <v-btn flat class="flipInX" type="submit" @click.prevent="userLogin()">Log Me In</v-btn>
 
@@ -75,7 +75,7 @@
 
 
       <!-- REGISTER BUTTON ON NAVBAR -->
-      <div class="text-xs-center">
+      <div v-if="!loggedIn" class="text-xs-center">
         <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="registerMenu">
           <v-btn flat dark slot="activator">Register</v-btn>
           <v-card>
@@ -101,7 +101,7 @@
 
                 <v-text-field required class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
 
-                <v-text-field required class="flipInX" type="text" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
+                <v-text-field required class="flipInX" type="password" placeholder="Password" v-model="newAccountUser.password"></v-text-field>
 
                 <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
 
@@ -109,33 +109,23 @@
               </form>
             </v-card-actions>
 
-
           </v-card>
         </v-menu>
       </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       <!-- v-if="showLogout" -->
-
-      <v-btn flat class="flipInX" type="submit" @click.prevent="userLogout">Log Me Out</v-btn>
-
+      <form @submit.prevent="userLogout">
+        <v-btn v-if="loggedIn" flat class="flipInX" type="submit">Log Me Out</v-btn>
+      </form>
 
     </v-toolbar>
     <main>
       <v-container fluid>
+
+
         <router-view></router-view>
+
+
       </v-container>
     </main>
   </v-app>
@@ -200,14 +190,11 @@
     },
 
     computed: {
-      activeUser() {
-        console.log(this.$store.state.activeUser1.name)
-        if (this.$store.state.activeUser1.name != '') {
-          showLogout = true;
-        } else {
-          showLogout = false;
-        }
-        return this.$store.state.activeUser1
+      loggedIn() {
+        return this.$store.state.loggedIn
+      },
+      username() {
+        return this.$store.state.activeUser1.name
       }
     },
 
@@ -238,7 +225,7 @@
       },
 
       logout() {
-        this.$store.dispatch('logout', this.accountUser)
+        this.$store.dispatch('logout')
       },
 
       toggleLogin() {
@@ -260,15 +247,6 @@
         }
       }
     },
-    computed: {
-      activeUser() {
-        if (this.$store.state.activeUser1.name != '') {
-          showCard = true;
-        } else {
-          showCard = false;
-        }
-      }
-    }
 
   }
 

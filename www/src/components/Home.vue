@@ -1,6 +1,8 @@
 <template>
   <v-layout row wrap>
-    <v-flex lg4 xs12 sm4 m4>
+    <img v-if="!loggedIn" class="floating-logo" src="https://i.imgur.com/VFfIiXb.png">
+
+    <v-flex v-if="loggedIn" lg4 xs12 sm4 m4>
 
       <v-card dark hover class="flipInX">
         <v-list>
@@ -9,8 +11,8 @@
               <img src="https://i.imgur.com/BkpFnNP.jpg" alt="Profile Pic">
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{this.$store.state.activeUser1.name}}</v-list-tile-title>
-              <v-list-tile-sub-title>Level: {{this.$store.state.activeUser1.level}}</v-list-tile-sub-title>
+              <v-list-tile-title>{{activeUser.name}}</v-list-tile-title>
+              <v-list-tile-sub-title>Level: {{activeUser.level}}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
@@ -21,15 +23,15 @@
             <v-list-tile>
               <v-icon>fa-trophy</v-icon>
             </v-list-tile>
-            <v-list-tile-title>Games Won: {{this.$store.state.activeUser1.wins}}</v-list-tile-title>
+            <v-list-tile-title>Games Won: {{activeUser.wins}}</v-list-tile-title>
           </v-list-tile>
-          
+
           <v-list-tile>
-              <v-list-tile>
-                <v-icon>fa-gamepad</v-icon>
-              </v-list-tile>
-              <v-list-tile-title>Games Played: {{this.$store.state.activeUser1.gamesplayed}}</v-list-tile-title>
+            <v-list-tile>
+              <v-icon>fa-gamepad</v-icon>
             </v-list-tile>
+            <v-list-tile-title>Games Played: {{activeUser.gamesplayed}}</v-list-tile-title>
+          </v-list-tile>
 
         </v-list>
 
@@ -61,21 +63,53 @@
 
     computed: {
       activeUser() {
-        if (this.$store.state.activeUser1.name != '') {
-          showCard = true;
-        } else {
-          showCard = false;
-        }
+        return this.$store.state.activeUser1
+      },
+      loggedIn() {
+        return this.$store.state.loggedIn
       }
     }
-
   }
 
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+  .floating-logo {
+    height: 30vw;
+    position: absolute;
+
+    animation: moveX 3.05s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, rotate 10.05s infinite alternate;
+  }
   /* ANIMATIONS */
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes moveX {
+    from {
+      left: 0rem;
+    }
+    to {
+      left: 65%;
+    }
+  }
+
+  @keyframes moveY {
+    from {
+      top: 5rem;
+    }
+    to {
+      top: 80%;
+    }
+  }
+
 
   @keyframes flipInX {
     from {
