@@ -31,7 +31,6 @@
     <v-toolbar fixed class="indigo darken-1" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>GridWorks Games</v-toolbar-title>
-<<<<<<< HEAD
 
 
 
@@ -142,12 +141,6 @@
 
       <v-btn flat class="flipInX" type="submit" @click.prevent="userLogout">Log Me Out</v-btn>
 
-=======
-<!-- v-if="showLogout" -->
-      <v-list-tile-content>
-        <v-btn type="submit" @click.prevent="userLogout" >Log Me Out</v-btn>
-      </v-list-tile-content>
->>>>>>> 64d55b82f5b05af1607dbb204c070943407ca395
 
     </v-toolbar>
     <main>
