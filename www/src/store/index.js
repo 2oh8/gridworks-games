@@ -23,27 +23,18 @@ vue.use(vuex)
 var store = new vuex.Store({
 
   state: {
-    activeUser1: {},
+    activeUser: {},
     loggedIn: null
-    // activeUser2: {},
-    // gamestats: {}
+    
   },
 
   mutations: {
     setUser(state, data) {
-      state.activeUser1 = data || {}
+      state.activeUser = data || {}
     },
     setLoggedIn(state, data) {
       state.loggedIn = data
     },
-
-    // setActiveUser2(state, data) {
-    //   state.activeUser2 = data
-    // },
-
-    // setGameStats(state, data) {
-    //   state.users = data
-    // },
 
     handleError(state, err) {
       state.error = err
@@ -54,22 +45,13 @@ var store = new vuex.Store({
     getUser({ commit, dispatch }, user) {
       api('users/' + user._id)
         .then(res => {
-          commit('setActiveUser1', res.data.data)
+          commit('setActiveUser', res.data.data)
         })
         .catch(err => {
           commit('handleError', err)
         })
     },
 
-    // createUser({ commit, dispatch }, user) {
-    //   api.post('users/', user)
-    //     .then(res => {
-    //       dispatch('getUsers')
-    //     })
-    //     .catch(err => {
-    //       commit('handleError', err)
-    //     })
-    // },
 
     updateUser({ commit, dispatch }, user) {
       api.put('users/' + user._id)
@@ -82,10 +64,9 @@ var store = new vuex.Store({
     },
 
     register({ commit, dispatch }, accountUser) {
-      //console.log('user: ', accountUser)
       auth.post('register', accountUser)
         .then(res => {
-          commit('setActiveUser1', res.data.data)
+          commit('setActiveUser', res.data.data)
           if (!res.data.data) {
             router.push('/Home');
           }
@@ -114,7 +95,6 @@ var store = new vuex.Store({
     logout({ commit, dispatch }, credentials) {
       auth.delete('/logout')
         .then(res => {
-          console.log(res.message)
           commit('setLoggedIn', false)
         }).catch(err => {
           commit('handleError', err)
@@ -125,7 +105,6 @@ var store = new vuex.Store({
       auth('/authenticate')
         .then(res => {
           if (res.data.data._id) {
-            console.log('Ready to commit!')
             commit('setLoggedIn', true)
             commit('setUser', res.data.data)
             commit('setUser', res.data.data)
@@ -138,19 +117,6 @@ var store = new vuex.Store({
           commit('setLoggedIn', false)
         })
     },
-
-    //  updateTaskParent({ commit, dispatch }, data) {
-    //   var update = { listId: data.listId }
-    //   //console.log(update);
-    //   api.put('tasks/' + data.taskId + '/', update)
-    //     .then(res => {
-    //       console.log('made it this far')
-    //       dispatch('getTasks', task)
-    //     })
-    //     .catch(err => {
-    //       commit('handleError', err)
-    //     })
-    // },
 
     handleError({ commit, dispatch }, err) {
       commit('handleError', err)
