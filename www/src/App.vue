@@ -112,7 +112,7 @@
               <v-card-actions>
                 <form @submit.prevent="">
 
-                  <!-- register -->
+                  <!-- REGISTER -->
                   <v-text-field required class="flipInX" type="text" placeholder="Username" v-model="newAccountUser.name"></v-text-field>
 
                   <v-text-field required class="flipInX" type="text" placeholder="email" v-model="newAccountUser.email"></v-text-field>
@@ -173,10 +173,6 @@
         register: false,
         login: false,
         toggle: true,
-        log: true,
-        reg: true,
-        msg: 'Home',
-        showCard: false,
         accountUser: {
           name: '',
           password: ''
@@ -212,7 +208,7 @@
         return this.$store.state.loggedIn
       },
       username() {
-        return this.$store.state.activeUser1.name
+        return this.$store.state.activeUser.name
       }
     },
 
@@ -234,9 +230,6 @@
       },
 
       resetFields() {
-        this.reg = true;
-        this.log = true;
-        this.register = false;
         this.accountUser.name = '';
         this.accountUser.password = '';
       },
