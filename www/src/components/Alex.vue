@@ -2,7 +2,7 @@
     <div class="alex" id="bg">
         <h1 class="animated bounceInDown">Mastermind</h1>
         <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
-        <div id="declareWinner">1296 POSSIBILITIES - CAN YOU BREAK THE CODE?</div>
+        <div id="declareWinner">{{display}}</div>
         <div id="gameBoard">
             <table>
                 <tr id="secretCodeDisplay" class="hide">
@@ -125,8 +125,10 @@
 
             <input id="field" class="guess" type="text" name="color" placeholder="CHOOSE A COLOR">
             <p id="colors"><button id="red" @click="chooseRed()" class="red">-RED-</button><button id="blue" class="blue" @click="chooseBlue()">-BLUE-</button>
-                <button id="green" class="green" @click="chooseGreen()">GREEN</button><button id="orange" class="orange" @click="chooseOrange()">ORANGE</button>
-                <button id="yellow" class="yellow" @click="chooseYellow()">YELLOW</button><button id="purple" class="purple" @click="choosePurple()">PURPLE</button></p>
+                <button id="green" class="green" @click="chooseGreen()">GREEN</button><button id="orange" class="orange"
+                    @click="chooseOrange()">ORANGE</button>
+                <button id="yellow" class="yellow" @click="chooseYellow()">YELLOW</button><button id="purple" class="purple"
+                    @click="choosePurple()">PURPLE</button></p>
 
             <div id="guesses">
                 <button id="H" class="guessnext" @click="makeGuess('H')">Guess 8</button>
@@ -162,15 +164,9 @@
                 colors: ["blue", "red", "yellow", "green", "orange", "purple"],
                 wins: 0,
                 number: 36,
-                seconds: 300,
-                counter: {
-                    green: 0,
-                    red: 0,
-                    yellow: 0,
-                    blue: 0,
-                    purple: 0,
-                    orange: 0,
-                }
+                display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
+                chances: 7,
+                seconds:20
             }
         },
         mounted() {
@@ -178,13 +174,31 @@
             this.setSecretCode()
             this.setCellsForColor()
             setInterval(this.time, 1000)
+           
         },
         methods: {
-          
+            
+            
+            time() {
+
+                    this.seconds--;
+
+
+                    document.getElementById("clock").innerHTML = this.seconds;
+
+                    if (this.seconds == 0) {
+                        this.display= "OH NO!! YOU RAN OUT OF TIME!!";
+                        document.getElementById("bg").className = "animated flash";
+                        clearInterval(clock);
+                    }
+
+
+
+                },
+
             randomIndex() {
                 return Math.floor(Math.random() * 6)
             },
-      
 
             setSecretCode() {
                 var secretOne = document.getElementById("1").getAttribute("class");
@@ -192,7 +206,7 @@
                 var secretThree = document.getElementById("3").getAttribute("class");
                 var secretFour = document.getElementById("4").getAttribute("class");
                 var secret = [secretOne, secretTwo, secretThree, secretFour];
-                return secret 
+                return secret
             },
 
 
@@ -249,24 +263,9 @@
                     square.setAttribute("class", "green");
                 }
             },
-            time() {
 
-                this.seconds--;
-
-
-                document.getElementById("clock").innerHTML = this.seconds;
-
-                if (this.seconds == 0) {
-                    document.getElementById("declareWinner").innerHTML = "OH NO!! YOU RAN OUT OF TIME!!";
-                    document.getElementById("bg").className = "animated flash";
-                    clearInterval(clock);
-                }
-
-
-
-            },
             makeGuess(level) {
-
+                
                 var secret = this.setSecretCode();
 
                 if (level == 'H') {
@@ -274,17 +273,26 @@
                 }
 
                 //document.getElementById("song").play();
-                var altThis = this
-                for (var i = 0; i < secret.length; i++) {
-                    altThis.counter[secret[i]]++;
 
-                    console.log(altThis.counter)
+                var counter = {
+                    green: 0,
+                    red: 0,
+                    yellow: 0,
+                    blue: 0,
+                    purple: 0,
+                    orange: 0
+                }
+
+                for (var i = 0; i < secret.length; i++) {
+                    counter[secret[i]]++;
+
+                    console.log(counter)
                 }
 
                 document.getElementById(level).setAttribute('disabled', 'disabled');
                 document.getElementById(level).style.color = "blue";
 
-                console.log("counter", altThis.counter);
+                console.log("counter", counter);
                 console.log("secret", secret);
                 var guessOne = [];
                 var count = 0
@@ -301,19 +309,19 @@
                 console.log(guessOne);
 
 
-                
+
                 var answer = []
                 for (var i = 0; i < 4; i++) {
                     if (secret[i] == guessOne[i] && answer[i] != "black") {
                         answer[i] = "black";
                         console.log(guessOne[i]);
-                        altThis.counter[guessOne[i]]--;
+                        counter[guessOne[i]]--;
                     }
                 }
                 for (var i = 0; i < 4; i++) {
-                    if ((secret.indexOf(guessOne[i]) != -1) && altThis.counter[guessOne[i]] > 0 && answer[i] != "black") {
+                    if ((secret.indexOf(guessOne[i]) != -1) && counter[guessOne[i]] > 0 && answer[i] != "black") {
                         answer[i] = "grey";
-                        altThis.counter[guessOne[i]]--;
+                        counter[guessOne[i]]--;
 
 
 
@@ -338,30 +346,27 @@
                 // if (chances == 0){
                 // 	document.getElementById("secretCodeDisplay").removeAttribute("class");
                 // }
-
-
+                var altThis = this;
                 function declareMissionStatus() {
                     var correctCount = 0
-                    var chances = 7
-
                     for (var i = 0; i < 4; i++) {
                         if (answer[i] == "black") {
                             correctCount++;
                         }
 
                     } if (correctCount == 4) {
-                        document.getElementById("declareWinner").innerHTML = "MISSION ACCOMPLISHED!! -- YOU BROKE THE CODE!! -- CONGRATULATIONS!!!";
+                        altThis.display = "MISSION ACCOMPLISHED!! -- YOU BROKE THE CODE!! -- CONGRATULATIONS!!!";
                         document.getElementById("song").pause();
                         document.getElementById("siren").play();
-                        clearInterval(clock);
+                        clearInterval(this.time);
 
-                    } else if (chances != 0) {
-                        document.getElementById("declareWinner").innerHTML = "TIME IS RUNNING OUT!! JUST " + chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
-                        chances--;
-                    } else if (chances == 0) {
-                        document.getElementById("declareWinner").innerHTML = "OH NO!! YOU RAN OUT OF CHANCES!!";
+                    } else if (altThis.chances != 0) {
+                        altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
+                        altThis.chances--;
+                    } else if (altThis.chances == 0) {
+                        altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
                         document.getElementById("bg").className = "animated flash";
-                        clearInterval(clock);
+                        clearInterval(this.time);
 
                     }
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
@@ -378,7 +383,7 @@
         }
 
 
-     
+
 
 
 
@@ -499,8 +504,8 @@
     // }
 
 
-
-    // setInterval(time, 1000);
+    
+    //var clock = setInterval(time, 1000);
 
 
 
@@ -636,7 +641,7 @@
     h1 {
         text-align: center;
         font-size: 100px;
-        color:lightslategrey;
+        color: lightslategrey;
     }
 
     h2 {
@@ -704,6 +709,7 @@
         text-align: center;
         font-size: 40px;
         background: white;
+        color: black;
     }
 
     body {
@@ -732,7 +738,7 @@
 
     .orange {
         background-color: orange;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     #toe {
@@ -741,7 +747,7 @@
 
     .blue {
         background-color: blue;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     .red-highlight {
@@ -760,24 +766,24 @@
     .yellow {
 
         background-color: yellow;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     .green {
 
         background-color: green;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     .red {
 
         background-color: red;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     .purple {
         background-color: purple;
-        border-radius:15px;
+        border-radius: 15px;
     }
 
     .black {
@@ -795,8 +801,8 @@
     .guessnext {
         margin-left: 46.12vw;
         margin-top: .5vh;
-        border-radius:15px;
-        background-color:blue;
+        border-radius: 15px;
+        background-color: blue;
     }
 
     #guesses {
