@@ -1,6 +1,7 @@
 <template>
     <div class="alex" id="bg">
         <h1 class="animated bounceInDown">Mastermind</h1>
+        <span>WINS:</span><span id ="wins">{{wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{games}}</span>
         <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
         <div id="declareWinner">{{display}}</div>
         <div id="gameBoard">
@@ -124,7 +125,7 @@
             </table>
 
             <input id="field" class="guess" type="text" name="color" placeholder="CHOOSE A COLOR">
-            <p id="colors"><button id="red" @click="chooseRed()" class="red">-RED-</button><button id="blue" class="blue" @click="chooseBlue()">-BLUE-</button>
+            <p id="colors"><button id="red" @click="chooseRed()" class="red">&nbsp;&nbsp;RED&nbsp;&nbsp;</button><button id="blue" class="blue" @click="chooseBlue()">&nbsp;BLUE&nbsp;</button>
                 <button id="green" class="green" @click="chooseGreen()">GREEN</button><button id="orange" class="orange"
                     @click="chooseOrange()">ORANGE</button>
                 <button id="yellow" class="yellow" @click="chooseYellow()">YELLOW</button><button id="purple" class="purple"
@@ -163,10 +164,11 @@
 
                 colors: ["blue", "red", "yellow", "green", "orange", "purple"],
                 wins: 0,
+                games:0,
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds:20
+                seconds:300,
             }
         },
         mounted() {
@@ -346,6 +348,8 @@
                 // if (chances == 0){
                 // 	document.getElementById("secretCodeDisplay").removeAttribute("class");
                 // }
+                var wins = 0;
+                var gamesPlayed =0;
                 var altThis = this;
                 function declareMissionStatus() {
                     var correctCount = 0
@@ -358,6 +362,10 @@
                         altThis.display = "MISSION ACCOMPLISHED!! -- YOU BROKE THE CODE!! -- CONGRATULATIONS!!!";
                         document.getElementById("song").pause();
                         document.getElementById("siren").play();
+                        wins++;
+                        gamesPlayed++;
+                        document.getElementById("wins").innerHTML = wins;
+                        document.getElementById("games").innerHTML = gamesPlayed;
                         clearInterval(this.time);
 
                     } else if (altThis.chances != 0) {
@@ -366,6 +374,9 @@
                     } else if (altThis.chances == 0) {
                         altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
                         document.getElementById("bg").className = "animated flash";
+                        gamesPlayed++;
+                        document.getElementById("wins").innerHTML = wins;
+                        document.getElementById("games").innerHTML = gamesPlayed;
                         clearInterval(this.time);
 
                     }
@@ -816,6 +827,10 @@
 
     .hide {
         display: none;
+    }
+
+    span{
+        font-size:1.5rem;
     }
     /* .secret-code{
             display:none;
