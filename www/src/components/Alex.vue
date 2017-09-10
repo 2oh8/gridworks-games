@@ -1,7 +1,7 @@
 <template>
     <div class="alex" id="bg">
         <h1 class="animated bounceInDown">Mastermind</h1>
-        <span>WINS:</span><span id ="wins">{{wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{games}}</span>
+        <span>WINS:</span><span id="wins">{{wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{games}}</span>
         <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
         <div id="declareWinner">{{display}}</div>
         <div id="gameBoard">
@@ -125,11 +125,12 @@
             </table>
 
             <input id="field" class="guess" type="text" name="color" placeholder="CHOOSE A COLOR">
-            <p id="colors"><button id="red" @click="chooseRed()" class="red">&nbsp;&nbsp;RED&nbsp;&nbsp;</button><button id="blue" class="blue" @click="chooseBlue()">&nbsp;BLUE&nbsp;</button>
+            <p id="colors"><button id="red" @click="chooseRed()" class="red">&nbsp;&nbsp;RED&nbsp;&nbsp;</button><button id="blue" class="blue"
+                    @click="chooseBlue()">&nbsp;BLUE&nbsp;</button>
                 <button id="green" class="green" @click="chooseGreen()">GREEN</button><button id="orange" class="orange"
                     @click="chooseOrange()">ORANGE</button>
                 <button id="yellow" class="yellow" @click="chooseYellow()">YELLOW</button><button id="purple" class="purple"
-                    @click="choosePurple()">PURPLE</button></p>
+                    @click="choosePurple()">PURPLE</button><button id="reset" @click="reset()" class="resetButton">&nbsp;&nbsp;RESET&nbsp;&nbsp;</button></p>
 
             <div id="guesses">
                 <button id="H" class="guessnext" @click="makeGuess('H')">Guess 8</button>
@@ -164,39 +165,68 @@
 
                 colors: ["blue", "red", "yellow", "green", "orange", "purple"],
                 wins: 0,
-                games:0,
+                games: 0,
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds:300,
+                seconds: 300,
+                clock:setInterval(this.time,1000)
             }
         },
         mounted() {
             this.establishSecretCode()
             this.setSecretCode()
             this.setCellsForColor()
-            setInterval(this.time, 1000)
-           
+            this.clock
+
         },
         methods: {
-            
-            
+            reset() {
+
+
+                var cells = document.getElementsByTagName("td");
+
+                for (var i = 0; i < cells.length; i++) {
+
+                    cells[i].setAttribute("class", "");
+
+
+                }
+                // var feedback = document.getElementsByClassName("feedback");
+                // for (var i = 0; i < feedback.length; i++) {
+
+                //     feedback[i].style.width = "10px";
+                //     feedback[i].style.height = "10px";
+
+                // }
+                this.establishSecretCode()
+                this.setCellsForColor()
+                clearInterval(this.clock);
+                this.seconds=300;
+                document.getElementById("clock").innerHTML = this.seconds;
+                setInterval(this.time,1000);
+                // this.display ="YOUR MISSION BEGINS NOW!!"
+                this.display= "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?"
+                document.getElementById("secretCodeDisplay").setAttribute("class","hide");
+           
+            },
+
             time() {
 
-                    this.seconds--;
+                this.seconds--;
 
 
-                    document.getElementById("clock").innerHTML = this.seconds;
+                document.getElementById("clock").innerHTML = this.seconds;
 
-                    if (this.seconds == 0) {
-                        this.display= "OH NO!! YOU RAN OUT OF TIME!!";
-                        document.getElementById("bg").className = "animated flash";
-                        clearInterval(clock);
-                    }
+                if (this.seconds == 0) {
+                    this.display = "OH NO!! YOU RAN OUT OF TIME!!";
+                    document.getElementById("bg").className = "animated flash";
+                    clearInterval(clock);
+                }
 
 
 
-                },
+            },
 
             randomIndex() {
                 return Math.floor(Math.random() * 6)
@@ -267,7 +297,7 @@
             },
 
             makeGuess(level) {
-                
+
                 var secret = this.setSecretCode();
 
                 if (level == 'H') {
@@ -349,7 +379,7 @@
                 // 	document.getElementById("secretCodeDisplay").removeAttribute("class");
                 // }
                 var wins = 0;
-                var gamesPlayed =0;
+                var gamesPlayed = 0;
                 var altThis = this;
                 function declareMissionStatus() {
                     var correctCount = 0
@@ -366,7 +396,7 @@
                         gamesPlayed++;
                         document.getElementById("wins").innerHTML = wins;
                         document.getElementById("games").innerHTML = gamesPlayed;
-                        clearInterval(this.time);
+                        clearInterval(altThis.clock);
 
                     } else if (altThis.chances != 0) {
                         altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
@@ -377,7 +407,7 @@
                         gamesPlayed++;
                         document.getElementById("wins").innerHTML = wins;
                         document.getElementById("games").innerHTML = gamesPlayed;
-                        clearInterval(this.time);
+                        clearInterval(altThis.clock);
 
                     }
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
@@ -515,7 +545,7 @@
     // }
 
 
-    
+
     //var clock = setInterval(time, 1000);
 
 
@@ -829,8 +859,8 @@
         display: none;
     }
 
-    span{
-        font-size:1.5rem;
+    span {
+        font-size: 1.5rem;
     }
     /* .secret-code{
             display:none;
