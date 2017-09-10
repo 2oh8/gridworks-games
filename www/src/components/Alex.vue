@@ -169,7 +169,7 @@
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds: 300,
+                seconds: 10,
                 clock:setInterval(this.time,1000)
             }
         },
@@ -229,7 +229,7 @@
                 if (this.seconds == 0) {
                     this.display = "OH NO!! YOU RAN OUT OF TIME!!";
                     document.getElementById("bg").className = "animated flash";
-                    clearInterval(clock);
+                    clearInterval(this.clock);
                 }
 
 
