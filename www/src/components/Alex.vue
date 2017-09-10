@@ -181,35 +181,43 @@
 
         },
         methods: {
-            reset() {
 
-
-                var cells = document.getElementsByTagName("td");
-
-                for (var i = 0; i < cells.length; i++) {
-
-                    cells[i].setAttribute("class", "");
-
-
-                }
-                // var feedback = document.getElementsByClassName("feedback");
-                // for (var i = 0; i < feedback.length; i++) {
-
-                //     feedback[i].style.width = "10px";
-                //     feedback[i].style.height = "10px";
-
-                // }
-                this.establishSecretCode()
-                this.setCellsForColor()
-                clearInterval(this.clock);
-                this.seconds=300;
-                document.getElementById("clock").innerHTML = this.seconds;
-                setInterval(this.time,1000);
-                // this.display ="YOUR MISSION BEGINS NOW!!"
-                this.display= "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?"
-                document.getElementById("secretCodeDisplay").setAttribute("class","hide");
-           
+            reset(){
+                location.reload();
             },
+            // reset() {
+            //     var cells = document.getElementsByTagName("td");
+
+            //     for (var i = 0; i < cells.length; i++) {
+
+            //         cells[i].setAttribute("class", "");
+
+
+            //     }
+            //     // var feedback = document.getElementsByClassName("feedback");
+            //     // for (var i = 0; i < feedback.length; i++) {
+
+            //     //     feedback[i].style.width = "10px";
+            //     //     feedback[i].style.height = "10px";
+
+            //     // }
+               
+            //     this.establishSecretCode()
+            //     this.setCellsForColor()
+            //     this.seconds=300;
+            //     document.getElementById("clock").innerHTML = this.seconds;
+            //     setInterval(this.time,1000);
+            //     var guessButtons = document.getElementsByClassName("guessnext");
+            //      for (var i = 0; i < guessButtons.length; i++) {
+            //         guessButtons[i].disabled = false;
+            //         guessButtons[i].style.color="white";
+            //     }
+            //     var animation = "animated flash";
+            //     document.getElementById("declareWinner").setAttribute("class", animation);
+            //     this.display ="YOUR MISSION BEGINS NOW!!"
+            //     document.getElementById("secretCodeDisplay").setAttribute("class","hide");
+           
+            // },
 
             time() {
 
@@ -400,6 +408,7 @@
 
                     } else if (altThis.chances != 0) {
                         altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
+                        clearInterval(altThis.clock);
                         altThis.chances--;
                     } else if (altThis.chances == 0) {
                         altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
@@ -408,15 +417,15 @@
                         document.getElementById("wins").innerHTML = wins;
                         document.getElementById("games").innerHTML = gamesPlayed;
                         clearInterval(altThis.clock);
-
+                        
                     }
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
-
+                   
                 }
                 declareMissionStatus()
             }
 
-
+           
 
 
 
