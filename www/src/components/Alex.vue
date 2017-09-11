@@ -169,7 +169,7 @@
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds: 10,
+                seconds: 300,
                 clock:setInterval(this.time,1000)
             }
         },
@@ -312,7 +312,7 @@
                     document.getElementById("secretCodeDisplay").removeAttribute("class");
                 }
 
-                //document.getElementById("song").play();
+                document.getElementById("song").play();
 
                 var counter = {
                     green: 0,
@@ -408,7 +408,7 @@
 
                     } else if (altThis.chances != 0) {
                         altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
-                        clearInterval(altThis.clock);
+                        // clearInterval(altThis.clock);
                         altThis.chances--;
                     } else if (altThis.chances == 0) {
                         altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
