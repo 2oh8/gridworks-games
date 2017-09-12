@@ -542,9 +542,9 @@
         font-size: 1.5rem;
     }
 
-    * {
+    /* * {
         outline: 1px red solid;
-    }
+    } */
 
     button {
         background-color: blue;
