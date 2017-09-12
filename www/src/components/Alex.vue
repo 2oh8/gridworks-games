@@ -300,8 +300,16 @@
             },
             makeGuess(level) {
                 var secret = this.setSecretCode();
-                if (level == 'H') {
+                if (level == 'H' && this.chances !=0) {
+                    altThis = this;
                     document.getElementById("secretCodeDisplay").removeAttribute("class");
+                    var guessButtons = document.getElementsByClassName("guessnext");
+                    for (var i =0; i < guessButtons.length; i++){
+                        guessButtons[i].setAttribute('disabled','disabled');
+                        guessButtons[i].style.color = "blue";
+                        document.getElementById("declareWinner").innerHTML = "OH NO!! YOU TOOK YOUR LAST GUESS TOO SOON!! TRY AGAIN!!";
+                        clearInterval(this.clock);
+                    }
                 }
                 document.getElementById("song").play();
                 var counter = {
