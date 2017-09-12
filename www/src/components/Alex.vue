@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <span>WINS:</span><span id="wins">{{wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{games}}</span>
+                <span>WINS:</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{this.gamesPlayed}}</span>
                 <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
                 <div id="declareWinner">{{display}}</div>
             </div>
@@ -185,8 +185,6 @@
         data() {
             return {
                 colors: ["blue", "red", "yellow", "green", "orange", "purple"],
-                wins: 0,
-                games: 0,
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
@@ -200,6 +198,18 @@
             this.setCellsForColor()
             this.clock
         },
+
+        computed:{
+              
+               wins(){
+                   return this.$store.state.activeUser.wins;
+               },
+               gamesPlayed(){
+                   return this.$store.state.activeUser.gamesPlayed;
+               }
+          
+        },
+
         methods: {
             reset() {
                 location.reload();
@@ -230,7 +240,28 @@
             //     this.display ="YOUR MISSION BEGINS NOW!!"
             //     document.getElementById("secretCodeDisplay").setAttribute("class","hide");
 
+            // }, 
+            
+            // updateWins(){
+            //     var user =this.$store.state.activeUser;
+            //     user.wins++;
+            //     this.$store.dispatch("updateUser",user);
+
             // },
+
+            // updateGamesPlayed(){
+            //     var user =this.$store.state.activeUser;
+            //     user.gamesPlayed++;
+            //     this.$store.dispatch("updateUser",user);
+
+            // },
+           updateStats(){ 
+               var user = this.$store.state.activeUser;
+               user.wins++;
+               user.gamesPlayed++;
+               this.$store.dispatch("updateUser",user);
+           },
+
             time() {
                 this.seconds--;
                 document.getElementById("clock").innerHTML = this.seconds;
@@ -361,7 +392,6 @@
                 // if (chances == 0){
                 // 	document.getElementById("secretCodeDisplay").removeAttribute("class");
                 // }
-                var wins = 0;
                 var gamesPlayed = 0;
                 var altThis = this;
                 function declareMissionStatus() {
@@ -370,29 +400,33 @@
                         if (answer[i] == "black") {
                             correctCount++;
                         }
-                    } if (correctCount == 4) {
+                    } 
+                    if (correctCount == 4) {
                         altThis.display = "MISSION ACCOMPLISHED!! -- YOU BROKE THE CODE!! -- CONGRATULATIONS!!!";
                         document.getElementById("song").pause();
                         document.getElementById("siren").play();
-                        wins++;
-                        gamesPlayed++;
-                        document.getElementById("wins").innerHTML = wins;
-                        document.getElementById("games").innerHTML = gamesPlayed;
+                        // altThis.updateStats();
+                        // altThis.updateWins();
+                        // altThis.updateGamesPlayed();
+                        // document.getElementById("wins").innerHTML = altThis.wins;
+                        // document.getElementById("games").innerHTML = altThis.gamesPlayed;
                         clearInterval(altThis.clock);
                     } else if (altThis.chances != 0) {
                         altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
                         // clearInterval(altThis.clock);
                         altThis.chances--;
                     } else if (altThis.chances == 0) {
+                        // altThis.updateGamesPlayed();
                         altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
                         document.getElementById("bg").className = "animated flash";
                         document.getElementById("secretCodeDisplay").removeAttribute("class");
-                        gamesPlayed++;
-                        document.getElementById("wins").innerHTML = wins;
-                        document.getElementById("games").innerHTML = gamesPlayed;
+                        // altThis.updateStats();
+                        
+                        // document.getElementById("wins").innerHTML = altThis.wins;
+                        // document.getElementById("games").innerHTML = altThis.gamesPlayed;
                         clearInterval(altThis.clock);
-
                     }
+                    altThis.updateStats();
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
 
                 }

@@ -10,8 +10,7 @@ let schema = new Schema({
   password: { type: String, required: true },
 
   wins: { type: Number, required: true, default: 0 },
-  gamesplayed: { type: Number, required: true, default: 0 },
-  level: { type: Number, required: true, default: 1 },
+  gamesPlayed: { type: Number, required: true, default: 0 },
 })
 
 

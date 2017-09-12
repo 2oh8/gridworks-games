@@ -35,7 +35,7 @@
             <v-list-tile>
               <v-icon>fa-gamepad</v-icon>
             </v-list-tile>
-            <v-list-tile-title>Games Played: {{activeUser.gamesplayed}}</v-list-tile-title>
+            <v-list-tile-title>Games Played: {{activeUser.gamesPlayed}}</v-list-tile-title>
           </v-list-tile>
 
         </v-list>

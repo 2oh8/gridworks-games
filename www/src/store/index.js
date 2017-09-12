@@ -7,7 +7,7 @@ var production = !window.location.host.includes('localhost');
 var baseUrl = production ? '//gridworksgames.herokuapp.com/' : '//localhost:3000/';
 
 let api = axios.create({
-  baseURL: baseUrl,  // + 'api'
+  baseURL: baseUrl  + 'api/',
   timeout: 4000,
   withCredentials: true
 })
@@ -23,14 +23,20 @@ vue.use(vuex)
 var store = new vuex.Store({
 
   state: {
-    activeUser: {},
-    loggedIn: null
+    activeUser: {
+      
+    },
+    loggedIn: null,
+    
     
   },
 
   mutations: {
     setUser(state, data) {
       state.activeUser = data || {}
+      // state.activeUser.gamesPlayed = data.gamesPlayed;
+      // state.activeUser.wins = data.wins;
+    
     },
     setLoggedIn(state, data) {
       state.loggedIn = data
@@ -42,10 +48,13 @@ var store = new vuex.Store({
   },
 
   actions: {
+    
+    
+    
     getUser({ commit, dispatch }, user) {
-      api('users/' + user._id)
+      api('userwins/' + user._id)
         .then(res => {
-          commit('setActiveUser', res.data.data)
+          commit('setUser', res.data.data)
         })
         .catch(err => {
           commit('handleError', err)
@@ -54,14 +63,20 @@ var store = new vuex.Store({
 
 
     updateUser({ commit, dispatch }, user) {
-      api.put('users/' + user._id)
+
+      api.put('userwins/' + user._id, user)
         .then(res => {
-          dispatch('getUsers')
+          console.log(res)
+     
+          commit('setUser', res.data.data)
         })
         .catch(err => {
           commit('handleError', err)
         })
     },
+    
+   
+
 
     register({ commit, dispatch }, accountUser) {
       auth.post('register', accountUser)
