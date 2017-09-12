@@ -12,7 +12,7 @@
                 </div>
             </div>
             <div class="row text-center">
-                <span>WINS:</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{this.gamesPlayed}}</span>
+                <span>WINS:&nbsp;</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:&nbsp;</span><span id="games">{{this.gamesPlayed}}</span>
                 <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
                 <div id="declareWinner">{{display}}</div>
             </div>
@@ -188,7 +188,7 @@
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds: 300,
+                seconds: 20,
                 clock: setInterval(this.time, 1000)
             }
         },
@@ -202,10 +202,12 @@
         computed:{
               
                wins(){
-                   return this.$store.state.activeUser.wins;
+                  // return this.$store.state.activeUser.wins;
+                  return this.$store.state.activeWins;
                },
                gamesPlayed(){
-                   return this.$store.state.activeUser.gamesPlayed;
+                  // return this.$store.state.activeUser.gamesPlayed;
+                  return this.$store.state.activeGames;
                }
           
         },
@@ -255,9 +257,11 @@
             //     this.$store.dispatch("updateUser",user);
 
             // },
-           updateStats(){ 
+           updateStats(status){ 
                var user = this.$store.state.activeUser;
+               if (status){
                user.wins++;
+               }
                user.gamesPlayed++;
                this.$store.dispatch("updateUser",user);
            },
@@ -269,6 +273,7 @@
                     this.display = "OH NO!! YOU RAN OUT OF TIME!!";
                     document.getElementById("bg").className = "animated flash";
                     clearInterval(this.clock);
+                    this.updateStats(false);
                 }
             },
             randomIndex() {
@@ -411,6 +416,7 @@
                         // document.getElementById("wins").innerHTML = altThis.wins;
                         // document.getElementById("games").innerHTML = altThis.gamesPlayed;
                         clearInterval(altThis.clock);
+                        altThis.updateStats(true);
                     } else if (altThis.chances != 0) {
                         altThis.display = "TIME IS RUNNING OUT!! JUST " + altThis.chances + " MORE CHANCE(S) TO BREAK THE CODE!!";
                         // clearInterval(altThis.clock);
@@ -425,8 +431,9 @@
                         // document.getElementById("wins").innerHTML = altThis.wins;
                         // document.getElementById("games").innerHTML = altThis.gamesPlayed;
                         clearInterval(altThis.clock);
+                         altThis.updateStats(false);
                     }
-                    altThis.updateStats();
+                    
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
 
                 }

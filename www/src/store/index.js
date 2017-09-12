@@ -26,13 +26,17 @@ var store = new vuex.Store({
     activeUser: {
       
     },
-    loggedIn: null,
+    activeWins: null,
+    activeGames: null,
+    loggedIn: null
     
     
   },
 
   mutations: {
     setUser(state, data) {
+      state.activeGames = data.gamesPlayed
+      state.activeWins = data.wins
       state.activeUser = data || {}
       // state.activeUser.gamesPlayed = data.gamesPlayed;
       // state.activeUser.wins = data.wins;
@@ -63,12 +67,11 @@ var store = new vuex.Store({
 
 
     updateUser({ commit, dispatch }, user) {
-
       api.put('userwins/' + user._id, user)
         .then(res => {
-          console.log(res)
-     
-          commit('setUser', res.data.data)
+          console.log('updatedUser', res)
+          dispatch('authenticate')
+          //commit('setUser', res.data.data)
         })
         .catch(err => {
           commit('handleError', err)
@@ -121,7 +124,6 @@ var store = new vuex.Store({
         .then(res => {
           if (res.data.data._id) {
             commit('setLoggedIn', true)
-            commit('setUser', res.data.data)
             commit('setUser', res.data.data)
           } else {
             commit('setLoggedIn', false)
