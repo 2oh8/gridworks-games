@@ -150,7 +150,7 @@
 
 <script>
   import Home from './components/Home'
-  import Dee from './components/Dee'
+  import Battlestations from './components/Battlestations/Battlestations'
   import Alex from './components/Alex'
   import Matt from './components/Matt'
   import Austin from './components/Austin'
@@ -159,7 +159,7 @@
   export default {
     components: {
       Home,
-      Dee,
+      Battlestations,
       Alex,
       Matt,
       Austin,
@@ -190,7 +190,7 @@
         showLogout: false,
         items: [
           { icon: 'person_pin', title: "Home", routerLink: '/' },
-          { icon: 'videogame_asset', title: "Dee's Game", routerLink: '/Dee' },
+          { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations' },
           { icon: 'videogame_asset', title: "Alex's Game", routerLink: '/Alex' },
           { icon: 'videogame_asset', title: "Matt's Game", routerLink: '/Matt' },
           { icon: 'videogame_asset', title: "Austin's Game", routerLink: '/Austin' },
