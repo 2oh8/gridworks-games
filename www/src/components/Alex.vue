@@ -386,6 +386,7 @@
                     } else if (altThis.chances == 0) {
                         altThis.display = "OH NO!! YOU RAN OUT OF CHANCES!!";
                         document.getElementById("bg").className = "animated flash";
+                        document.getElementById("secretCodeDisplay").removeAttribute("class");
                         gamesPlayed++;
                         document.getElementById("wins").innerHTML = wins;
                         document.getElementById("games").innerHTML = gamesPlayed;
