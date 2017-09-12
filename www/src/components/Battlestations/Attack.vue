@@ -262,7 +262,6 @@
         }
       },
 
-
       getAllShips() {
         return this.allShips;
       },
@@ -272,6 +271,8 @@
       },
 
       getEnemyShipsSunk() {
+        this.figureComputerShipsSunk();
+
         return this.shipsSunk;
       },
 
@@ -347,7 +348,6 @@
         this.shotsFired.push(num);
       },
 
-
       removeRightHit() {
         this.goRightHit.splice(0, 1)
       },
@@ -404,7 +404,6 @@
           }
         }
       },
-
 
       generateShips() {
         //initialize:
@@ -640,9 +639,7 @@
         //   this.changeRed(this.referenceGrid[i])
         // }
       },
-
     }
-
   }
 
 </script>

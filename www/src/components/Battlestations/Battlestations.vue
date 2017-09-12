@@ -11,13 +11,9 @@
       </div>
     </div>
 
-
     <div class="card centerCard">
       <div class="card-block">
         <h6 class="card-title controls">Controls</h6>
-
-        <!-- <div class="row">
-          <div class=""> -->
 
         <table>
           <div class="full">
@@ -100,8 +96,6 @@
         </table>
 
         <v-divider></v-divider>
-        <!-- </div>
-        </div> -->
       </div>
 
 
@@ -156,17 +150,7 @@
 <script>
   import Attack from './Attack'
   import Fleet from './Fleet.vue'
-  //var fleet = require('./Fleet');
-  //var fleet = new fl.Fleet();
   //window.onload = setDefaults;
-
-  // import * as Fleet from './Fleet'
-  // import * as fleet from './Fleet'; 
-  //import changeBlue from './Fleet.js';
-
-
-  //module.exports.flash = flash;
-  //var renderer = require('./renderer.js');
 
   export default {
     name: 'battlestations',
@@ -175,6 +159,7 @@
     data() {
       return {
         msg: "Messages go here",
+
         c1: 'BE',
         c2: 'BJ',
         b1: 'DB',
@@ -193,7 +178,6 @@
         f5: 'II',
 
         firingC: [],
-
         allFleetShips: [],
 
         ships: {
@@ -388,10 +372,10 @@
 
         Attack.methods.generateShips();
         Attack.methods.setAttackGrid();
-
       },
 
       figureSunk() {
+        this.fleetShipsSunk = 0;
 
         if (this.ships.carrier.sunk == 'true') {
           this.fleetShipsSunk++;
@@ -409,9 +393,6 @@
           this.fleetShipsSunk++;
         }
 
-        if (this.fleetShipsSunk == 5) {
-          this.msg = 'COMPUTER WON!';
-        }
       },
 
       findShip(ship, direction, grid) {
@@ -437,8 +418,6 @@
 
         return Attack.methods.getAttackGrid();
       },
-
-
 
       computersAttackTurn() {
         //get shots able to fire based on ship count (1-5). Enemy is Computer.
@@ -511,7 +490,6 @@
               continue; //go back to top.
 
             } else { //didn't hit anything
-
               this.whiteO(lefts[0])
 
               //check to see if in grid
@@ -637,13 +615,23 @@
             this.whiteO(salvo[f]);
           }
         }
+
+
+        this.figureSunk();
+
+        console.log(this.fleetShipsSunk)
+        if (this.fleetShipsSunk > 4) {
+          this.msg = 'COMPUTER WON!'
+        }
+
         Attack.methods.sortUnique();
+
       },
 
       startAttack() {
         //verify inputs.   ?????????
+        this.figureSunk();
 
-        //get number of ships for now. 
         var numShots = 5 - this.fleetShipsSunk;  //?????????
 
         var firing = this.getCoordinates();
