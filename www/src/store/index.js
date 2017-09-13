@@ -7,7 +7,7 @@ var production = !window.location.host.includes('localhost');
 var baseUrl = production ? '//gridworksgames.herokuapp.com/' : '//localhost:3000/';
 
 let api = axios.create({
-  baseURL: baseUrl  + 'api/',
+  baseURL: baseUrl + 'api/',
   timeout: 4000,
   withCredentials: true
 })
@@ -24,7 +24,7 @@ var store = new vuex.Store({
 
   state: {
     activeUser: {
-      
+
     },
     activeWins: null,
     activeGames: null,
@@ -38,10 +38,8 @@ var store = new vuex.Store({
       state.activeGames = data.gamesPlayed
       state.activeWins = data.wins
       state.activeUser = data || {}
-      // state.activeUser.gamesPlayed = data.gamesPlayed;
-      // state.activeUser.wins = data.wins;
-    
     },
+
     setLoggedIn(state, data) {
       state.loggedIn = data
     },
@@ -52,9 +50,7 @@ var store = new vuex.Store({
   },
 
   actions: {
-    
-    
-    
+
     getUser({ commit, dispatch }, user) {
       api('userwins/' + user._id)
         .then(res => {
@@ -65,6 +61,9 @@ var store = new vuex.Store({
         })
     },
 
+    setUser(data) {
+      commit('setUser', data)
+    },
 
     updateUser({ commit, dispatch }, user) {
       api.put('userwins/' + user._id, user)
@@ -77,8 +76,8 @@ var store = new vuex.Store({
           commit('handleError', err)
         })
     },
-    
-   
+
+
 
 
     register({ commit, dispatch }, accountUser) {

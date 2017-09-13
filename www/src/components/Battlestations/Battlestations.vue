@@ -1,8 +1,11 @@
 <template>
   <div container-fluid>
-
-    <h5 class="center">BattleStations!</h5>
-    <!-- <a href="#" data-toggle="tooltip" title="Hooray!">Hover over me</a> -->
+    <!-- <span>WINS:</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{this.gamesPlayed}}</span> -->
+    <div>
+      <div class="lleft"><span>WINS:</span><span id="wins">{{mywins}}</span></div>
+      <h5 class="center">BattleStations!</h5>
+      <div class="rright"><span>GAMES PLAYED:</span><span id="games">{{mygames}}</span></div>
+    </div>
 
     <div class="card leftGrid">
       <div class="card-block">
@@ -101,7 +104,7 @@
 
       <div class="row">
         <p class="rightplus fmt">{{msg}} </p>
-        <button type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button>
+        <button id="place" type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button>
       </div>
 
       <div class="row readouts">
@@ -207,6 +210,15 @@
             sunk: 'false'
           },
         }
+      }
+    },
+
+    computed: {
+      mywins() {
+        return this.$store.state.activeWins;
+      },
+      mygames() {
+        return this.$store.state.activeGames;
       }
     },
 
@@ -372,6 +384,9 @@
 
         Attack.methods.generateShips();
         Attack.methods.setAttackGrid();
+
+        var placeBtn = document.getElementById('place');
+        placeBtn.disabled = 'true';
       },
 
       figureSunk() {
@@ -393,6 +408,16 @@
           this.fleetShipsSunk++;
         }
 
+        //disable inputs accordingly
+        var shots = 5 - this.fleetShipsSunk;
+        for (var z = 5; z > shots; z--) {
+          var x = document.getElementById('s' + z)
+          if (x != null) {
+            x.style.border = 'solid red';
+            x.style.color = 'red';
+            x.disabled = 'true';
+          }
+        }
       },
 
       findShip(ship, direction, grid) {
@@ -618,10 +643,11 @@
 
 
         this.figureSunk();
-
-        console.log(this.fleetShipsSunk)
         if (this.fleetShipsSunk > 4) {
           this.msg = 'COMPUTER WON!'
+
+          this.updateStats('false');
+          //this.gamesPlayed += 1;
         }
 
         Attack.methods.sortUnique();
@@ -670,7 +696,9 @@
         this.msg = "You've Sunk " + Attack.methods.getEnemyShipsSunk() + " Ship(s)";
 
         if (Attack.methods.getEnemyShipsSunk() == 5) {
-          this.msg = 'YOU WON!'
+          this.msg = 'YOU WON!';
+          this.updateStats('true');
+
         }
 
         this.computersAttackTurn();
@@ -699,6 +727,17 @@
 
         return firingArray
       },
+
+      updateStats(status) {
+        var user = this.$store.state.activeUser;
+
+        if (status == 'true') {
+          user.wins++;
+        }
+        user.gamesPlayed++;
+        this.$store.dispatch("updateUser", user);
+
+      }
     }
   }
 
@@ -707,7 +746,7 @@
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   * {
-    /* border: 1px solid yellow; */
+    /* border: 1px solid yellow;  */
   }
   /* table {
      display:block;
@@ -733,6 +772,16 @@
     /* height: 100%; */
     /* display:inline-block; */
     /* display:inline-block; */
+  }
+
+  .lleft {
+    float: left;
+    color: blue;
+  }
+
+  .rright {
+    float: right;
+    color: blue;
   }
 
   .controls {
@@ -945,6 +994,11 @@
   h5,
   h6 {
     padding: 10px, 10px, 0, 10px
+  }
+
+  h5 {
+    width: 80%;
+    display: inline-block;
   }
 
   ul {
