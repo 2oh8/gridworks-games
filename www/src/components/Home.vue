@@ -44,6 +44,8 @@
     </v-flex>
   </v-layout>
 
+  
+
 
 </template>
 
@@ -57,7 +59,7 @@
     },
 
     mounted() {
-
+      
     },
 
     methods: {
@@ -65,6 +67,7 @@
     },
 
     computed: {
+      
       activeUser() {
         return this.$store.state.activeUser
       },
@@ -99,8 +102,9 @@
       },
       activeUserLevelProgress() {
         let wins = parseInt(this.$store.state.activeUser.wins)
-        console.log(wins)
-        if (wins >= 0 && wins <= 10) {
+        //console.log(wins)
+
+         if (wins >= 0 && wins <= 10) {
           return (wins/10)
         } else if (wins > 10 && wins <= 25) {
           return (wins/25)
@@ -121,7 +125,9 @@
         } else if (wins > 600 && wins <= 700) {
           return (wins/700)
         }
-      }
+      },
+
+
     }
   }
 
@@ -134,6 +140,8 @@
     position: fixed;
     animation: moveX 3.05s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, rotate 10.05s infinite alternate;
   }
+
+
   /* ANIMATIONS */
 
   @keyframes rotate {

@@ -121,7 +121,6 @@
 
                   <v-btn flat class="flipInX" type="submit" @click.prevent="userRegister()">Register Me</v-btn>
 
-
                 </form>
               </v-card-actions>
 
@@ -139,9 +138,43 @@
     <main>
       <v-container fluid>
 
-
         <router-view></router-view>
 
+        <!-- <div class="leader">
+          <h6 id="leaderboard">{{board}}</h6>
+        </div> -->
+
+        <!-- <div v-for="gamestat in gamestats">
+          <Gamestats :statProp='gamestat'></Gamestats>
+        </div> -->
+
+
+
+        <!-- <div class="">
+          <ul class="">
+
+            <li v-for="gamestat in gamestats" class="wholeCard">
+              <div class="card ">
+                <div class="card-block">
+                  <!-- <router-link :to="'./components/gamestats/'"> -->
+        <!-- <p class="card-title">{{gamestat.name}}</p>
+                    <p class="card-text">{{gamestat.wins}}</p>
+                    <p class="creator"></p>
+                  <!-- </router-link>                  -->
+        <!-- </div>
+              </div>
+            </li>
+
+          </ul>
+        </div>  -->
+
+        <!-- <ul class="">
+          <div v-for="leader in leaderBoard" :key="leader.name">
+            <li> {{ leader.name }}</li>
+          </div>
+        </ul> -->
+
+        <Gamestats />
 
       </v-container>
     </main>
@@ -151,22 +184,19 @@
 <script>
   import Home from './components/Home'
   import Battlestations from './components/Battlestations/Battlestations'
-  import Alex from './components/Alex'
-  import Matt from './components/Matt'
-  import Austin from './components/Austin'
-  import Josh from './components/Josh'
+  import Mastermind from './components/Mastermind'
+  import Gamestats from './components/Gamestats'
 
   export default {
     components: {
       Home,
       Battlestations,
-      Alex,
-      Matt,
-      Austin,
-      Josh
+      Mastermind,
+      Gamestats
     },
     mounted() {
       this.$store.dispatch('authenticate')
+      this.$store.dispatch('getLeaderBoard')
     },
     data() {
       return {
@@ -191,10 +221,7 @@
         items: [
           { icon: 'person_pin', title: "Home", routerLink: '/' },
           { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations' },
-          { icon: 'videogame_asset', title: "Alex's Game", routerLink: '/Alex' },
-          { icon: 'videogame_asset', title: "Matt's Game", routerLink: '/Matt' },
-          { icon: 'videogame_asset', title: "Austin's Game", routerLink: '/Austin' },
-          { icon: 'videogame_asset', title: "Josh's Game", routerLink: '/Josh' }
+          { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind' },
         ],
         miniVariant: false,
         right: true,
@@ -209,13 +236,27 @@
       },
       username() {
         return this.$store.state.activeUser.name
-      }
+      },
+      getLeaderBoard() {
+        this.$store.dispatch('getLeaderBoard');
+      },
+      // board() {
+      //   //return this.$store.state.leaderBoard;
+      //   return this.$store.dispatch('getBoard');
+      // },
+      // getCurrentLeaderBoard() {
+      //   return this.$store.state.leaderBoard;
+      // },
+
+  
     },
 
     methods: {
+      
       userLogout() {
         this.$store.dispatch('logout', this.accountUser)
       },
+
       userLogin() {
         var user = { user: this.accountUser.name, password: this.accountUser.password }
         this.$store.dispatch('login', user).then(() => {
@@ -261,39 +302,56 @@
     text-decoration: none !important;
   }
 
+  /* .leader {
+    text-align: center;
+    margin: 0, 500px, 0, 500px;
+  } */
+
+  Gamestats {
+    text-align: center;
+    margin: 0, 500px, 0, 500px;
+    color: red;
+  }
+
+  h6 {
+    color: green;
+  }
+
   .title {
     margin-right: auto;
   }
+
   @keyframes slideInLeft {
-  from {
-    transform: translate3d(-100%, 0, 0);
-    visibility: visible;
+    from {
+      transform: translate3d(-100%, 0, 0);
+      visibility: visible;
+    }
+
+    to {
+      transform: translate3d(0, 0, 0);
+    }
   }
 
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-.slideInLeft {
-  animation-name: slideInLeft;
-  animation-duration: 500ms;
-}
-@keyframes slideInRight {
-  from {
-    transform: translate3d(100%, 0, 0);
-    visibility: visible;
+  .slideInLeft {
+    animation-name: slideInLeft;
+    animation-duration: 500ms;
   }
 
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
+  @keyframes slideInRight {
+    from {
+      transform: translate3d(100%, 0, 0);
+      visibility: visible;
+    }
 
-.slideInRight {
-  animation-name: slideInRight;
-  animation-duration: 500ms;
-}
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .slideInRight {
+    animation-name: slideInRight;
+    animation-duration: 500ms;
+  }
 </style>
 
 <style lang="stylus">

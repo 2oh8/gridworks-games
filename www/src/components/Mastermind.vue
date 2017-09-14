@@ -181,14 +181,14 @@
 
 <script>
     export default {
-        name: 'alex',
+        name: 'mastermind',
         data() {
             return {
                 colors: ["blue", "red", "yellow", "green", "orange", "purple"],
                 number: 36,
                 display: "1296 POSSIBILITIES - CAN YOU BREAK THE CODE?",
                 chances: 7,
-                seconds: 20,
+                seconds: 300,
                 clock: setInterval(this.time, 1000)
             }
         },

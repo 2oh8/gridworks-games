@@ -234,43 +234,52 @@
 
     methods: {
       changeCell(num) {
-        Fleet.methods.changeBlue(num);
+        if (num < 101) {
+          Fleet.methods.changeBlue(num);
+        }
       },
 
       changeBlue(num) {
-        Fleet.methods.changeBlue(num);
+        if (num < 101) {
+          Fleet.methods.changeBlue(num);
+        }
       },
 
       changeRed(el) {
-        var x = document.getElementById(el);
-        x.style.backgroundColor = 'red';
+        if (el < 201) {
+          var x = document.getElementById(el);
+          x.style.backgroundColor = 'red';
+        }
       },
 
       redX(el) {
-        var x = document.getElementById(el);
-        x.innerHTML = "X"
-        //x.style.color = 'red';
-        x.style.color = 'white'; //used for testing
-        x.style.fontSize = '20px';
+        if (el < 201) {
+          var x = document.getElementById(el);
+          x.innerHTML = "X"
+          //x.style.color = 'red';
+          x.style.color = 'white'; //used for testing
+          x.style.fontSize = '20px';
+        }
       },
 
       whiteO(el) {
-        var x = document.getElementById(el);
-        x.innerHTML = "O"
-        x.style.color = 'white';
-        x.style.fontSize = '20px';
+        if (el < 201) {
+          var x = document.getElementById(el);
+          x.innerHTML = "O"
+          x.style.color = 'white';
+          x.style.fontSize = '20px';
+        }
       },
 
       convert2Num(str) {
         //65-74 cap A^
-        var tmp = str.charCodeAt(0) - 64
-        var tmp1 = str.charCodeAt(1) - 64
-
+        var tmp = str.toUpperCase().charCodeAt(0) - 64
+        var tmp1 = str.toUpperCase().charCodeAt(1) - 64
         return (tmp * 10) + tmp1 - 10;
       },
 
       convert1Num(str) {
-        return (str.charCodeAt(0) - 64)
+        return (str.toUpperCase().charCodeAt(0) - 64)
       },
 
       verifyPosition(str1, str2, num) {
@@ -410,8 +419,11 @@
 
         //disable inputs accordingly
         var shots = 5 - this.fleetShipsSunk;
+
         for (var z = 5; z > shots; z--) {
+
           var x = document.getElementById('s' + z)
+
           if (x != null) {
             x.style.border = 'solid red';
             x.style.color = 'red';
@@ -427,7 +439,6 @@
           if (!ship.hits.includes(direction)) {
             ship.hits.push(direction);
             this.redX(direction);
-
           }
 
           if (ship.sunk == 'false') {
@@ -464,28 +475,49 @@
         var lDigit = -1;
         var rDigit = -1;
 
+
+
         //if something exists on hitlists ...
         if (rights.length != 0 || lefts.length != 0) {
           autoGridAttack = 'false';
 
           if (lefts.length != 0) {
             //need to grab the 'ones' place
-            var str = lefts[0].toString();
+            var str1 = lefts[0].toString();
 
-            if (str.length != 0) {
-              if (str.length == 1) {
-                lDigit = str
+            if (str1.length != 0) {
+              if (str1.length == 1) {
+                lDigit = str1
               } else {
-                lDigit = str[1];
+                lDigit = str1[1];
               }
             }
           }
 
+          if (rights.length != 0) {
+            //need to grab the 'ones' place
+            var str2 = rights[0].toString();
+
+            if (str2.length != 0) {
+              if (str2.length == 1) {
+                rDigit = str2;
+              } else {
+                rDigit = str2[1];
+              }
+            }
+          }
         } else {
           autoGridAttack = 'true';
         }
 
-        while (count > 0 && autoGridAttack != 'true') {
+
+        //count > 0 && 
+        while (autoGridAttack != 'true') {
+          if(count == 0){
+            console.log('count is zero')
+            break;
+          }
+
           var grid1 = Attack.methods.getAttackGrid();
 
           if (lefts.length != 0) {
@@ -530,7 +562,8 @@
             }
 
           } else {
-            autoGridAttack = 'false';
+            //need toast here
+            //autoGridAttack = 'false';
           }
 
           Attack.methods.sortUnique();
@@ -598,8 +631,8 @@
             autoGridAttack = 'true';
             break;
           }
-
         }
+
         Attack.methods.sortUnique();
 
         //Loads random grid points to Salvo magazine
@@ -685,7 +718,6 @@
                 }
               }
             }
-
           } else {
             this.whiteO(firing[i])
           }
@@ -698,7 +730,6 @@
         if (Attack.methods.getEnemyShipsSunk() == 5) {
           this.msg = 'YOU WON!';
           this.updateStats('true');
-
         }
 
         this.computersAttackTurn();

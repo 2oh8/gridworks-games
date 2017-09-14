@@ -28,9 +28,10 @@ var store = new vuex.Store({
     },
     activeWins: null,
     activeGames: null,
-    loggedIn: null
-    
-    
+    loggedIn: null,
+    leaderBoard: null,
+
+
   },
 
   mutations: {
@@ -44,9 +45,14 @@ var store = new vuex.Store({
       state.loggedIn = data
     },
 
+    setBoard(state, data) {
+      state.leaderBoard = data
+    },
+
     handleError(state, err) {
       state.error = err
     }
+
   },
 
   actions: {
@@ -65,6 +71,28 @@ var store = new vuex.Store({
       commit('setUser', data)
     },
 
+    getLeaderBoard({ commit, dispatch }) {
+      api('leaderboards')
+        .then(res => {
+          var sorted = res.data.data.sort(function (a, b) {
+            return b.wins - a.wins;
+          });
+          sorted.splice(5)
+          commit('setBoard', sorted)
+        })
+        .catch(err => {
+          commit('handleError', err)
+        })
+    },
+
+    // getBoard() {
+    //   return this.leaderBoard;
+    // },
+
+    getCurrentLeaderBoard() {
+      return this.$store.state.leaderBoard;
+    },
+
     updateUser({ commit, dispatch }, user) {
       api.put('userwins/' + user._id, user)
         .then(res => {
@@ -77,9 +105,6 @@ var store = new vuex.Store({
         })
     },
 
-
-
-
     register({ commit, dispatch }, accountUser) {
       auth.post('register', accountUser)
         .then(res => {
@@ -87,7 +112,6 @@ var store = new vuex.Store({
           if (!res.data.data) {
             router.push('/Home');
           }
-
         })
         .catch(err => {
           commit('handleError', err)

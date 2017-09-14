@@ -2,10 +2,10 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
 import Battlestations from '@/components/Battlestations/Battlestations'
-import Alex from '@/components/Alex'
-import Matt from '@/components/Matt'
-import Austin from '@/components/Austin'
-import Josh from '@/components/Josh'
+import Mastermind from '@/components/Mastermind'
+// import Matt from '@/components/Matt'
+// import Austin from '@/components/Austin'
+// import Josh from '@/components/Josh'
 
 Vue.use(Router)
 
@@ -23,24 +23,24 @@ export default new Router({
       component: Battlestations
     },
     {
-      path: '/Alex/',
-      name: 'Alex',
-      component: Alex
+      path: '/Mastermind/',
+      name: 'Mastermind',
+      component: Mastermind
     },
-    {
-      path: '/Matt/',
-      name: 'Matt',
-      component: Matt
-    },
-    {
-      path: '/Austin/',
-      name: 'Austin',
-      component: Austin
-    },
-    {
-      path: '/Josh/',
-      name: 'Josh',
-      component: Josh
-    }
+    // {
+    //   path: '/Matt/',
+    //   name: 'Matt',
+    //   component: Matt
+    // },
+    // {
+    //   path: '/Austin/',
+    //   name: 'Austin',
+    //   component: Austin
+    // },
+    // {
+    //   path: '/Josh/',
+    //   name: 'Josh',
+    //   component: Josh
+    // }
   ]
 })
