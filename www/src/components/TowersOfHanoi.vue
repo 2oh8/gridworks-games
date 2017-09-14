@@ -79,8 +79,8 @@
     </div>
  
   
-        <audio  id="gong" src="gong.mp3"></audio> 
-        <audio  id="swoosh" src="swoosh.mp3"></audio>
+        <audio  id="gong" src="../assets/gong.mp3"></audio> 
+        <audio  id="swoosh" src="../assets/swoosh.mp3"></audio>
  
  
   </div>
@@ -746,7 +746,7 @@ export default {
 
         .B {
             background: url("disk.png");
-            background-size: 11vw 20px;
+            background-size: 12vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -757,7 +757,7 @@ export default {
 
         .C {
             background: url("disk.png");
-            background-size: 15vw 20px;
+            background-size: 17vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -766,7 +766,7 @@ export default {
 
         .D {
             background: url("disk.png");
-            background-size: 19vw 20px;
+            background-size: 23vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -775,7 +775,7 @@ export default {
 
         .E {
             background: url("disk.png");
-            background-size: 23vw 20px;
+            background-size: 28vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
