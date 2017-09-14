@@ -6,7 +6,7 @@
                 <div col-xs-4>
                 </div>
                 <div col-xs-4>
-                    <h1 class="animated bounceInDown">Mastermind</h1>
+                    <h1 class="animated bounceInDown"><router-link to="./MastermindGameAbout">Mastermind</router-link></h1>
                 </div>
                 <div col-xs-4>
                 </div>
