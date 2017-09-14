@@ -101,9 +101,8 @@
         <v-divider></v-divider>
       </div>
 
-
       <div class="row">
-        <p class="rightplus fmt">{{msg}} </p>
+        <p class="rightplus fmt">{{msg}} </p>      
         <button id="place" type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button>
       </div>
 
@@ -297,6 +296,8 @@
       },
 
       verifyShips() {
+        
+
 
         this.allFleetShips = [];
 
