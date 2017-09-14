@@ -15,7 +15,7 @@
               <v-list-tile-sub-title>Level: {{ activeUserLevel }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-content>
-              <v-progress-circular v-bind:size="100" v-bind:width="15" v-bind:rotate="100" v-model="activeUserLevelProgress" class="light-blue--text">
+              <v-progress-circular v-bind:size="50" v-bind:width="15" v-bind:rotate="360" v-bind:value="value" v-model="activeUserLevelProgress" class="light-blue--text">
                 {{ activeUserLevel }}
               </v-progress-circular>
             </v-list-tile-content>
@@ -62,7 +62,8 @@
     },
     data() {
       return {
-
+        rotate: 360,
+        value: 100
       }
     },
 
@@ -98,8 +99,8 @@
         let wins = this.$store.state.activeUser.wins
         let determiner = 1000
         let level = ((wins / determiner)*100)
-        let nextLevel = ((Math.floor(level))+1)
-        let progress = Math.floor((level/nextLevel)*100)
+        let progress = Math.floor((level % 1)*100)
+        console.log(progress)
         return progress
       }
     }
