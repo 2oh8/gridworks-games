@@ -5,6 +5,7 @@ import Battlestations from '@/components/Battlestations/Battlestations'
 import BattlestationsGameAbout from '@/components/Battlestations/BattlestationsGameAbout'
 import Mastermind from '@/components/Mastermind'
 import MastermindGameAbout from '@/components/MastermindGameAbout'
+import TowersOfHanoi from '@/components/TowersOfHanoi'
 
 Vue.use(Router)
 
@@ -20,6 +21,11 @@ export default new Router({
       path: '/Battlestations/Battlestations/',
       name: 'Battlestations',
       component: Battlestations
+    },
+    {
+      path: '/TowersOfHanoi/',
+      name: 'TowersOfHanoi',
+      component: TowersOfHanoi
     },
     {
       path: '/Battlestations/BattlestationsGameAbout',

@@ -153,6 +153,7 @@
   import Gamestats from './components/Gamestats'
   import BattlestationsGameAbout from './components/Battlestations/BattlestationsGameAbout'
   import MastermindGameAbout from './components/MastermindGameAbout'
+  import TowersOfHanoi from './components/TowersOfHanoi'
 
 
   export default {
@@ -162,7 +163,8 @@
       Mastermind,
       Gamestats,
       BattlestationsGameAbout,
-      MastermindGameAbout
+      MastermindGameAbout,
+      TowersOfHanoi
     },
     mounted() {
       this.$store.dispatch('authenticate')
@@ -191,7 +193,8 @@
         items: [
           { icon: 'person_pin', title: "Home", routerLink: '/' },
           { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations', gameLink: '/Battlestations/BattlestationsGameAbout' },
-          { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind', gameLink: '/MastermindGameAbout' }
+          { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind', gameLink: '/MastermindGameAbout' },
+          { icon: 'videogame_asset', title: "Towers of Hanoi Game", routerLink: '/TowersOfHanoi' }
         ],
         miniVariant: false,
         right: true,
