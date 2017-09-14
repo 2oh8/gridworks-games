@@ -140,42 +140,6 @@
 
         <router-view></router-view>
 
-        <!-- <div class="leader">
-          <h6 id="leaderboard">{{board}}</h6>
-        </div> -->
-
-        <!-- <div v-for="gamestat in gamestats">
-          <Gamestats :statProp='gamestat'></Gamestats>
-        </div> -->
-
-
-
-        <!-- <div class="">
-          <ul class="">
-
-            <li v-for="gamestat in gamestats" class="wholeCard">
-              <div class="card ">
-                <div class="card-block">
-                  <!-- <router-link :to="'./components/gamestats/'"> -->
-        <!-- <p class="card-title">{{gamestat.name}}</p>
-                    <p class="card-text">{{gamestat.wins}}</p>
-                    <p class="creator"></p>
-                  <!-- </router-link>                  -->
-        <!-- </div>
-              </div>
-            </li>
-
-          </ul>
-        </div>  -->
-
-        <!-- <ul class="">
-          <div v-for="leader in leaderBoard" :key="leader.name">
-            <li> {{ leader.name }}</li>
-          </div>
-        </ul> -->
-
-        <Gamestats />
-
       </v-container>
     </main>
   </v-app>

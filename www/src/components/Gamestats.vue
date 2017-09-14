@@ -1,18 +1,31 @@
 <template>
     <div class="mystats">
 
-        <h2>Leader Board</h2>
-        <table class="leaders">
-            <tr>
-                <th class="wide">Name</th>
-                <th class="narrow">Wins</th>
-            </tr>
+        
+        
+        <v-list>
+                <v-list-tile avatar size="256px">
+                  <v-list-tile-avatar tile>
+                    <img src="https://i.imgur.com/VFfIiXb.png" alt="Profile Pic">
+                  </v-list-tile-avatar>
+                  <v-list-tile-content>
+                        <h4>Leaderboard</h4>
+                  </v-list-tile-content>
+                  <v-list-tile-avatar tile>
+                        <v-icon>fa-trophy</v-icon>
+                        <v-icon>fa-list-ol</v-icon>
+                  </v-list-tile-avatar>
+                </v-list-tile>
+              </v-list>
+        <v-data-table v-bind:headers="headers" :items="gamestats" hide-actions class="elevation-1">
+            <template slot="items" scope="props">
+                <td>{{ props.item.name }}</td>
+                <td>{{ props.item.wins }}</td>
+                <td>{{ props.item.gamesPlayed }}</td>
+            </template>
+        </v-data-table>
 
-            <tr v-for="leader in gamestats">
-                <td class="">{{ leader.name }}</td>
-                <td class="">{{ leader.wins }}</td>
-            </tr>
-        </table>
+
 
     </div>
 </template>
@@ -25,8 +38,27 @@
 
         data() {
             return {
-                msg: "Messages go here",
                 stats: '',
+                headers: [
+                    {
+                        text: 'Name',
+                        align: 'left',
+                        sortable: false,
+                        value: 'name'
+                    },
+                    {
+                        text: 'Wins',
+                        align: 'left',
+                        sortable: false,
+                        value: 'Wins'
+                    },
+                    {
+                        text: 'Games Played',
+                        align: 'left',
+                        sortable: false,
+                        value: 'Gamesplayed'
+                    }
+                ]
             }
         },
 
@@ -51,35 +83,5 @@
 </script>
 
 <style scoped>
-    .mystats {
-        margin-top:-100px;
-        width: 400px;
-        margin-left:40%;
-        text-align: center;
-    }
 
-    table {
-        text-align: center;
-        width: 250px;
-        border: 1px solid black;
-        margin-left: auto;
-        margin-right: auto; 
-    }
-
-    h2 {
-        color: Yellow;
-    }
-
-    th {
-        text-align: center;
-        font-size: 36px;
-        color: red;
-        border: 1px solid black;
-    }
-
-    td {
-        font-size: 26px;
-        border: 1px solid black;
-        color: green;
-    }
 </style>

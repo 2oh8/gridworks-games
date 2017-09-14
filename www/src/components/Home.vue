@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <img v-if="!loggedIn" class="floating-logo" src="https://i.imgur.com/VFfIiXb.png">
 
-    <v-flex v-if="loggedIn" lg4 xs12 sm4 m4>
+    <v-flex v-if="loggedIn" xs12 sm4 m4 lg4>
 
       <v-card dark hover class="flipInX">
         <v-list>
@@ -41,17 +41,25 @@
         </v-list>
 
       </v-card>
+
+      <Gamestats class="flipInX"></Gamestats>
+      
     </v-flex>
   </v-layout>
 
-  
+
 
 
 </template>
 
 <script>
+  import Gamestats from './Gamestats'
+
   export default {
     name: 'home',
+    components: {
+      Gamestats
+    },
     data() {
       return {
 
@@ -59,7 +67,7 @@
     },
 
     mounted() {
-      
+
     },
 
     methods: {
@@ -67,7 +75,7 @@
     },
 
     computed: {
-      
+
       activeUser() {
         return this.$store.state.activeUser
       },
@@ -104,26 +112,26 @@
         let wins = parseInt(this.$store.state.activeUser.wins)
         //console.log(wins)
 
-         if (wins >= 0 && wins <= 10) {
-          return (wins/10)
+        if (wins >= 0 && wins <= 10) {
+          return (wins / 10)
         } else if (wins > 10 && wins <= 25) {
-          return (wins/25)
+          return (wins / 25)
         } else if (wins > 25 && wins <= 50) {
-          return (wins/50)
+          return (wins / 50)
         } else if (wins > 50 && wins <= 100) {
-          return (wins/100)
+          return (wins / 100)
         } else if (wins > 100 && wins <= 200) {
-          return (Math.round((wins/200)*100))
+          return (Math.round((wins / 200) * 100))
         } else if (wins > 200 && wins <= 300) {
-          return (wins/300)
+          return (wins / 300)
         } else if (wins > 300 && wins <= 400) {
-          return (wins/400)
+          return (wins / 400)
         } else if (wins > 400 && wins <= 500) {
-          return (wins/500)
+          return (wins / 500)
         } else if (wins > 500 && wins <= 600) {
-          return (wins/600)
+          return (wins / 600)
         } else if (wins > 600 && wins <= 700) {
-          return (wins/700)
+          return (wins / 700)
         }
       },
 
@@ -140,8 +148,6 @@
     position: fixed;
     animation: moveX 3.05s linear 0s infinite alternate, moveY 3.4s linear 0s infinite alternate, rotate 10.05s infinite alternate;
   }
-
-
   /* ANIMATIONS */
 
   @keyframes rotate {
