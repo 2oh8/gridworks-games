@@ -14,7 +14,7 @@
         data() {
             return {
                 msg1: "Mastermind is a grid game. The object is to figure out the code before you run out of moves or time!",
-                msg2: ""
+                msg2: "stuff about how to play the game"
             }
         },
 
