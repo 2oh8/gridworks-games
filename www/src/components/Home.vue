@@ -2,7 +2,7 @@
   <v-layout row wrap>
     <img v-if="!loggedIn" class="floating-logo" src="https://i.imgur.com/VFfIiXb.png">
 
-    <v-flex v-if="loggedIn" xs12 sm4 m4 lg4>
+    <v-flex v-if="loggedIn" xs12 sm6 m6 lg6>
 
       <v-card dark hover class="flipInX">
         <v-list>
