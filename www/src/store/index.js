@@ -85,10 +85,6 @@ var store = new vuex.Store({
         })
     },
 
-    // getBoard() {
-    //   return this.leaderBoard;
-    // },
-
     getCurrentLeaderBoard() {
       return this.$store.state.leaderBoard;
     },

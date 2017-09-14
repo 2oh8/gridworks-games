@@ -23,6 +23,7 @@
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
+              <router-link :to="item.gameLink">Info</router-link>
             </v-list-tile>
           </router-link>
         </div>
@@ -150,13 +151,18 @@
   import Battlestations from './components/Battlestations/Battlestations'
   import Mastermind from './components/Mastermind'
   import Gamestats from './components/Gamestats'
+  import BattlestationsGameAbout from './components/Battlestations/BattlestationsGameAbout'
+  import MastermindGameAbout from './components/MastermindGameAbout'
+
 
   export default {
     components: {
       Home,
       Battlestations,
       Mastermind,
-      Gamestats
+      Gamestats,
+      BattlestationsGameAbout,
+      MastermindGameAbout
     },
     mounted() {
       this.$store.dispatch('authenticate')
@@ -184,13 +190,14 @@
         showLogout: false,
         items: [
           { icon: 'person_pin', title: "Home", routerLink: '/' },
-          { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations' },
-          { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind' },
+          { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations', gameLink: '/Battlestations/BattlestationsGameAbout' },
+          { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind', gameLink: '/MastermindGameAbout' }
         ],
         miniVariant: false,
         right: true,
         rightDrawer: false,
-        title: 'Vuetify.js'
+        title: 'Vuetify.js',
+
       }
     },
 
@@ -205,11 +212,11 @@
         this.$store.dispatch('getLeaderBoard');
       },
 
-  
+
     },
 
     methods: {
-      
+
       userLogout() {
         this.$store.dispatch('logout', this.accountUser)
       },
@@ -258,7 +265,6 @@
   * {
     text-decoration: none !important;
   }
-
   /* .leader {
     text-align: center;
     margin: 0, 500px, 0, 500px;
