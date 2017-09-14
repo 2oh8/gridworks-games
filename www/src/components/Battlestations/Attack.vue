@@ -495,7 +495,7 @@
 
         for (var z = 0; z < len; z++) {
           //make it visual for testing only
-          this.changeRed(tempPositions[z]);
+          //this.changeRed(tempPositions[z]);
 
           this.allShips.push(tempPositions[z]);
           this.shotsFired.push(tempPositions[z]);
@@ -569,10 +569,7 @@
           //this.changeRed(tempPositions1[z]);
 
           this.allShips.push(tempPositions1[z]);
-
-
           this.shotsFired.push(tempPositions1[z]);
-
           this.enemyShips[length - 2].positions.push(tempPositions1[z]);
         }
 
