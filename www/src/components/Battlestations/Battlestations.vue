@@ -1,7 +1,7 @@
 <template>
   <div container-fluid>
-    <!-- <span>WINS:</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:</span><span id="games">{{this.gamesPlayed}}</span> -->
-    <div>
+   
+    <div class="titlecenter">
       <div class="lleft"><span>WINS:</span><span id="wins">{{mywins}}</span></div>
       <h5 class="center">BattleStations!</h5>
       <div class="rright"><span>GAMES PLAYED:</span><span id="games">{{mygames}}</span></div>
@@ -102,7 +102,7 @@
       </div>
 
       <div class="row">
-        <p class="rightplus fmt">{{msg}} </p>      
+        <p class="rightplus fmt">{{msg}} </p>
         <button id="place" type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button>
       </div>
 
@@ -296,7 +296,7 @@
       },
 
       verifyShips() {
-        
+
 
 
         this.allFleetShips = [];
@@ -514,7 +514,7 @@
 
         //count > 0 && 
         while (autoGridAttack != 'true') {
-          if(count == 0){
+          if (count == 0) {
             console.log('count is zero')
             break;
           }
@@ -800,6 +800,11 @@
     }
   } */
 
+  hr {
+    padding: 0;
+    margin: 5px;
+  }
+
   .readouts {
     /* height: 100%; */
     /* display:inline-block; */
@@ -991,6 +996,7 @@
 
   .card-block {
     text-align: center;
+    padding: 0;
   }
 
   .card-title {
@@ -1016,6 +1022,11 @@
   .center {
     text-align: center;
     padding: 0, 15px, 0, 15px;
+    width:75%;
+  }
+
+  .titlecenter{
+    text-align: center;
   }
 
   h1,
@@ -1023,7 +1034,7 @@
     font-weight: normal;
   }
 
-  h5,
+  
   h6 {
     padding: 10px, 10px, 0, 10px
   }

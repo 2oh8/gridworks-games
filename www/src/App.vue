@@ -15,17 +15,28 @@
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
         <div v-for="item in items" :key="item.title">
-          <router-link :to="item.routerLink">
-            <v-list-tile @click="" class="no-underline">
-              <v-list-tile-action>
-                <v-icon class="no-underline">{{ item.icon }}</v-icon>
-              </v-list-tile-action>
-              <v-list-tile-content>
+
+
+          <v-list-tile @click="" class="no-underline">
+            <v-list-tile-action>
+              <v-icon class="no-underline">{{ item.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <router-link :to="item.routerLink">
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              </v-list-tile-content>
-              <!-- <router-link :to="item.gameLink">Info</router-link> -->
-            </v-list-tile>
-          </router-link>
+              </router-link>
+            </v-list-tile-content>
+
+            <!-- <v-list-tile-content>
+                <router-link :to="item.gameLink">
+                  <v-list-tile-title>{{ item.iicon }}</v-list-tile-title>
+                </router-link>   
+            </v-list-tile-content> -->
+            <!-- <a v-bind:href="item.gameLink">{{ item.iicon }}</a> -->
+          </v-list-tile>
+
+
+
         </div>
       </v-list>
     </v-navigation-drawer>

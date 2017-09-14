@@ -1,8 +1,6 @@
 <template>
     <div class="mystats">
 
-
-
         <v-list>
             <v-list-tile avatar size="256px">
                 <v-list-tile-avatar tile>
