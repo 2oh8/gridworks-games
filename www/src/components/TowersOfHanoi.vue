@@ -45,9 +45,12 @@
                     <td id="16"></td>
                 </tr>
                 <tr>
-                    <td id="5" class="a"></td>
-                    <td id="11" class="a"></td>
-                    <td id="17" class="a"></td>
+                    <td id="5" class="a"><button @click="move1to2()">Move to <span class =" btnNum">2</span></button>
+                <button @click="move1to3()">Move to <span class =" btnNum"  >3</span></button></td>
+                    <td id="11" class="a"> <button @click="move2to1()">Move to <span class =" btnNum">1</span></button>
+                <button @click="move2to3()">Move to <span class =" btnNum">3</span></button> </td>
+                    <td id="17" class="a"><button @click="move3to1()">Move to <span class =" btnNum">1</span></button>
+                <button @click="move3to2()">Move to <span class =" btnNum">2</span></button> </td>
                 </tr>
             </table>
 
@@ -59,7 +62,7 @@
             <div class="col-xs-4 test "><img class="peg " src="peg.png " alt="tower-peg
                          "><br><img class="base" src="base.png " alt="tower-base "></div> -->
         </div>
-        <div class="row buttons">
+        <!-- <div class="row buttons">
             <div class="col-xs-4 test">
                 <button @click="move1to2()">Move to <span class =" btnNum">2</span></button>
                 <button @click="move1to3()">Move to <span class =" btnNum"  >3</span></button>
@@ -72,7 +75,7 @@
                 <button @click="move3to1()">Move to <span class =" btnNum">1</span></button>
                 <button @click="move3to2()">Move to <span class =" btnNum">2</span></button>
             </div>
-        </div>
+        </div> -->
     </div>
  
   
@@ -670,9 +673,9 @@ export default {
             src: "Cartwheel.otf";
         }
 
-        /* * {
+        * {
             outline: 1px solid red;
-        } */
+        } 
 
         table {
         }
@@ -732,7 +735,7 @@ export default {
 
         .A {
             background: url("disk.png");
-            background-size: 100px 20px;
+            background-size: 7vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -743,7 +746,7 @@ export default {
 
         .B {
             background: url("disk.png");
-            background-size: 150px 20px;
+            background-size: 11vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -754,7 +757,7 @@ export default {
 
         .C {
             background: url("disk.png");
-            background-size: 200px 20px;
+            background-size: 15vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -763,7 +766,7 @@ export default {
 
         .D {
             background: url("disk.png");
-            background-size: 250px 20px;
+            background-size: 19vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -772,7 +775,7 @@ export default {
 
         .E {
             background: url("disk.png");
-            background-size: 300px 20px;
+            background-size: 23vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -802,15 +805,14 @@ export default {
 
         .title{
             font-weight: bold;
-            font-size: 5vw;
+            font-size: 5vh;
             font-family:"Cartwheel";
-            margin-bottom:7.5vh;
+            margin-bottom:7.5h;
         }
         .moves {
             font-weight: bold;
             font-size: 3vw;
             font-family:"Cartwheel";
-
         }
 
         .wins{
@@ -846,6 +848,8 @@ export default {
 
         .a {
             background-color: navy;
+            
+           
         }
 
         .tower{
@@ -868,6 +872,7 @@ export default {
         button{
             background-color:red;
             border-radius:15px;
+            margin-top:2vh;
         }
         .btnNum{
             color:white;
