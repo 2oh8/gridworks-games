@@ -204,13 +204,6 @@
       getLeaderBoard() {
         this.$store.dispatch('getLeaderBoard');
       },
-      // board() {
-      //   //return this.$store.state.leaderBoard;
-      //   return this.$store.dispatch('getBoard');
-      // },
-      // getCurrentLeaderBoard() {
-      //   return this.$store.state.leaderBoard;
-      // },
 
   
     },

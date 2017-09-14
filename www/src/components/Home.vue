@@ -15,7 +15,7 @@
               <v-list-tile-sub-title>Level: {{ activeUserLevel }}</v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-content>
-              <v-progress-circular v-bind:size="100" v-bind:width="15" v-bind:rotate="100" v-model="activeUserLevelProgress" class="teal--text">
+              <v-progress-circular v-bind:size="100" v-bind:width="15" v-bind:rotate="100" v-model="activeUserLevelProgress" class="light-blue--text">
                 {{ activeUserLevel }}
               </v-progress-circular>
             </v-list-tile-content>
@@ -43,7 +43,7 @@
       </v-card>
 
       <Gamestats class="flipInX"></Gamestats>
-      
+
     </v-flex>
   </v-layout>
 
@@ -86,56 +86,23 @@
         return this.$store.state.loggedIn
       },
       activeUserLevel() {
-        if (this.$store.state.activeUser.wins >= 0 && this.$store.state.activeUser.wins <= 10) {
-          return '1'
-        } else if (this.$store.state.activeUser.wins > 10 && this.$store.state.activeUser.wins <= 25) {
-          return '2'
-        } else if (this.$store.state.activeUser.wins > 25 && this.$store.state.activeUser.wins <= 50) {
-          return '3'
-        } else if (this.$store.state.activeUser.wins > 50 && this.$store.state.activeUser.wins <= 100) {
-          return '4'
-        } else if (this.$store.state.activeUser.wins > 100 && this.$store.state.activeUser.wins <= 200) {
-          return '5'
-        } else if (this.$store.state.activeUser.wins > 200 && this.$store.state.activeUser.wins <= 300) {
-          return '6'
-        } else if (this.$store.state.activeUser.wins > 300 && this.$store.state.activeUser.wins <= 400) {
-          return '7'
-        } else if (this.$store.state.activeUser.wins > 400 && this.$store.state.activeUser.wins <= 500) {
-          return '8'
-        } else if (this.$store.state.activeUser.wins > 500 && this.$store.state.activeUser.wins <= 600) {
-          return '9'
-        } else if (this.$store.state.activeUser.wins > 600 && this.$store.state.activeUser.wins <= 700) {
-          return '10'
-        }
+        let wins = this.$store.state.activeUser.wins
+        let determiner = 1000
+        let level = Math.floor((wins / determiner)*100)
+        if (level == 0){
+         return 1 
+        } else {
+        } return level
       },
       activeUserLevelProgress() {
-        let wins = parseInt(this.$store.state.activeUser.wins)
-        //console.log(wins)
-
-        if (wins >= 0 && wins <= 10) {
-          return (wins / 10)
-        } else if (wins > 10 && wins <= 25) {
-          return (wins / 25)
-        } else if (wins > 25 && wins <= 50) {
-          return (wins / 50)
-        } else if (wins > 50 && wins <= 100) {
-          return (wins / 100)
-        } else if (wins > 100 && wins <= 200) {
-          return (Math.round((wins / 200) * 100))
-        } else if (wins > 200 && wins <= 300) {
-          return (wins / 300)
-        } else if (wins > 300 && wins <= 400) {
-          return (wins / 400)
-        } else if (wins > 400 && wins <= 500) {
-          return (wins / 500)
-        } else if (wins > 500 && wins <= 600) {
-          return (wins / 600)
-        } else if (wins > 600 && wins <= 700) {
-          return (wins / 700)
-        }
-      },
-
-
+        let wins = this.$store.state.activeUser.wins
+        let determiner = 1000
+        let level = ((wins / determiner)*100)
+        let nextLevel = ((Math.floor(level))+1)
+        let progress = Math.floor((level/nextLevel)*100)
+        console.log(progress)
+        return progress
+      }
     }
   }
 

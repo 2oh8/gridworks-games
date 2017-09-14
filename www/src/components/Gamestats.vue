@@ -33,8 +33,6 @@
 <script>
     export default {
         name: 'gamestats',
-        // props: ['statProp'],
-
 
         data() {
             return {
