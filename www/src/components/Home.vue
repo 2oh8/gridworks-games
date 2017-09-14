@@ -100,7 +100,6 @@
         let level = ((wins / determiner)*100)
         let nextLevel = ((Math.floor(level))+1)
         let progress = Math.floor((level/nextLevel)*100)
-        console.log(progress)
         return progress
       }
     }

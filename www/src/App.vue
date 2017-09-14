@@ -23,7 +23,7 @@
               <v-list-tile-content>
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </v-list-tile-content>
-              <router-link :to="item.gameLink">Info</router-link>
+              <!-- <router-link :to="item.gameLink">Info</router-link> -->
             </v-list-tile>
           </router-link>
         </div>

@@ -1,29 +1,53 @@
 <template>
     <div class="mystats">
 
-        
-        
+
+
         <v-list>
-                <v-list-tile avatar size="256px">
-                  <v-list-tile-avatar tile>
+            <v-list-tile avatar size="256px">
+                <v-list-tile-avatar tile>
                     <img src="https://i.imgur.com/VFfIiXb.png" alt="Profile Pic">
-                  </v-list-tile-avatar>
-                  <v-list-tile-content>
-                        <h4>Leaderboard</h4>
-                  </v-list-tile-content>
-                  <v-list-tile-avatar tile>
-                        <v-icon>fa-trophy</v-icon>
-                        <v-icon>fa-list-ol</v-icon>
-                  </v-list-tile-avatar>
-                </v-list-tile>
-              </v-list>
-        <v-data-table v-bind:headers="headers" :items="gamestats" hide-actions class="elevation-1">
-            <template slot="items" scope="props">
-                <td>{{ props.item.name }}</td>
-                <td>{{ props.item.wins }}</td>
-                <td>{{ props.item.gamesPlayed }}</td>
-            </template>
-        </v-data-table>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <h4>Leaderboard</h4>
+                </v-list-tile-content>
+                <v-list-tile-avatar tile>
+                    <v-icon>fa-trophy</v-icon>
+                    <v-icon>fa-list-ol</v-icon>
+                </v-list-tile-avatar>
+            </v-list-tile>
+        </v-list>
+
+        <v-list>
+            <v-list-tile>
+                <v-list-tile-action>
+                    <v-icon class="light-blue--text">fa-trophy</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title>Name</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                    <v-list-tile-title>Wins</v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                    <v-list-tile-title>Games Played</v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile avatar v-for="item in gamestats" v-bind:key="item.title" @click="">
+                <v-list-tile-action>
+                    <v-icon class="pink--text">star</v-icon>
+                </v-list-tile-action>
+                <v-list-tile-content>
+                    <v-list-tile-title v-text="item.name"></v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                    <v-list-tile-title v-text="item.wins"></v-list-tile-title>
+                </v-list-tile-content>
+                <v-list-tile-content>
+                    <v-list-tile-title v-text="item.gamesPlayed"></v-list-tile-title>
+                </v-list-tile-content>
+            </v-list-tile>
+        </v-list>
 
 
 
@@ -48,21 +72,20 @@
                         text: 'Wins',
                         align: 'left',
                         sortable: false,
-                        value: 'Wins'
+                        value: 'wins'
                     },
                     {
                         text: 'Games Played',
                         align: 'left',
                         sortable: false,
-                        value: 'Gamesplayed'
+                        value: 'gamesPlayed'
                     }
                 ]
             }
         },
 
         mounted() {
-            //this.$store.dispatch('getCurrentLeaderBoard')
-            this.test();
+            return this.$store.state.leaderBoard;
         },
 
         computed: {
@@ -72,9 +95,7 @@
         },
 
         methods: {
-            test() {
-                console.log('testing: ', this.$store.state.getCurrentLeaderBoard);
-            }
+
         }
     }
 
