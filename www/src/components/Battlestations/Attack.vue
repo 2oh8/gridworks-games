@@ -566,7 +566,7 @@
         //now save
         for (var z = 0; z < length; z++) {
           //don't forget to make it visual for testing only
-          this.changeRed(tempPositions1[z]);
+          //this.changeRed(tempPositions1[z]);
 
           this.allShips.push(tempPositions1[z]);
 

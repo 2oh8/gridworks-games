@@ -28,7 +28,7 @@ export default new Router({
       component: TowersOfHanoi
     },
     {
-      path: '/Battlestations/BattlestationsGameAbout',
+      path: '/Battlestations/BattlestationsGameAbout/',
       name: 'BattlestationsGameAbout',
       component: BattlestationsGameAbout
     },

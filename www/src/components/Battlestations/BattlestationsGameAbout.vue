@@ -37,5 +37,6 @@
     .gamedata{
         width: 400px;
         text-align: center;
+        margin: auto;
     }
 </style>

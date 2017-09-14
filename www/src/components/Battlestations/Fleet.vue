@@ -162,8 +162,6 @@
 <script>
     export default {
         name: 'fleet',
-        //test: 'testing 1 2 3 4',
-        //ships: '',
         data() {
             return {
                 //msg: "Messages go here",
@@ -203,14 +201,11 @@
     }
 
     td {
-        /* padding: 10px; */
         width: 30px;
         height: 42px;
-
         border: 1px solid white;
         margin: 0;
         font-style: Arial;
-
         text-align: center;
     }
 

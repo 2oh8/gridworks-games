@@ -12,11 +12,10 @@
         </v-list-tile-action>
         </v-list-tile>
       </v-list>
+
       <v-list class="pt-0" dense>
         <v-divider></v-divider>
         <div v-for="item in items" :key="item.title">
-
-
           <v-list-tile @click="" class="no-underline">
             <v-list-tile-action>
               <v-icon class="no-underline">{{ item.icon }}</v-icon>
@@ -26,19 +25,10 @@
                 <v-list-tile-title>{{ item.title }}</v-list-tile-title>
               </router-link>
             </v-list-tile-content>
-
-            <!-- <v-list-tile-content>
-                <router-link :to="item.gameLink">
-                  <v-list-tile-title>{{ item.iicon }}</v-list-tile-title>
-                </router-link>   
-            </v-list-tile-content> -->
-            <!-- <a v-bind:href="item.gameLink">{{ item.iicon }}</a> -->
           </v-list-tile>
-
-
-
         </div>
       </v-list>
+
     </v-navigation-drawer>
     <v-toolbar fixed class="blue darken-1" dark>
       <v-toolbar-side-icon v-if="loggedIn" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
@@ -162,7 +152,7 @@
   import Battlestations from './components/Battlestations/Battlestations'
   import Mastermind from './components/Mastermind'
   import Gamestats from './components/Gamestats'
-  import BattlestationsGameAbout from './components/Battlestations/BattlestationsGameAbout'
+  // import BattlestationsGameAbout from './components/Battlestations/BattlestationsGameAbout'
   import MastermindGameAbout from './components/MastermindGameAbout'
   import TowersOfHanoi from './components/TowersOfHanoi'
 
@@ -173,7 +163,7 @@
       Battlestations,
       Mastermind,
       Gamestats,
-      BattlestationsGameAbout,
+      // BattlestationsGameAbout,
       MastermindGameAbout,
       TowersOfHanoi
     },

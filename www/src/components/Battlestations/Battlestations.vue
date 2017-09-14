@@ -3,7 +3,11 @@
    
     <div class="titlecenter">
       <div class="lleft"><span>WINS:</span><span id="wins">{{mywins}}</span></div>
-      <h5 class="center">BattleStations!</h5>
+      
+      <!-- <h5 class="center"> <a href="../Battlestations/BattlestationsGameAbout">BattleStations!</a></h5> -->
+      <!-- <router-link :to="item.routerLink"> -->
+        <h5 class="center"> <router-link to="./BattlestationsGameAbout">BattleStations!</router-link></h5>
+
       <div class="rright"><span>GAMES PLAYED:</span><span id="games">{{mygames}}</span></div>
     </div>
 
@@ -152,6 +156,7 @@
 <script>
   import Attack from './Attack'
   import Fleet from './Fleet.vue'
+  import BattlestationsGameAbout from '../Battlestations/BattlestationsGameAbout.vue'
   //window.onload = setDefaults;
 
   export default {
