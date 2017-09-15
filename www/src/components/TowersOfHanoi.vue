@@ -45,12 +45,12 @@
                     <td id="16"></td>
                 </tr>
                 <tr>
-                    <td id="5" class="a"><button @click="move1to2()">Move to <span class =" btnNum">2</span></button>
-                <button @click="move1to3()">Move to <span class =" btnNum"  >3</span></button></td>
-                    <td id="11" class="a"> <button @click="move2to1()">Move to <span class =" btnNum">1</span></button>
-                <button @click="move2to3()">Move to <span class =" btnNum">3</span></button> </td>
-                    <td id="17" class="a"><button @click="move3to1()">Move to <span class =" btnNum">1</span></button>
-                <button @click="move3to2()">Move to <span class =" btnNum">2</span></button> </td>
+                    <td id="5" class="a"><button @click="move1to2()">Move to<span class =" btnNum">&nbsp;2&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button>
+                <button @click="move1to3()">Move to <span class =" btnNum">3&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button></td>
+                    <td id="11" class="a"> <button @click="move2to1()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">1</span></button>
+                <button @click="move2to3()">Move to <span class =" btnNum">3&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button> </td>
+                    <td id="17" class="a"><button @click="move3to1()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">1</span></button>
+                <button @click="move3to2()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">2</span></button> </td>
                 </tr>
             </table>
 
@@ -404,7 +404,7 @@ export default {
                     this.tower2Element[2].removeAttribute("class")
                     this.tower2Class[2] = null;
                     this.moves++;
-                      document.getElementById("swoosh").play();
+                    document.getElementById("swoosh").play();
                 }
             } else if (this.tower2Class[3] != null) {
                 if (this.tower2Class[3] < this.tower1Element[lastNullPlus1].getAttribute("class")) {
@@ -845,12 +845,11 @@ export default {
         .buttons {
             margin-top: 5vh;
             font-family:"Cartwheel";
-            color:white;   
 
         }
 
         .a {
-            background-color: navy;
+            background-color:#1565c0;
             
            
         }
@@ -873,10 +872,11 @@ export default {
             margin-bottom:4vh;
         }
         button{
-            background-color:maroon;
+            background-color:black;
             border-radius:15px;
             margin-top:2vh;
             font-family:"Cartwheel";
+            
             
 
         }
