@@ -404,6 +404,7 @@ export default {
                     this.tower2Element[2].removeAttribute("class")
                     this.tower2Class[2] = null;
                     this.moves++;
+                      document.getElementById("swoosh").play();
                 }
             } else if (this.tower2Class[3] != null) {
                 if (this.tower2Class[3] < this.tower1Element[lastNullPlus1].getAttribute("class")) {
