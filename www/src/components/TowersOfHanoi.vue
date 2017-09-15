@@ -1,7 +1,7 @@
 <template>
   <div class="towersofhanoi">
       <h1 class="title">TOWERS OF HANOI</h1>
-    <p class="test moves display">MOVES:&nbsp;<span id="moves">0</span><span class="test wins">&nbsp;&nbsp;WINS:&nbsp;<span id="wins">{{this.wins}}</span></span></p>
+    <p class="test moves display">MOVES:&nbsp;<span id="moves">0</span><span class="test wins">&nbsp;&nbsp;WINS:&nbsp;<span id="wins">{{this.wins}}</span></span><span class="test wins">&nbsp;&nbsp;MIN # OF MOVES:&nbsp;<span id="wins">31</span></span></p>
     
     <div class="container">
         <div class="top-row">
@@ -809,6 +809,7 @@ export default {
             font-family:"Cartwheel";
             margin-bottom:7.5h;
             text-align:center;
+            
         }
         .moves {
             font-weight: bold;
@@ -871,7 +872,7 @@ export default {
             margin-bottom:4vh;
         }
         button{
-            background-color:red;
+            background-color:maroon;
             border-radius:15px;
             margin-top:2vh;
             font-family:"Cartwheel";
