@@ -1,17 +1,17 @@
 <template>
     <v-layout row wrap>
-        <v-btn id="one">Test</v-btn>
-        <v-btn id="two">Test</v-btn>
+        <v-btn id="one"><img src="https://i.imgur.com/pdjXi5h.png" class="head-img"></v-btn>
+        <v-btn id="two"><img src="https://i.imgur.com/Wpugacz.png" class="head-img"></v-btn>
         <v-btn fab id="center"><img src="https://i.imgur.com/VFfIiXb.png" class="codeworks-center-logo"></v-btn>
-        <v-btn id="three">Test</v-btn>
-        <v-btn id="four">Test</v-btn>
+        <v-btn id="three"><img src="https://i.imgur.com/1j3KXnI.png" class="head-img"></v-btn>
+        <v-btn id="four"><img src="https://i.imgur.com/AVMVYxV.png" class="head-img"></v-btn>
     </v-layout>
 </template>
 
 <script>
     export default {
         name: 'jakesays',
-        
+
     }
 
 </script>
@@ -23,6 +23,11 @@
         transform: rotate(90deg);
         margin-bottom: 1rem;
     }
+
+    .head-img {
+        height: 15rem;
+    }
+
     #center {
         height: 30vw;
         width: 30vw;
@@ -33,40 +38,46 @@
         z-index: 99;
         background: url('https://i.imgur.com/Tx428Ot.gif') center center;
         background-size: cover;
+        border: hidden;
+        cursor: pointer;
+        outline: none;
     }
+
     #one {
-        background: red;
+        background: radial-gradient(#ff4081, #ff5252, #d500f9 );
         width: 45vw;
         height: 45vh;
         left: 0;
         top: 0;
         position: fixed;
     }
+
     #two {
-        background: blue;
+        background: radial-gradient(#536dfe, #448aff, #6200ea);
         width: 45vw;
         height: 45vh;
         right: 0;
         top: 0;
         position: fixed;
     }
+
     #three {
-        background: yellow;
+        background: radial-gradient( #ef6c00, #f9a825, #e65100);
         width: 45vw;
         height: 45vh;
         left: 0;
-        bottom: 0;
-        position: fixed;
-    }
-    #four {
-        background: green;
-        width: 45vw;
-        height: 45vh;
-        right: 0;
         bottom: 0;
         position: fixed;
     }
 
+    #four {
+        background: radial-gradient( #76ff03, #c6ff00, #00e676);
+        width: 45vw;
+        height: 45vh;
+        right: 0;
+        bottom: 0;
+        position: fixed;
+    }
     /* ANIMATIONS */
 
     @keyframes rotate {
