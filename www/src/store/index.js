@@ -104,7 +104,7 @@ var store = new vuex.Store({
     register({ commit, dispatch }, accountUser) {
       auth.post('register', accountUser)
         .then(res => {
-          commit('setActiveUser', res.data.data)
+          commit('setUser', res.data.data)
           if (!res.data.data) {
             router.push('/Home');
           }
