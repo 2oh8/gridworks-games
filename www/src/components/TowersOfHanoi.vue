@@ -1,6 +1,6 @@
 <template>
   <div class="towersofhanoi">
-      <h1 class="test title">TOWERS OF HANOI</h1>
+      <h1 class="title">TOWERS OF HANOI</h1>
     <p class="test moves display">MOVES:&nbsp;<span id="moves">0</span><span class="test wins">&nbsp;&nbsp;WINS:&nbsp;<span id="wins">{{this.wins}}</span></span></p>
     
     <div class="container">
@@ -673,9 +673,9 @@ export default {
             src: "Cartwheel.otf";
         }
 
-        * {
+       /* * {
             outline: 1px solid red;
-        } 
+        } */
 
         table {
         }
@@ -805,9 +805,10 @@ export default {
 
         .title{
             font-weight: bold;
-            font-size: 5vh;
+            font-size: 10vh !important;
             font-family:"Cartwheel";
             margin-bottom:7.5h;
+            text-align:center;
         }
         .moves {
             font-weight: bold;
@@ -873,6 +874,9 @@ export default {
             background-color:red;
             border-radius:15px;
             margin-top:2vh;
+            font-family:"Cartwheel";
+            
+
         }
         .btnNum{
             color:white;

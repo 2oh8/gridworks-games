@@ -198,7 +198,11 @@
             this.setCellsForColor()
             this.clock
         },
-
+        
+        destroyed(){
+            clearInterval(this.clock)
+        },
+        
         computed:{
               
                wins(){
