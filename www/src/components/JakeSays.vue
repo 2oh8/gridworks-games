@@ -46,7 +46,7 @@
 
                 // This should generate the whole array of guesses from the start then have a seperate function to check the guess pattern
                 console.log('Generating the Code!')
-                for (var i = 0; i < 5; i++) {
+                for (var i = 0; i < 14; i++) {
                     var selectedButtons = this.buttonIndex.push((Math.floor(Math.random() * 4)) + 1);
                 }
 
