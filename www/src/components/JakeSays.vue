@@ -13,6 +13,7 @@
         <audio  id="JakeAudio" src="../assets/Jake.mp3" type="audio/mp3"></audio>
         <audio  id="DarrylAudio" src="../assets/Darryl.mp3" type="audio/mp3"></audio> 
         <audio  id="JustinAudio" src="../assets/Justin.mp3" type="audio/mp3"></audio>
+        <audio  id="sadTrombone" src="../assets/sadtrombone.swf.mp3" type ="audio/mp3"></audio>
     </v-layout>
 </template>
 
@@ -102,6 +103,7 @@
                         }
                     }
                 } else {
+                    document.getElementById("sadTrombone").play();
                     this.lose = true
                     setTimeout(() => {
                         this.loseSpeech = true
