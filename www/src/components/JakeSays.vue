@@ -68,7 +68,10 @@
             playCombo(i) {
                 var elem = document.getElementById(this.jakeSaysCode[i])
                 elem.style.opacity = 0.25
-                document.getElementById(this.jakeSaysCode[i] + 'Audio').play();
+                let audio = document.getElementById(this.jakeSaysCode[i] + 'Audio');
+                audio.pause();
+                audio.currentTime = 0;
+                audio.play();
                 setTimeout(() => {
                     elem.style.opacity = 1
                     this.displayJakeSaysCode(++i)
@@ -108,7 +111,10 @@
             },
             //these should add to user array not jsc array of solution
             click(input) {
-                document.getElementById(input + 'Audio').play();
+                let audio = document.getElementById(input + 'Audio');
+                audio.pause();
+                audio.currentTime = 0;
+                audio.play();
                 document.getElementById(input).style.opacity = 0.25
                 setTimeout(() => {
                     document.getElementById(input).style.opacity = 1
@@ -155,7 +161,7 @@
     #center {
         height: 30vw;
         width: 30vw;
-        bottom: 50%;
+        bottom: 45%;
         left: 50%;
         position: fixed;
         transform: translate(-50%, 50%);
@@ -169,38 +175,43 @@
 
     #Mark {
         background: radial-gradient(#ff4081, #ff5252, #d500f9);
-        width: 45vw;
+        width: 49vw;
         height: 45vh;
         left: 0;
-        top: 0;
+        /* margin-top: .025vh; */
         position: fixed;
+        border-top-left-radius: 50%;
     }
 
     #Jake {
         background: radial-gradient(#536dfe, #448aff, #6200ea);
-        width: 45vw;
+        width: 49vw;
         height: 45vh;
         right: 0;
-        top: 0;
+        /* top: 0; */
         position: fixed;
+        border-top-right-radius: 50%;
     }
 
     #Darryl {
         background: radial-gradient( #ef6c00, #f9a825, #e65100);
-        width: 45vw;
+        width: 49vw;
         height: 45vh;
         left: 0;
         bottom: 0;
         position: fixed;
+        border-bottom-left-radius: 50%;
+        z-index: 1;
     }
 
     #Justin {
         background: radial-gradient( #76ff03, #c6ff00, #00e676);
-        width: 45vw;
+        width: 49vw;
         height: 45vh;
         right: 0;
         bottom: 0;
         position: fixed;
+        border-bottom-right-radius: 50%;
     }
     /* ANIMATIONS */
 
