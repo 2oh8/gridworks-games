@@ -195,7 +195,8 @@
           { icon: 'person_pin', title: "Home", routerLink: '/' },
           { icon: 'videogame_asset', title: "Battlestations Game", routerLink: '/Battlestations/Battlestations', gameLink: '/Battlestations/BattlestationsGameAbout' },
           { icon: 'videogame_asset', title: "Mastermind Game", routerLink: '/Mastermind', gameLink: '/MastermindGameAbout' },
-          { icon: 'videogame_asset', title: "Towers of Hanoi Game", routerLink: '/TowersOfHanoi' }
+          { icon: 'videogame_asset', title: "Towers of Hanoi Game", routerLink: '/TowersOfHanoi' },
+          { icon: 'videogame_asset', title: "Jake Says", routerLink: '/JakeSays' }
         ],
         miniVariant: false,
         right: true,

@@ -201,24 +201,22 @@
             this.setCellsForColor()
             this.clock
         },
-
-        computed: {
-
-            wins() {
-                // return this.$store.state.activeUser.wins;
-                return this.$store.state.activeWins;
-            },
-            gamesPlayed() {
-                // return this.$store.state.activeUser.gamesPlayed;
-                return this.$store.state.activeGames;
-            },
-            leave() {
-                window.onbeforeunload = function () {
-                    this.clock.clearInterval();
-                    this.clock = '1';
-                };
-            }
-
+        
+        destroyed(){
+            clearInterval(this.clock)
+        },
+        
+        computed:{
+              
+               wins(){
+                  // return this.$store.state.activeUser.wins;
+                  return this.$store.state.activeWins;
+               },
+               gamesPlayed(){
+                  // return this.$store.state.activeUser.gamesPlayed;
+                  return this.$store.state.activeGames;
+               }
+          
         },
 
         methods: {

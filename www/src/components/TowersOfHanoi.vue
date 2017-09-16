@@ -1,7 +1,7 @@
 <template>
   <div class="towersofhanoi">
-      <h1 class="test title">TOWERS OF HANOI</h1>
-    <p class="test moves display">MOVES:&nbsp;<span id="moves">0</span><span class="test wins">&nbsp;&nbsp;WINS:&nbsp;<span id="wins">{{this.wins}}</span></span></p>
+      <h1 class="title">TOWERS OF HANOI</h1>
+    <p class="test moves display">MOVES:&nbsp;<span id="moves">0</span><span class="test wins">&nbsp;&nbsp;WINS:&nbsp;<span id="wins">{{this.wins}}</span></span><span class="test wins">&nbsp;&nbsp;MIN # OF MOVES:&nbsp;<span id="wins">31</span></span></p>
     
     <div class="container">
         <div class="top-row">
@@ -45,12 +45,12 @@
                     <td id="16"></td>
                 </tr>
                 <tr>
-                    <td id="5" class="a"><button @click="move1to2()">Move to <span class =" btnNum">2</span></button>
-                <button @click="move1to3()">Move to <span class =" btnNum"  >3</span></button></td>
-                    <td id="11" class="a"> <button @click="move2to1()">Move to <span class =" btnNum">1</span></button>
-                <button @click="move2to3()">Move to <span class =" btnNum">3</span></button> </td>
-                    <td id="17" class="a"><button @click="move3to1()">Move to <span class =" btnNum">1</span></button>
-                <button @click="move3to2()">Move to <span class =" btnNum">2</span></button> </td>
+                    <td id="5" class="a"><button @click="move1to2()">Move to<span class =" btnNum">&nbsp;2&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button>
+                <button @click="move1to3()">Move to <span class =" btnNum">3&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button></td>
+                    <td id="11" class="a"> <button @click="move2to1()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">1</span></button>
+                <button @click="move2to3()">Move to <span class =" btnNum">3&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></span></button> </td>
+                    <td id="17" class="a"><button @click="move3to1()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">1</span></button>
+                <button @click="move3to2()"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Move to <span class =" btnNum">2</span></button> </td>
                 </tr>
             </table>
 
@@ -79,8 +79,8 @@
     </div>
  
   
-        <audio  id="gong" src="gong.mp3"></audio> 
-        <audio  id="swoosh" src="swoosh.mp3"></audio>
+        <audio  id="gong" src="../assets/gong.mp3"></audio> 
+        <audio  id="swoosh" src="../assets/swoosh.mp3"></audio>
  
  
   </div>
@@ -404,6 +404,7 @@ export default {
                     this.tower2Element[2].removeAttribute("class")
                     this.tower2Class[2] = null;
                     this.moves++;
+                    document.getElementById("swoosh").play();
                 }
             } else if (this.tower2Class[3] != null) {
                 if (this.tower2Class[3] < this.tower1Element[lastNullPlus1].getAttribute("class")) {
@@ -673,9 +674,9 @@ export default {
             src: "Cartwheel.otf";
         }
 
-        * {
+       /* * {
             outline: 1px solid red;
-        } 
+        } */
 
         table {
         }
@@ -746,7 +747,7 @@ export default {
 
         .B {
             background: url("disk.png");
-            background-size: 11vw 20px;
+            background-size: 12vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -757,7 +758,7 @@ export default {
 
         .C {
             background: url("disk.png");
-            background-size: 15vw 20px;
+            background-size: 17vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -766,7 +767,7 @@ export default {
 
         .D {
             background: url("disk.png");
-            background-size: 19vw 20px;
+            background-size: 23vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -775,7 +776,7 @@ export default {
 
         .E {
             background: url("disk.png");
-            background-size: 23vw 20px;
+            background-size: 28vw 20px;
             margin-left: 100px;
             background-repeat: no-repeat;
             background-position: center;
@@ -805,9 +806,11 @@ export default {
 
         .title{
             font-weight: bold;
-            font-size: 5vh;
+            font-size: 10vh !important;
             font-family:"Cartwheel";
             margin-bottom:7.5h;
+            text-align:center;
+            
         }
         .moves {
             font-weight: bold;
@@ -842,12 +845,11 @@ export default {
         .buttons {
             margin-top: 5vh;
             font-family:"Cartwheel";
-            color:white;   
 
         }
 
         .a {
-            background-color: navy;
+            background-color:#1565c0;
             
            
         }
@@ -870,9 +872,13 @@ export default {
             margin-bottom:4vh;
         }
         button{
-            background-color:red;
+            background-color:black;
             border-radius:15px;
             margin-top:2vh;
+            font-family:"Cartwheel";
+            
+            
+
         }
         .btnNum{
             color:white;
