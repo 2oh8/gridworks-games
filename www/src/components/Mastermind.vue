@@ -6,13 +6,16 @@
                 <div col-xs-4>
                 </div>
                 <div col-xs-4>
-                    <h1 class="animated bounceInDown"><router-link to="./MastermindGameAbout">Mastermind</router-link></h1>
+                    <h1 class="animated bounceInDown">
+                        <router-link to="./MastermindGameAbout">Mastermind</router-link>
+                    </h1>
                 </div>
                 <div col-xs-4>
                 </div>
             </div>
             <div class="row text-center">
-                <span>WINS:&nbsp;</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:&nbsp;</span><span id="games">{{this.gamesPlayed}}</span>
+                <span>WINS:&nbsp;</span><span id="wins">{{this.wins}}</span><span>&nbsp;&nbsp;GAMES PLAYED:&nbsp;</span>
+                <span id="games">{{this.gamesPlayed}}</span>
                 <h2 class="red-highlight animated flash" id="clock">YOUR MISSION BEGINS NOW!!</h2>
                 <div id="declareWinner">{{display}}</div>
             </div>
@@ -140,7 +143,7 @@
                 </div>
             </div>
             <div class="row">
-             
+
                 <div class="col-xs-12 text-center">
                     <input id="field" class="guess" type="text" name="color" placeholder="CHOOSE A COLOR">
                     <p><button id="red" @click="chooseRed()" class="red">&nbsp;&nbsp;RED&nbsp;&nbsp;</button><button id="blue"
@@ -161,7 +164,7 @@
                     <button id="H" class="guessnext" @click="makeGuess('H')">Guess 8</button>
 
                 </div>
-                
+
             </div>
         </div>
 
@@ -199,20 +202,27 @@
             this.clock
         },
 
-        computed:{
-              
-               wins(){
-                  // return this.$store.state.activeUser.wins;
-                  return this.$store.state.activeWins;
-               },
-               gamesPlayed(){
-                  // return this.$store.state.activeUser.gamesPlayed;
-                  return this.$store.state.activeGames;
-               }
-          
+        computed: {
+
+            wins() {
+                // return this.$store.state.activeUser.wins;
+                return this.$store.state.activeWins;
+            },
+            gamesPlayed() {
+                // return this.$store.state.activeUser.gamesPlayed;
+                return this.$store.state.activeGames;
+            },
+            leave() {
+                window.onbeforeunload = function () {
+                    this.clock.clearInterval();
+                    this.clock = '1';
+                };
+            }
+
         },
 
         methods: {
+
             reset() {
                 location.reload();
             },
@@ -243,7 +253,7 @@
             //     document.getElementById("secretCodeDisplay").setAttribute("class","hide");
 
             // }, 
-            
+
             // updateWins(){
             //     var user =this.$store.state.activeUser;
             //     user.wins++;
@@ -257,14 +267,14 @@
             //     this.$store.dispatch("updateUser",user);
 
             // },
-           updateStats(status){ 
-               var user = this.$store.state.activeUser;
-               if (status){
-               user.wins++;
-               }
-               user.gamesPlayed++;
-               this.$store.dispatch("updateUser",user);
-           },
+            updateStats(status) {
+                var user = this.$store.state.activeUser;
+                if (status) {
+                    user.wins++;
+                }
+                user.gamesPlayed++;
+                this.$store.dispatch("updateUser", user);
+            },
 
             time() {
                 this.seconds--;
@@ -336,12 +346,12 @@
             },
             makeGuess(level) {
                 var secret = this.setSecretCode();
-                if (level == 'H' && this.chances !=0) {
+                if (level == 'H' && this.chances != 0) {
                     altThis = this;
                     document.getElementById("secretCodeDisplay").removeAttribute("class");
                     var guessButtons = document.getElementsByClassName("guessnext");
-                    for (var i =0; i < guessButtons.length; i++){
-                        guessButtons[i].setAttribute('disabled','disabled');
+                    for (var i = 0; i < guessButtons.length; i++) {
+                        guessButtons[i].setAttribute('disabled', 'disabled');
                         guessButtons[i].style.color = "blue";
                         document.getElementById("declareWinner").innerHTML = "OH NO!! YOU TOOK YOUR LAST GUESS TOO SOON!! TRY AGAIN!!";
                         clearInterval(this.clock);
@@ -405,7 +415,7 @@
                         if (answer[i] == "black") {
                             correctCount++;
                         }
-                    } 
+                    }
                     if (correctCount == 4) {
                         altThis.display = "MISSION ACCOMPLISHED!! -- YOU BROKE THE CODE!! -- CONGRATULATIONS!!!";
                         document.getElementById("song").pause();
@@ -427,13 +437,13 @@
                         document.getElementById("bg").className = "animated flash";
                         document.getElementById("secretCodeDisplay").removeAttribute("class");
                         // altThis.updateStats();
-                        
+
                         // document.getElementById("wins").innerHTML = altThis.wins;
                         // document.getElementById("games").innerHTML = altThis.gamesPlayed;
                         clearInterval(altThis.clock);
-                         altThis.updateStats(false);
+                        altThis.updateStats(false);
                     }
-                    
+
                     // document.getElementById("secretCodeDisplay").removeAttribute("class");
 
                 }
@@ -583,7 +593,6 @@
     span {
         font-size: 1.5rem;
     }
-
     /* * {
         outline: 1px red solid;
     } */
@@ -594,7 +603,7 @@
         font-size: 15px;
     }
 
-    input{
-        text-align:center;
+    input {
+        text-align: center;
     }
 </style>

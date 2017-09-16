@@ -160,8 +160,6 @@
 
 
 <script>
-  //import Attack from './Attack'
-  //import Fleet from './Fleet'
 
   export default {
     name: 'attack',
@@ -170,10 +168,9 @@
     referenceGrid: [],
     attackGrid: [],
     shipsSunk: '',
-    enemyShips: [], //?
+    enemyShips: [], 
     shotsFired: [],
 
-    //firstHit: '',
     goLeftHit: '',
     goRightHit: '',
 
@@ -339,12 +336,15 @@
       },
 
       alterLeftHit(num) {
-        this.goLeftHit.splice(0, 1, num)
+        var ind = this.goLeftHit.indexOf(num + 1)
+        this.goLeftHit.splice(ind, 1)
+        this.goLeftHit.unshift(num)
         this.shotsFired.push(num);
+
       },
 
       alterRightHit(num) {
-        this.goRightHit.splice(0, 1, num)
+        this.goRightHit.splice(0, 1, num + 1)
         this.shotsFired.push(num);
       },
 
@@ -365,6 +365,7 @@
       },
 
       sortUnique() {
+        //this.scrub();
         this.shotsFired.sort();
 
         var tmp = [];
@@ -374,9 +375,7 @@
 
         for (var x = 0; x < tmp.length; x++) {
           if (tmp[x] < 101) {
-            if (this.shotsFired.includes(tmp[x])) {
-
-            } else {
+            if (!this.shotsFired.includes(tmp[x])) {
               this.shotsFired.push(tmp[x])
             }
           }
@@ -403,6 +402,7 @@
             this.goRightHit.splice(a, 1)
           }
         }
+
       },
 
       generateShips() {

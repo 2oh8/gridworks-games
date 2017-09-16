@@ -92,7 +92,7 @@ var store = new vuex.Store({
     updateUser({ commit, dispatch }, user) {
       api.put('userwins/' + user._id, user)
         .then(res => {
-          console.log('updatedUser', res)
+          //console.log('updatedUser', res)
           dispatch('authenticate')
           //commit('setUser', res.data.data)
         })

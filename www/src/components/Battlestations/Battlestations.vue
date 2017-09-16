@@ -1,12 +1,14 @@
 <template>
   <div container-fluid>
-   
+
     <div class="titlecenter">
       <div class="lleft"><span>WINS:</span><span id="wins">{{mywins}}</span></div>
-      
+
       <!-- <h5 class="center"> <a href="../Battlestations/BattlestationsGameAbout">BattleStations!</a></h5> -->
       <!-- <router-link :to="item.routerLink"> -->
-        <h5 class="center"> <router-link to="./BattlestationsGameAbout">BattleStations!</router-link></h5>
+      <h5 class="center">
+        <router-link to="./BattlestationsGameAbout">BattleStations!</router-link>
+      </h5>
 
       <div class="rright"><span>GAMES PLAYED:</span><span id="games">{{mygames}}</span></div>
     </div>
@@ -124,14 +126,10 @@
           <form @submit.prevent="">
             <input v-model="f1" type="text" placeholder="shot1" class="rightplus1">
             <input id="s2" v-model="f2" type="text" placeholder="shot2" class="right1">
-
             <input id="s3" v-model="f3" type="text" placeholder="shot3" class="middlerightplus">
             <input id="s4" v-model="f4" type="text" placeholder="shot4" class="middleright">
-
             <input id="s5" v-model="f5" type="text" placeholder="shot5" class="lowerrightplus">
-            <!-- <input type="text" placeholder="shot6" class="lowerright"> -->
-
-            <button type="button" class="attack" @click.prevent.stop="startAttack">Attack</button>
+            <button id='attack2' type="button" class="attack" @click.prevent.stop="startAttack" :disabled='this.aBtn'>Attack</button>
           </form>
 
         </div>
@@ -152,7 +150,6 @@
 </template>
 
 
-
 <script>
   import Attack from './Attack'
   import Fleet from './Fleet.vue'
@@ -166,6 +163,7 @@
     data() {
       return {
         msg: "Messages go here",
+        aBtn: '',
 
         c1: 'BE',
         c2: 'BJ',
@@ -227,6 +225,7 @@
     },
 
     mount: {
+      setDisabled: function () { this.aBtn = true; },
       Fleet,
       Attack
     },
@@ -237,6 +236,7 @@
     },
 
     methods: {
+
       changeCell(num) {
         if (num < 101) {
           Fleet.methods.changeBlue(num);
@@ -301,8 +301,6 @@
       },
 
       verifyShips() {
-
-
 
         this.allFleetShips = [];
 
@@ -400,8 +398,8 @@
         Attack.methods.generateShips();
         Attack.methods.setAttackGrid();
 
-        var placeBtn = document.getElementById('place');
-        placeBtn.disabled = 'true';
+        document.getElementById('place').disabled = true;
+        this.aBtn = false;
       },
 
       figureSunk() {
@@ -438,13 +436,81 @@
         }
       },
 
-      findShip(ship, direction, grid) {
+      checkAllShips(shot) {
+        if (this.ships.carrier.positions.includes(shot)) {
+          if (!this.ships.carrier.hits.includes(shot)) {
+            this.ships.carrier.hits.push(shot);
+            this.redX(shot);
+          }
+          if (this.ships.carrier.sunk == 'false') {
+            if (this.ships.carrier.hits.length >= 6) {
+              this.ships.carrier.sunk = 'true';
+              this.figureSunk();
+            }
+          }
+        } else if (this.ships.battleship.positions.includes(shot)) {
+          if (!this.ships.battleship.hits.includes(shot)) {
+            this.ships.battleship.hits.push(shot);
+            this.redX(shot);
+          }
+          if (this.ships.battleship.sunk == 'false') {
+            if (this.ships.battleship.hits.length >= 5) {
+              this.ships.battleship.sunk = 'true';
+              this.figureSunk();
+            }
+          }
+        } else if (this.ships.cruiser.positions.includes(shot)) {
+          if (!this.ships.cruiser.hits.includes(shot)) {
+            this.ships.cruiser.hits.push(shot);
+            this.redX(shot);
+          }
+          if (this.ships.cruiser.sunk == 'false') {
+            if (this.ships.cruiser.hits.length >= 4) {
+              this.ships.cruiser.sunk = 'true';
+              this.figureSunk();
+            }
+          }
+        } else if (this.ships.destroyer.positions.includes(shot)) {
+          if (!this.ships.destroyer.hits.includes(shot)) {
+            this.ships.destroyer.hits.push(shot);
+            this.redX(shot);
+          }
+          if (this.ships.destroyer.sunk == 'false') {
+            if (this.ships.destroyer.hits.length >= 3) {
+              this.ships.destroyer.sunk = 'true';
+              this.figureSunk();
+            }
+          }
+        } else if (this.ships.patrolboat.positions.includes(shot)) {
+          if (!this.ships.patrolboat.hits.includes(shot)) {
+            this.ships.patrolboat.hits.push(shot);
+            this.redX(shot);
+          }
+          if (this.ships.patrolboat.sunk == 'false') {
+            if (this.ships.patrolboat.hits.length >= 2) {
+              this.ships.patrolboat.sunk = 'true';
+              this.figureSunk();
+            }
+          }
+        } else {
+          //something went wrong
+        }
+
+        if (!this.allFleetShips.includes(shot)) {//not a position where a ship exists
+
+          Attack.methods.shotsFired.push(shot);
+        } else {
+
+        }
+      },
+
+      findShip(ship, shot, grid) {
         var len = ship.positions.length;
 
-        if (ship.positions.includes(direction)) {
-          if (!ship.hits.includes(direction)) {
-            ship.hits.push(direction);
-            this.redX(direction);
+        if (ship.positions.includes(shot)) {
+          if (!ship.hits.includes(shot)) {
+            ship.hits.push(shot);
+            this.redX(shot);
           }
 
           if (ship.sunk == 'false') {
@@ -453,9 +519,17 @@
               this.figureSunk();
             }
 
-            this.allFleetShips.push(direction); // 
+            if (!this.allFleetShips.includes(shot)) {//not a position where a ship exists
+              console.log('shot is: ', shot)
+              //this.allFleetShips.push(shot); // why pushing to this?
+
+              Attack.methods.shotsFired.push(shot);
+            } else {
+
+            }
           }
-          Attack.methods.updateHits(direction);
+
+          Attack.methods.updateHits(shot);
         }
 
         return Attack.methods.getAttackGrid();
@@ -464,28 +538,24 @@
       computersAttackTurn() {
         //get shots able to fire based on ship count (1-5). Enemy is Computer.
         var count = 5 - Attack.methods.getEnemyShipsSunk();
-        var allShips = this.allFleetShips; //hack. general list
-        var allfltShips = this.ships; //hack. specific list
-
         Attack.methods.sortUnique();
 
         //START LAST LEG OF DESTRUCTION (Dev-Wise)
         //Create flag to prevent grid attacks
-        var autoGridAttack = 'true';
+        var autoGridAttack = 'false';
 
         var rights = [];
         var lefts = [];
+
         rights = Attack.methods.getRightHit();
         lefts = Attack.methods.getLeftHit();
 
         var lDigit = -1;
         var rDigit = -1;
 
-
-
         //if something exists on hitlists ...
         if (rights.length != 0 || lefts.length != 0) {
-          autoGridAttack = 'false';
+          //autoGridAttack = 'false';
 
           if (lefts.length != 0) {
             //need to grab the 'ones' place
@@ -512,22 +582,20 @@
               }
             }
           }
-        } else {
-          autoGridAttack = 'true';
         }
-
 
         //count > 0 && 
         while (autoGridAttack != 'true') {
           if (count == 0) {
-            console.log('count is zero')
             break;
           }
 
           var grid1 = Attack.methods.getAttackGrid();
 
           if (lefts.length != 0) {
-            if (allShips.includes(lefts[0])) {//There's going to be a known hit!
+            //what if it is not in the fleetships and is ONLY in the left or right arrays!!!!
+            if (this.allFleetShips.includes(lefts[0])) {//There's going to be a known hit!
+
               //find the ship. 
               grid1 = this.findShip(this.ships.carrier, lefts[0], grid1);
               grid1 = this.findShip(this.ships.battleship, lefts[0], grid1);
@@ -535,24 +603,23 @@
               grid1 = this.findShip(this.ships.destroyer, lefts[0], grid1);
               grid1 = this.findShip(this.ships.patrolboat, lefts[0], grid1);
 
-              grid1 = Attack.methods.getAttackGrid();
-
               if (grid1.includes(lefts[0])) {
                 //remove from grid to prevent repeat shots.        ????
                 Attack.methods.updateAttackGrid(lefts[0]);
               }
 
-              count--;
-
               if (lDigit == 1) {
                 Attack.methods.removeLeftHit(lefts[0]);
               } else {
-                Attack.methods.alterLeftHit((lefts[0] - 1)); //removes/replaces first index
+                Attack.methods.alterLeftHit((lefts[0])); //removes/replaces first index
+
               }
 
+              count--;
               continue; //go back to top.
 
-            } else { //didn't hit anything
+
+            } else {//missed
               this.whiteO(lefts[0])
 
               //check to see if in grid
@@ -565,26 +632,35 @@
 
               //since it missed, remove it from lefts
               Attack.methods.removeLeftHit(lefts[0]);
+              continue;
             }
 
           } else {
-            //need toast here
-            //autoGridAttack = 'false';
           }
 
           Attack.methods.sortUnique();
 
           //right will go here
           if (rights.length != 0) {
-            if (allShips.includes(rights[0])) {
+
+            console.log('All rights is: ', rights)
+            //console.log('this.allFleetShips is: ', this.allFleetShips)
+            console.log('this.allFleetShips!: ', this.allFleetShips)
+            if (this.allFleetShips.includes(rights[0])) {
+
+              console.log('its a hit!: ', rights[0])
+
               //find the ship. 
               grid1 = this.findShip(this.ships.carrier, rights[0], grid1);
               grid1 = this.findShip(this.ships.battleship, rights[0], grid1);
               grid1 = this.findShip(this.ships.cruiser, rights[0], grid1);
               grid1 = this.findShip(this.ships.destroyer, rights[0], grid1);
               grid1 = this.findShip(this.ships.patrolboat, rights[0], grid1);
+              //this.checkAllShips(rights[0])
 
-              grid1 = Attack.methods.getAttackGrid();
+              //grid1 = Attack.methods.getAttackGrid();
+              console.log('grid1 is now: ', grid1)
+              console.log('after findShips, rights are now: ', rights[0])
 
               if (grid1.includes(rights[0])) {
                 //remove from grid to prevent repeat shots.         ????
@@ -607,17 +683,29 @@
               if (rDigit == 0) {
                 rDigit = 10;
               }
+              //console.log('rDigit is: ', rDigit)
 
               if (rDigit < 10) {
                 //replace from right array with new position. Continue.
-                Attack.methods.alterRightHit((rights[0] + 1));
+
+                //console.log('removing/replacing current rights entry at: ', rights[0])
+                //console.log('next one in line is: ', (rights[0] + 1))
+                Attack.methods.alterRightHit((rights[0])); //removes first entry, adds this one
+                //console.log('Current rights entries are now: ', rights)
+
+                //betting this isn't working quite right.
+
+
               } else {//Can't go right any further with this one. remove it 
-                Attack.methods.removeRightHit(rights[0]);
+                var ind = rights.indexOf(rights[0])
+                // Attack.methods.removeRightHit(rights[0]);
+                Attack.methods.removeRightHit(ind);
               }
 
               continue; //go back to top.
 
-            } else {
+
+            } else {  //not in ship position grid.
 
               this.whiteO(rights[0])
 
@@ -634,40 +722,50 @@
             }
 
           } else {
-            autoGridAttack = 'true';
+            if (lefts.length == 0 && rights.length == 0) {
+              autoGridAttack = 'true';
+            } else {
+              autoGridAttack = 'false';
+              continue;
+            }
+
             break;
           }
-        }
 
-        Attack.methods.sortUnique();
+          if (Attack.methods.getAttackGrid().length == 0) {
+            if (lefts.length > 0 || rights.length > 0) {
+              continue;
+            }
+          }
+        }
 
         //Loads random grid points to Salvo magazine
         //randomly generate numbers from attackgrid
         var grid = Attack.methods.getAttackGrid();
         var salvo = [];
-
         var tmp = 0;
-        while (tmp < count) {
 
+        //grabs random indexes of attack grid
+        while (tmp < count) {
           var num = Math.floor(Math.random() * grid.length);
 
           if (rights.includes(num) || lefts.includes(num) || Attack.methods.getShots().includes(num)) {     //?????????
             continue;
           }
 
-          if (!salvo.includes(grid[num])) {
+          if (!salvo.includes(grid[num])) { //if salvo doesn't already have the generated number
             salvo.push(grid[num]);
             tmp++;
           }
         }
 
-        //remove from grid to prevent repeat shots.        ????
+        //remove from grid to prevent repeat shots.        
+
         Attack.methods.updateAttackGrid(salvo);
 
-        //attacking with salvo. Check against allfltShips.
+        //attacking with salvo. Check against allFleetShips.
         for (var f = 0; f < salvo.length; f++) {
-
-          if (this.allFleetShips.includes(salvo[f])) {    //?????
+          if (this.allFleetShips.includes(salvo[f])) {    
 
             grid = this.findShip(this.ships.carrier, salvo[f], grid);
             grid = this.findShip(this.ships.battleship, salvo[f], grid);
@@ -680,17 +778,16 @@
           }
         }
 
-
         this.figureSunk();
+
         if (this.fleetShipsSunk > 4) {
           this.msg = 'COMPUTER WON!'
-
           this.updateStats('false');
-          //this.gamesPlayed += 1;
+
+          var attackBtn = document.getElementById('attack2');
+          attackBtn.disabled = 'true';
+          return;
         }
-
-        Attack.methods.sortUnique();
-
       },
 
       startAttack() {
@@ -785,35 +882,10 @@
   * {
     /* border: 1px solid yellow;  */
   }
-  /* table {
-     display:block;
-  } */
-  /* 
-  .row{
-    display:inline;
-  } */
-  /* .fmt {
-    animation: marquee 5s linear infinite;
-  }
-
-  @keyframes fmt {
-    0% {
-      left: 0;
-    }
-    100% {
-      left: -100%;
-    }
-  } */
 
   hr {
     padding: 0;
     margin: 5px;
-  }
-
-  .readouts {
-    /* height: 100%; */
-    /* display:inline-block; */
-    /* display:inline-block; */
   }
 
   .lleft {
@@ -1027,10 +1099,10 @@
   .center {
     text-align: center;
     padding: 0, 15px, 0, 15px;
-    width:75%;
+    width: 75%;
   }
 
-  .titlecenter{
+  .titlecenter {
     text-align: center;
   }
 
@@ -1039,7 +1111,7 @@
     font-weight: normal;
   }
 
-  
+
   h6 {
     padding: 10px, 10px, 0, 10px
   }
