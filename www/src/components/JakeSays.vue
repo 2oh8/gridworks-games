@@ -2,11 +2,17 @@
     <v-layout row wrap>
         <img v-if="lose" src="https://i.imgur.com/OaEZOLs.png" id="zach" class="rotateIn">
         <img v-if="loseSpeech" src="https://i.imgur.com/sHZI71W.gif" id="zach-speech-one">
-        <v-btn v-if="!lose" ref="markButton" id="Mark" @click="click('Mark')"><img src="https://i.imgur.com/pdjXi5h.png" class="head-img"></v-btn>
-        <v-btn v-if="!lose" ref="jakeButton" id="Jake" @click="click('Jake')"><img src="https://i.imgur.com/Wpugacz.png" class="head-img"></v-btn>
-        <v-btn v-if="!lose" class="elevation-24 bounceIn" fab id="center" @click="startJakeSays"><img src="https://i.imgur.com/VFfIiXb.png" class="codeworks-center-logo"></v-btn>
-        <v-btn v-if="!lose" ref="darrylButton" id="Darryl" @click="click('Darryl')"><img src="https://i.imgur.com/1j3KXnI.png" class="head-img"></v-btn>
-        <v-btn v-if="!lose" ref="justinButton" id="Justin" @click="click('Justin')"><img src="https://i.imgur.com/AVMVYxV.png" class="head-img"></v-btn>
+        <v-btn v-show="!lose" ref="markButton" id="Mark" @click="click('Mark')"><img src="https://i.imgur.com/pdjXi5h.png" class="head-img"></v-btn>
+        <v-btn v-show="!lose" ref="jakeButton" id="Jake" @click="click('Jake')"><img src="https://i.imgur.com/Wpugacz.png" class="head-img"></v-btn>
+        <v-btn v-show="!lose" class="elevation-24 bounceIn" fab id="center" @click="startJakeSays"><img src="https://i.imgur.com/VFfIiXb.png" class="codeworks-center-logo"></v-btn>
+        <v-btn v-show="!lose" ref="darrylButton" id="Darryl" @click="click('Darryl')"><img src="https://i.imgur.com/1j3KXnI.png" class="head-img"></v-btn>
+        <v-btn v-show="!lose" ref="justinButton" id="Justin" @click="click('Justin')"><img src="https://i.imgur.com/AVMVYxV.png" class="head-img"></v-btn>
+
+
+        <audio  id="MarkAudio" src="../assets/Mark.mp3" type="audio/mp3"></audio> 
+        <audio  id="JakeAudio" src="../assets/Jake.mp3" type="audio/mp3"></audio>
+        <audio  id="DarrylAudio" src="../assets/Darryl.mp3" type="audio/mp3"></audio> 
+        <audio  id="JustinAudio" src="../assets/Justin.mp3" type="audio/mp3"></audio>
     </v-layout>
 </template>
 
@@ -29,15 +35,10 @@
         methods: {
 
             startJakeSays() {
-                //clearing previous data and starting new generation of data
                 console.log('Starting the Game!')
-                // this.userInput = [];
                 this.jakeSaysCode = [];
                 this.buttonIndex = [];
-                // for (var i = 0; i < this.jakeSaysCode.length; i++) {
-                //     debugger
-                //     this.jakeSaysCode.splice(i, 14);
-                // }
+               
                 this.generateJakeSaysCode()
             },
 
@@ -45,7 +46,7 @@
 
                 // This should generate the whole array of guesses from the start then have a seperate function to check the guess pattern
                 console.log('Generating the Code!')
-                for (var i = 0; i < 3; i++) {
+                for (var i = 0; i < 5; i++) {
                     var selectedButtons = this.buttonIndex.push((Math.floor(Math.random() * 4)) + 1);
                 }
 
@@ -64,9 +65,10 @@
                 this.displayJakeSaysCode()
 
             },
-            play(i) {
+            playCombo(i) {
                 var elem = document.getElementById(this.jakeSaysCode[i])
                 elem.style.opacity = 0.25
+                document.getElementById(this.jakeSaysCode[i] + 'Audio').play();
                 setTimeout(() => {
                     elem.style.opacity = 1
                     this.displayJakeSaysCode(++i)
@@ -78,7 +80,7 @@
                 console.log('i: ', i, "round: ", this.round)
                 if (i < this.jakeSaysCode.length && this.round > i) {
                     setTimeout(() => {
-                        this.play(i)
+                        this.playCombo(i)
                     }, 500)
                 } else {
                     this.userInput = []
@@ -106,7 +108,7 @@
             },
             //these should add to user array not jsc array of solution
             click(input) {
-
+                document.getElementById(input + 'Audio').play();
                 document.getElementById(input).style.opacity = 0.25
                 setTimeout(() => {
                     document.getElementById(input).style.opacity = 1
