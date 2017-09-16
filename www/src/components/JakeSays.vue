@@ -1,10 +1,12 @@
 <template>
     <v-layout row wrap>
-        <v-btn ref="markButton" id="Mark" @click="click('Mark')"><img src="https://i.imgur.com/pdjXi5h.png" class="head-img"></v-btn>
-        <v-btn ref="jakeButton" id="Jake" @click="click('Jake')"><img src="https://i.imgur.com/Wpugacz.png" class="head-img"></v-btn>
-        <v-btn class="elevation-24" fab id="center" @click="startJakeSays"><img src="https://i.imgur.com/VFfIiXb.png" class="codeworks-center-logo"></v-btn>
-        <v-btn ref="darrylButton" id="Darryl" @click="click('Darryl')"><img src="https://i.imgur.com/1j3KXnI.png" class="head-img"></v-btn>
-        <v-btn ref="justinButton" id="Justin" @click="click('Justin')"><img src="https://i.imgur.com/AVMVYxV.png" class="head-img"></v-btn>
+        <img v-if="lose" src="https://i.imgur.com/OaEZOLs.png" id="zach" class="rotateIn">
+        <img v-if="loseSpeech" src="https://i.imgur.com/sHZI71W.gif" id="zach-speech-one">
+        <v-btn v-if="!lose" ref="markButton" id="Mark" @click="click('Mark')"><img src="https://i.imgur.com/pdjXi5h.png" class="head-img"></v-btn>
+        <v-btn v-if="!lose" ref="jakeButton" id="Jake" @click="click('Jake')"><img src="https://i.imgur.com/Wpugacz.png" class="head-img"></v-btn>
+        <v-btn v-if="!lose" class="elevation-24 bounceIn" fab id="center" @click="startJakeSays"><img src="https://i.imgur.com/VFfIiXb.png" class="codeworks-center-logo"></v-btn>
+        <v-btn v-if="!lose" ref="darrylButton" id="Darryl" @click="click('Darryl')"><img src="https://i.imgur.com/1j3KXnI.png" class="head-img"></v-btn>
+        <v-btn v-if="!lose" ref="justinButton" id="Justin" @click="click('Justin')"><img src="https://i.imgur.com/AVMVYxV.png" class="head-img"></v-btn>
     </v-layout>
 </template>
 
@@ -19,7 +21,8 @@
                 userInput: [],
                 buttonIndex: [],
                 round: 1,
-                choices: []
+                lose: false,
+                loseSpeech: false
             }
         },
 
@@ -61,7 +64,7 @@
                 this.displayJakeSaysCode()
 
             },
-            play(i){
+            play(i) {
                 var elem = document.getElementById(this.jakeSaysCode[i])
                 elem.style.opacity = 0.25
                 setTimeout(() => {
@@ -73,66 +76,37 @@
             displayJakeSaysCode(i) {
                 i = i || 0
                 console.log('i: ', i, "round: ", this.round)
-                if(i < this.jakeSaysCode.length && this.round > i){
-                    setTimeout(()=>{
+                if (i < this.jakeSaysCode.length && this.round > i) {
+                    setTimeout(() => {
                         this.play(i)
                     }, 500)
-                }else{
+                } else {
                     this.userInput = []
                 }
-                    // this.choices = ['Mark','Jake','Mark','Darryl','Jake','Justin']
 
-                    // var i = 0;
-                    
-
-                    // for (var i = 0; i < this.round; i++) {
-                    //     if (this.jakeSaysCode[i] === 'Mark') {
-                    //         document.getElementById("one").style.opacity = 0.25
-                    //         setTimeout(function () {
-                    //             document.getElementById("one").style.opacity = 1
-                    //         }, 500);
-                    //     }
-                    //     if (this.jakeSaysCode[i] === 'Jake') {
-                    //         document.getElementById("two").style.opacity = 0.25
-                    //         setTimeout(function () {
-                    //             document.getElementById("two").style.opacity = 1
-                    //         }, 500);
-                    //     }
-                    //     if (this.jakeSaysCode[i] === 'Darryl') {
-                    //         document.getElementById("three").style.opacity = 0.25
-                    //         setTimeout(function () {
-                    //             document.getElementById("three").style.opacity = 1
-                    //         }, 500);
-                    //     }
-                    //     if (this.jakeSaysCode[i] === 'Justin') {
-                    //         document.getElementById("four").style.opacity = 0.25
-                    //         setTimeout(function () {
-                    //             document.getElementById("four").style.opacity = 1
-                    //         }, 500);
-                    //     }
-    
-                    // }
-                
             },
-            checkUserInput () {
+            checkUserInput() {
                 var i = this.userInput.length - 1
-                if (this.userInput[i] === this.jakeSaysCode[i]){
-                    if(this.userInput.length == this.round){
-                        if(this.round == this.jakeSaysCode.length){
+                if (this.userInput[i] === this.jakeSaysCode[i]) {
+                    if (this.userInput.length == this.round) {
+                        if (this.round == this.jakeSaysCode.length) {
                             alert("YOU WON")
-                        }else{
+                        } else {
                             this.round++
                             this.displayJakeSaysCode()
                         }
                     }
                 } else {
-                    alert("You Lost!!!")
+                    this.lose = true
+                    setTimeout(() => {
+                        this.loseSpeech = true
+                    }, 1000)
                 }
-                
+
             },
             //these should add to user array not jsc array of solution
             click(input) {
-                
+
                 document.getElementById(input).style.opacity = 0.25
                 setTimeout(() => {
                     document.getElementById(input).style.opacity = 1
@@ -156,6 +130,24 @@
 
     .head-img {
         height: 15rem;
+    }
+
+    #zach {
+        top: 10vw;
+        height: 30rem;
+        bottom: 50%;
+        left: 50%;
+        position: fixed;
+        transform: translate(-50%, 50%);
+        z-index: 5;
+        animation-name: rotateIn;
+        animation-duration: 1500ms;
+    }
+    #zach-speech-one {
+        height: 20vw;
+        left: 50%;
+        transform: translate(-50%, 50%);
+        position: fixed;
     }
 
     #center {
@@ -210,63 +202,17 @@
     }
     /* ANIMATIONS */
 
-    @keyframes rotate {
+    @keyframes rotateIn {
         from {
-            transform: rotate(0deg);
-        }
-        to {
-            transform: rotate(360deg);
-        }
-    }
-
-    @keyframes moveX {
-        from {
-            left: 0rem;
-        }
-        to {
-            left: 70%;
-        }
-    }
-
-    @keyframes moveY {
-        from {
-            top: 4rem;
-        }
-        to {
-            top: 80%;
-        }
-    }
-
-
-    @keyframes flipInX {
-        from {
-            transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
-            animation-timing-function: ease-in;
+            transform-origin: center;
+            transform: rotate3d(0, 0, 1, -200deg);
             opacity: 0;
         }
 
-        40% {
-            transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
-            animation-timing-function: ease-in;
-        }
-
-        60% {
-            transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
+        to {
+            transform-origin: center;
+            transform: translate(-50%, 50%);
             opacity: 1;
         }
-
-        80% {
-            transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
-        }
-
-        to {
-            transform: perspective(400px);
-        }
-    }
-
-    .flipInX {
-
-        animation-name: flipInX;
-        animation-duration: 750ms;
     }
 </style>
