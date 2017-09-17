@@ -158,7 +158,6 @@
 
 </template>
 
-
 <script>
   export default {
     name: 'attack',
@@ -239,11 +238,9 @@
         return this.attackGrid;
       },
 
-      removeFromAttackGrid(arr) {//start#. //count)
+      removeFromAttackGrid(arr) {
         //sort lowest to highest. Important!
-        //debugger
-
-        var salvo = [];//should work with one.nope
+        var salvo = [];
         for (var x = 0; x < arr.length; x++) {
           salvo.push(arr[x])
         }
@@ -283,7 +280,7 @@
 
       figureComputerShipsSunk() {
         this.shipsSunk = 0;
-
+        
         for (var x = 6; x > 1; x--) {
           if (this.enemyShips[x - 2].positions.length == this.enemyShips[x - 2].hits.length) {
             this.shipsSunk++;
@@ -355,6 +352,7 @@
         //initialize:
         this.enemyShips = [];
         this.shotsFired = [];
+
         var names = ['Patrol Boat', 'Destroyer', 'Cruiser', 'Battleship', 'Carrier']
 
         for (var s = 0; s < 5; s++) {
@@ -443,7 +441,6 @@
           //this.changeRed(tempPositions[z]);
 
           this.allShips.push(tempPositions[z]);
-          //this.shotsFired.push(tempPositions[z]);
           this.enemyShips[len - 2].positions.push(tempPositions[z]);
         }
 
@@ -514,7 +511,6 @@
           //this.changeRed(tempPositions1[z]);
 
           this.allShips.push(tempPositions1[z]);
-          //this.shotsFired.push(tempPositions1[z]);
           this.enemyShips[length - 2].positions.push(tempPositions1[z]);
         }
 
@@ -603,7 +599,6 @@
   }
 
   td {
-    /* padding: 10px; */
     width: 30px;
     height: 42px;
 

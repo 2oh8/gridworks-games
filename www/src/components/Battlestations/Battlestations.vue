@@ -4,10 +4,9 @@
     <div class="titlecenter">
       <div class="lleft"><span>WINS:</span><span id="wins">{{mywins}}</span></div>
 
-      <!-- <h5 class="center"> <a href="../Battlestations/BattlestationsGameAbout">BattleStations!</a></h5> -->
-      <!-- <router-link :to="item.routerLink"> -->
       <h5 class="center">
-        <router-link to="./BattlestationsGameAbout">BattleStations!</router-link>
+        BattleStations!
+        <router-link to="./BattlestationsGameAbout"><span id='help'>?</span></router-link>
       </h5>
 
       <div class="rright"><span>GAMES PLAYED:</span><span id="games">{{mygames}}</span></div>
@@ -38,7 +37,6 @@
                 <input v-model="c1" type="text" placeholder="start" class="rightplus">
                 <input v-model="c2" type="text" placeholder="finish" class="right">
               </form>
-              <br><br>
             </tr>
 
           </div>
@@ -55,7 +53,6 @@
                 <input v-model="b1" type="text" placeholder="start" class="rightplus">
                 <input v-model="b2" type="text" placeholder="finish" class="right">
               </form>
-              <br><br>
             </tr>
 
           </div>
@@ -71,7 +68,6 @@
                 <input v-model="c3" type="text" placeholder="start" class="rightplus">
                 <input v-model="c4" type="text" placeholder="finish" class="right">
               </form>
-              <br><br>
             </tr>
 
           </div>
@@ -86,7 +82,6 @@
                 <input v-model="d1" type="text" placeholder="start" class="rightplus">
                 <input v-model="d2" type="text" placeholder="finish" class="right">
               </form>
-              <br><br>
             </tr>
 
           </div>
@@ -96,10 +91,12 @@
             <tr>
               <div class="test"></div>
               <div class="test"></div>
+
               <form @submit.prevent="">
                 <input v-model="p1" type="text" placeholder="start" class="rightplus">
                 <input v-model="p2" type="text" placeholder="finish" class="right">
               </form>
+              <button id="place" type="button" class="right2 greenbtn" @click.prevent.stop="verifyShips">Place Ships</button>
             </tr>
           </div>
         </table>
@@ -107,13 +104,24 @@
         <v-divider></v-divider>
       </div>
 
-      <div class="row">
-        <p class="rightplus fmt">{{msg}} </p>
-        <button id="place" type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button>
+
+
+      <div class="options">
+        <p>Difficulty Level:</p>
+        <button class="diff" id="diff1" type="button" @click.prevent.stop="diffSelect(1)">Sailor</button>
+        <button class="diff" id="diff2" type="button" @click.prevent.stop="diffSelect(2)">Chief</button>
+        <button class="diff" id="diff3" type="button" @click.prevent.stop="diffSelect(3)">Captain</button>
+        <button class="diff" id="diff4" type="button" @click.prevent.stop="diffSelect(4)">Admiral</button>
       </div>
 
-      <div class="row readouts">
+      <div class="row message">
+        <p class="fmt" id="mymsg">{{msg}} </p>
+        <!-- <button id="place" type="button" class="right greenbtn" @click.prevent.stop="verifyShips">Place</button> -->
+      </div>
 
+
+
+      <div class="row readouts">
         <div class="enemy">
           <p id="e6" class="elist">Super Carrier</p>
           <p id="e5" class="elist">Battleship</p>
@@ -133,11 +141,8 @@
           </form>
 
         </div>
-
       </div>
-
     </div>
-
 
     <div class="card rightGrid">
       <div class="card-block">
@@ -154,7 +159,6 @@
   import Attack from './Attack'
   import Fleet from './Fleet.vue'
   import BattlestationsGameAbout from '../Battlestations/BattlestationsGameAbout.vue'
-
   //window.onload = setDefaults;
 
   export default {
@@ -165,6 +169,8 @@
       return {
         msg: "Messages go here",
         aBtn: '',
+        basefactor: '',
+        baseshots: '',
 
         c1: 'BE',
         c2: 'BJ',
@@ -238,6 +244,21 @@
 
     methods: {
 
+      diffSelect(num) {
+        var ind = 'diff' + num
+        //debugger
+
+        for (var x = 1; x < 5; x++) {
+          if (num != x) {
+            document.getElementById('diff' + x).style.backgroundColor = 'initial';
+          } else {
+            document.getElementById(ind).style.backgroundColor = 'green';
+          }
+        }
+
+        this.basefactor = num;
+      },
+
       changeCell(num) {
         if (num < 101) {
           Fleet.methods.changeBlue(num);
@@ -302,6 +323,15 @@
       },
 
       verifyShips() {
+
+        if (this.basefactor == '') {
+          this.msg = 'Select a Difficulty Level Sailor!';
+          document.getElementById('mymsg').style.backgroundColor = 'red';
+          return;
+        }else{
+          this.msg = '';
+          document.getElementById('mymsg').style.backgroundColor = 'initial';
+        }
 
         this.allFleetShips = [];
 
@@ -372,7 +402,6 @@
 
           } else {
             //fail.throw error.Send toast
-
           }
         }
 
@@ -390,7 +419,6 @@
 
           } else {
             //fail.throw error.Send toast
-
           }
         }
 
@@ -399,8 +427,23 @@
         Attack.methods.generateShips();
         Attack.methods.setAttackGrid();
 
+        if (this.basefactor == 1) {
+          this.baseshots = 1;
+        } else if (this.basefactor == 2) {
+          this.baseshots = 3 - Math.ceil(this.fleetShipsSunk / 2);
+        } else {
+          this.baseshots = 5;
+        }
+
         document.getElementById('place').disabled = true;
+
+        for (var y = 1; y < 5; y++) {
+          document.getElementById('diff' + y).disabled = true;
+        }
+
         this.aBtn = false;
+
+        this.inputCheck();
       },
 
       figureSunk() {
@@ -422,11 +465,47 @@
           this.fleetShipsSunk++;
         }
 
+        this.inputCheck();
+
         //disable inputs accordingly
-        var shots = 5 - this.fleetShipsSunk;
+        // var shots = 5 - this.fleetShipsSunk;
+
+        // var shots = 0;
+
+        // if (this.baseshots == 1) {
+        //   shots = this.baseshots;
+        // } else if (this.baseshots == 3) {
+        //   shots = 3 - Math.ceil(this.fleetShipsSunk / 2);
+        // } else {
+        //   shots = 5 - this.fleetShipsSunk;
+        // }
+
+
+        // for (var z = 5; z > shots; z--) {
+        //   var x = document.getElementById('s' + z)
+
+        //   if (x != null) {
+        //     x.style.border = 'solid red';
+        //     x.style.color = 'red';
+        //     x.disabled = 'true';
+        //   }
+        // }
+
+
+      },
+
+      inputCheck() {
+        var shots = 0;
+
+        if (this.baseshots == 1) {
+          shots = this.baseshots;
+        } else if (this.baseshots == 3) {
+          shots = 3 - Math.ceil(this.fleetShipsSunk / 2);
+        } else {
+          shots = 5 - this.fleetShipsSunk;
+        }
 
         for (var z = 5; z > shots; z--) {
-
           var x = document.getElementById('s' + z)
 
           if (x != null) {
@@ -583,13 +662,21 @@
         //number of ships/2 (ceiling) so....1-3
         //one shot per ship
 
-        //var count = 1;
+        //var count = Math.abs(this.baseshots - Attack.methods.getEnemyShipsSunk());//adjust this for # of ships instead of 5.
 
-        //if(radio button two)
-        //  count = 5 - Attack.methods.getEnemyShipsSunk();
-        //count = math.ceil(count/2)
-        //if(radio button three)
-        var count = 5 - Attack.methods.getEnemyShipsSunk();//adjust this for # of ships instead of 5.
+        var count = 0;
+
+        if (this.basefactor == 1) {
+          count = 1;
+        } else if (this.basefactor == 2) {
+          count = 3 - Math.ceil(Attack.methods.getEnemyShipsSunk() / 2);
+        } else if (this.basefactor == 3) {
+          count = 5 - Attack.methods.getEnemyShipsSunk();
+        }
+
+        if (this.basefactor == 4) {
+          count = 10;
+        }
 
         while (count > 0) {
           var ra = [];
@@ -648,17 +735,15 @@
               continue;
             }
           }
-          
 
           this.figureSunk();
-          if(this.checkForWin()){
+          if (this.checkForWin()) {
             return;
           }
 
           if (Attack.methods.getAttackGrid().length == 0) {
             continue;
           }
-
 
           //random attack
           count = this.randomAttack(count);
@@ -695,7 +780,7 @@
           }
 
         } else {//grid is smaller than number of counts remaining..probably at the end of the game
-          
+
           for (var x = 0; x < grid.length; x++) {
             salvo.push(grid[x]);
           }
@@ -714,7 +799,7 @@
 
           count--;
 
-          if(count <= 0){
+          if (count <= 0) {
             return count;
           }
         }
@@ -723,10 +808,17 @@
       },
 
       startAttack() {
-        //verify inputs.   ?????????
         this.figureSunk();
 
-        var numShots = 5 - this.fleetShipsSunk;  //?????????
+        var numShots = 0;
+
+        if (this.baseshots == 1) {
+          numShots = this.baseshots;
+        } else if (this.baseshots == 3) {
+          numShots = 3 - Math.ceil(this.fleetShipsSunk / 2);
+        } else {
+          numShots = 5 - this.fleetShipsSunk;
+        }
 
         var firing = this.getCoordinates();
         var allShips = Attack.methods.getAllShips(); //hack. general list
@@ -735,7 +827,6 @@
         //num is the allowed number of shots fired
         for (var i = 0; i < numShots; i++) {
           if (allShips.indexOf(firing[i]) != -1) {  //if it hits something...    need to update list
-
             //find ship
             for (var f = 0; f < 5; f++) {
               if (allEnemyShips[f].positions.indexOf(firing[i]) != -1) {
@@ -815,6 +906,49 @@
      border: 1px solid yellow;  
   } */
 
+  .readouts {
+    margin: 0;
+    padding: 0;
+    border-radius: 7px;
+  }
+
+  #help {
+    font-size: 12px;
+  }
+
+  .message {
+    position: absolute;
+    bottom: 128px;
+    right: 42px;
+    text-align: center;
+    border-radius: 7px;
+  }
+
+  .options {
+    text-align: center;
+    font-size: 10px;
+    padding: 0px;
+    border: 1px solid whitesmoke;
+    border-radius: 10px;
+    float: left;
+    position: absolute;
+    bottom: 170px;
+    width: 99.5%;
+  }
+
+  .options>p {
+    width: 97.9%;
+    border-radius: 7px;
+  }
+
+  .diff {
+    font-size: 12px;
+    margin: 0;
+    padding: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+  }
+
   hr {
     padding: 0;
     margin: 5px;
@@ -822,12 +956,12 @@
 
   .lleft {
     float: left;
-    color: blue;
+    color: whitesmoke;
   }
 
   .rright {
     float: right;
-    color: blue;
+    color: whitesmoke;
   }
 
   .controls {
@@ -844,23 +978,29 @@
 
   .greenbtn {
     background: green;
-    height: 26px;
+    height: 48px;
+    width: 45px;
+    white-space: normal;
+    border-radius: 7px;
   }
 
   p {
     width: 230px;
     border: 1px solid whitesmoke;
-    height: 3.5vh;
+    height: 3.8vh;
     margin: 3px;
+    border-radius: 7px;
   }
 
   .full {
-    width: 270px;
+    width: 150px;
+    margin: 0px;
+    padding: 5px;
   }
 
   .right {
     position: absolute;
-    right: 0px;
+    right: 50px;
     margin: 3px;
     color: white;
     border: 1px solid white;
@@ -870,6 +1010,16 @@
   .right1 {
     position: absolute;
     right: 0px;
+    margin: 3px;
+    color: white;
+    border: 1px solid white;
+    text-align: center;
+  }
+
+  .right2 {
+    position: absolute;
+    right: 0px;
+    bottom: 232px;
     margin: 3px;
     color: white;
     border: 1px solid white;
@@ -916,7 +1066,6 @@
     text-align: center;
   }
 
-
   .myRight {
     position: absolute;
     right: 5px;
@@ -926,6 +1075,7 @@
     border: 1px solid white;
     height: 110px;
     width: 120px;
+    border-radius: 7px;
   }
 
   .myLeft {
@@ -940,10 +1090,9 @@
     font-size: 10px;
   }
 
-
   .rightplus {
     position: absolute;
-    right: 50px;
+    right: 90px;
     text-align: center;
   }
 
@@ -954,7 +1103,7 @@
   }
 
   th {
-    font-size: 10px;
+    font-size: 12px;
     color: black;
   }
 
@@ -968,6 +1117,7 @@
     margin: 3px;
     font-size: 10px;
     border: 1px solid whitesmoke;
+    border-radius: 7px;
   }
 
   .container-fluid {
@@ -979,17 +1129,18 @@
   }
 
   .test {
-    height: 35px;
-    width: 25px;
+    height: 20px;
+    width: 20px;
     border: 1px solid blue;
     float: left;
+    padding: 0;
+    margin: 0;
   }
   /* table {
     border-collapse: collapse;
   } */
 
   td {
-    /* padding: 10px; */
     border: 1px solid white;
     margin: 0;
   }
@@ -1001,7 +1152,7 @@
 
   .card-block {
     text-align: center;
-    padding: 0;
+    padding: 10px;
   }
 
   .card-title {
@@ -1039,7 +1190,6 @@
     font-weight: normal;
   }
 
-
   h6 {
     padding: 10px, 10px, 0, 10px
   }
@@ -1067,12 +1217,11 @@
     position: absolute;
     left: 5px;
     bottom: 5px;
-    /* margin: 63px, 3px, 3px, 3px; */
     color: green;
     border: 1px solid white;
     height: 110px;
     width: 128px;
-    /* font-size: 12px; */
+    border-radius: 7px;
   }
 
   .elist {
