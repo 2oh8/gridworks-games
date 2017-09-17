@@ -154,6 +154,7 @@
   import Attack from './Attack'
   import Fleet from './Fleet.vue'
   import BattlestationsGameAbout from '../Battlestations/BattlestationsGameAbout.vue'
+
   //window.onload = setDefaults;
 
   export default {
@@ -437,357 +438,288 @@
       },
 
       checkAllShips(shot) {
-        if (this.ships.carrier.positions.includes(shot)) {
-          if (!this.ships.carrier.hits.includes(shot)) {
+        if (this.ships.carrier.positions.indexOf(shot) != -1) {
+          if (this.ships.carrier.hits.indexOf(shot) == -1) {
             this.ships.carrier.hits.push(shot);
             this.redX(shot);
           }
           if (this.ships.carrier.sunk == 'false') {
             if (this.ships.carrier.hits.length >= 6) {
               this.ships.carrier.sunk = 'true';
-              this.figureSunk();
             }
           }
-        } else if (this.ships.battleship.positions.includes(shot)) {
-          if (!this.ships.battleship.hits.includes(shot)) {
+        } else if (this.ships.battleship.positions.indexOf(shot) != -1) {
+          if (this.ships.battleship.hits.indexOf(shot) == -1) {
             this.ships.battleship.hits.push(shot);
             this.redX(shot);
           }
           if (this.ships.battleship.sunk == 'false') {
             if (this.ships.battleship.hits.length >= 5) {
               this.ships.battleship.sunk = 'true';
-              this.figureSunk();
             }
           }
-        } else if (this.ships.cruiser.positions.includes(shot)) {
-          if (!this.ships.cruiser.hits.includes(shot)) {
+        } else if (this.ships.cruiser.positions.indexOf(shot) != -1) {
+          if (this.ships.cruiser.hits.indexOf(shot) == -1) {
             this.ships.cruiser.hits.push(shot);
             this.redX(shot);
           }
           if (this.ships.cruiser.sunk == 'false') {
             if (this.ships.cruiser.hits.length >= 4) {
               this.ships.cruiser.sunk = 'true';
-              this.figureSunk();
             }
           }
-        } else if (this.ships.destroyer.positions.includes(shot)) {
-          if (!this.ships.destroyer.hits.includes(shot)) {
+        } else if (this.ships.destroyer.positions.indexOf(shot) != -1) {
+          if (this.ships.destroyer.hits.indexOf(shot) == -1) {
             this.ships.destroyer.hits.push(shot);
             this.redX(shot);
           }
           if (this.ships.destroyer.sunk == 'false') {
             if (this.ships.destroyer.hits.length >= 3) {
               this.ships.destroyer.sunk = 'true';
-              this.figureSunk();
             }
           }
-        } else if (this.ships.patrolboat.positions.includes(shot)) {
-          if (!this.ships.patrolboat.hits.includes(shot)) {
+        } else if (this.ships.patrolboat.positions.indexOf(shot) != -1) {
+          if (this.ships.patrolboat.hits.indexOf(shot) == -1) {
             this.ships.patrolboat.hits.push(shot);
             this.redX(shot);
           }
           if (this.ships.patrolboat.sunk == 'false') {
             if (this.ships.patrolboat.hits.length >= 2) {
               this.ships.patrolboat.sunk = 'true';
-              this.figureSunk();
             }
           }
         } else {
           //something went wrong
         }
 
-        if (!this.allFleetShips.includes(shot)) {//not a position where a ship exists
-
-          Attack.methods.shotsFired.push(shot);
+        if (this.allFleetShips.indexOf(shot) == -1) {//not a position where a ship exists
+          this.whiteO(la[0])//mark grid ??????
+          this.pushShotsRemoveFromAttackGrid(la[0]);
         } else {
+
+        }
+
+        this.figureSunk();
+        this.checkForWin();
+      },
+
+      getLastDigit(num) {
+        var tmp = num.toString();
+        if (tmp.length == 2) {
+          tmp = tmp[1];
+        } else {
+          tmp = tmp[0]
+        }
+
+        if (tmp == 0) {
+          tmp = 10;
+        }
+
+        return tmp;
+      },
+
+      updateShip(ship, grid, salvo) {
+        if (ship.hits.indexOf(grid) == -1) {
+          ship.hits.push(grid);
+          this.redX(grid);
+
+          if (salvo.toString() == 'true') {
+            Attack.methods.updateHits(grid);
+          }
+
+          this.pushShotsRemoveFromAttackGrid(grid);
+
+          var len = ship.positions.length;
+
+          //check for ship sunk
+          if (ship.hits.length >= len) {
+            ship.sunk = 'true';
+            this.figureSunk();
+            this.checkForWin();
+          }
 
         }
       },
 
-      findShip(ship, shot, grid) {
-        var len = ship.positions.length;
-
-        if (ship.positions.includes(shot)) {
-          if (!ship.hits.includes(shot)) {
-            ship.hits.push(shot);
-            this.redX(shot);
-          }
-
-          if (ship.sunk == 'false') {
-            if (ship.hits.length >= len) {
-              ship.sunk = 'true';
-              this.figureSunk();
-            }
-
-            if (!this.allFleetShips.includes(shot)) {//not a position where a ship exists
-              console.log('shot is: ', shot)
-              //this.allFleetShips.push(shot); // why pushing to this?
-
-              Attack.methods.shotsFired.push(shot);
-            } else {
-
-            }
-          }
-
-          Attack.methods.updateHits(shot);
+      pushShotsRemoveFromAttackGrid(num) {
+        if (Attack.methods.getShots().indexOf(num) == -1) {
+          Attack.methods.shotsFired.push(num);
         }
+        // var aGrid = [];
+        var aGrid = Attack.methods.getAttackGrid();
 
-        return Attack.methods.getAttackGrid();
+        if (aGrid.indexOf(num) != -1) {
+          Attack.methods.removeFromAttackGrid([num])
+        }
+      },
+
+      findUpdateShip(grid, salvo) {
+        if (this.ships.carrier.positions.indexOf(grid) != -1) {
+          this.updateShip(this.ships.carrier, grid, salvo);
+          return;
+        }
+        if (this.ships.battleship.positions.indexOf(grid) != -1) {
+          this.updateShip(this.ships.battleship, grid, salvo);
+          return;
+        }
+        if (this.ships.cruiser.positions.indexOf(grid) != -1) {
+          this.updateShip(this.ships.cruiser, grid, salvo);
+          return;
+        }
+        if (this.ships.destroyer.positions.indexOf(grid) != -1) {
+          this.updateShip(this.ships.destroyer, grid, salvo);
+          return;
+        }
+        if (this.ships.patrolboat.positions.indexOf(grid) != -1) {
+          this.updateShip(this.ships.patrolboat, grid, salvo);
+          return;
+        }
       },
 
       computersAttackTurn() {
         //get shots able to fire based on ship count (1-5). Enemy is Computer.
-        var count = 5 - Attack.methods.getEnemyShipsSunk();
-        Attack.methods.sortUnique();
+        //3 modes of attack...
+        //only one shot
+        //number of ships/2 (ceiling) so....1-3
+        //one shot per ship
 
-        //START LAST LEG OF DESTRUCTION (Dev-Wise)
-        //Create flag to prevent grid attacks
-        var autoGridAttack = 'false';
+        //var count = 1;
 
-        var rights = [];
-        var lefts = [];
+        //if(radio button two)
+        //  count = 5 - Attack.methods.getEnemyShipsSunk();
+        //count = math.ceil(count/2)
+        //if(radio button three)
+        var count = 5 - Attack.methods.getEnemyShipsSunk();//adjust this for # of ships instead of 5.
 
-        rights = Attack.methods.getRightHit();
-        lefts = Attack.methods.getLeftHit();
+        while (count > 0) {
+          var ra = [];
+          var la = [];
 
-        var lDigit = -1;
-        var rDigit = -1;
+          ra = Attack.methods.getRightAttack();
+          la = Attack.methods.getLeftAttack();
 
-        //if something exists on hitlists ...
-        if (rights.length != 0 || lefts.length != 0) {
-          //autoGridAttack = 'false';
+          //left attack
+          if (la && la.length) {
+            if (la.length > 0) {
+              var ldigit = this.getLastDigit(la[0]);
 
-          if (lefts.length != 0) {
-            //need to grab the 'ones' place
-            var str1 = lefts[0].toString();
-
-            if (str1.length != 0) {
-              if (str1.length == 1) {
-                lDigit = str1
-              } else {
-                lDigit = str1[1];
-              }
-            }
-          }
-
-          if (rights.length != 0) {
-            //need to grab the 'ones' place
-            var str2 = rights[0].toString();
-
-            if (str2.length != 0) {
-              if (str2.length == 1) {
-                rDigit = str2;
-              } else {
-                rDigit = str2[1];
-              }
-            }
-          }
-        }
-
-        //count > 0 && 
-        while (autoGridAttack != 'true') {
-          if (count == 0) {
-            break;
-          }
-
-          var grid1 = Attack.methods.getAttackGrid();
-
-          if (lefts.length != 0) {
-            //what if it is not in the fleetships and is ONLY in the left or right arrays!!!!
-            if (this.allFleetShips.includes(lefts[0])) {//There's going to be a known hit!
-
-              //find the ship. 
-              grid1 = this.findShip(this.ships.carrier, lefts[0], grid1);
-              grid1 = this.findShip(this.ships.battleship, lefts[0], grid1);
-              grid1 = this.findShip(this.ships.cruiser, lefts[0], grid1);
-              grid1 = this.findShip(this.ships.destroyer, lefts[0], grid1);
-              grid1 = this.findShip(this.ships.patrolboat, lefts[0], grid1);
-
-              if (grid1.includes(lefts[0])) {
-                //remove from grid to prevent repeat shots.        ????
-                Attack.methods.updateAttackGrid(lefts[0]);
-              }
-
-              if (lDigit == 1) {
-                Attack.methods.removeLeftHit(lefts[0]);
-              } else {
-                Attack.methods.alterLeftHit((lefts[0])); //removes/replaces first index
-
-              }
-
-              count--;
-              continue; //go back to top.
-
-
-            } else {//missed
-              this.whiteO(lefts[0])
-
-              //check to see if in grid
-              grid1 = Attack.methods.getAttackGrid();
-
-              if (grid1.includes(lefts[0])) {
-                //remove from grid to prevent repeat shots.         ????
-                Attack.methods.updateAttackGrid(lefts[0]);             //???????
-              }
-
-              //since it missed, remove it from lefts
-              Attack.methods.removeLeftHit(lefts[0]);
-              continue;
-            }
-
-          } else {
-          }
-
-          Attack.methods.sortUnique();
-
-          //right will go here
-          if (rights.length != 0) {
-
-            console.log('All rights is: ', rights)
-            //console.log('this.allFleetShips is: ', this.allFleetShips)
-            console.log('this.allFleetShips!: ', this.allFleetShips)
-            if (this.allFleetShips.includes(rights[0])) {
-
-              console.log('its a hit!: ', rights[0])
-
-              //find the ship. 
-              grid1 = this.findShip(this.ships.carrier, rights[0], grid1);
-              grid1 = this.findShip(this.ships.battleship, rights[0], grid1);
-              grid1 = this.findShip(this.ships.cruiser, rights[0], grid1);
-              grid1 = this.findShip(this.ships.destroyer, rights[0], grid1);
-              grid1 = this.findShip(this.ships.patrolboat, rights[0], grid1);
-              //this.checkAllShips(rights[0])
-
-              //grid1 = Attack.methods.getAttackGrid();
-              console.log('grid1 is now: ', grid1)
-              console.log('after findShips, rights are now: ', rights[0])
-
-              if (grid1.includes(rights[0])) {
-                //remove from grid to prevent repeat shots.         ????
-                Attack.methods.updateAttackGrid(rights[0]);             //???????
-              }
-
-              count--;
-
-              if (rights.length != 0) {
-                var str = rights[0].toString();
-                //need to grab the 'ones' place
-                if (str.length != 0) {
-                  if (str.length == 1) {
-                    rDigit = str
-                  } else {
-                    rDigit = str[1];
-                  }
+              if (this.allFleetShips.indexOf(la[0]) != -1) { //hit
+                this.findUpdateShip(la[0], false);
+                if (ldigit > 1) {
+                  var newGrid = la[0] - 1;//next grid to the left
+                  la.splice(0, 1, newGrid)
+                } else {//no more shots to the left. Remove from left Attack array
+                  la.splice(0, 1)
                 }
+                count--;
+
+              } else {//missed
+                this.whiteO(la[0])//mark grid
+                this.pushShotsRemoveFromAttackGrid(la[0]);//add to shots fired. //remove from attack grid if exists                              
+                la.splice(0, 1)//remove from leftAttack array.
+                count--;
               }
-              if (rDigit == 0) {
-                rDigit = 10;
-              }
-              //console.log('rDigit is: ', rDigit)
-
-              if (rDigit < 10) {
-                //replace from right array with new position. Continue.
-
-                //console.log('removing/replacing current rights entry at: ', rights[0])
-                //console.log('next one in line is: ', (rights[0] + 1))
-                Attack.methods.alterRightHit((rights[0])); //removes first entry, adds this one
-                //console.log('Current rights entries are now: ', rights)
-
-                //betting this isn't working quite right.
-
-
-              } else {//Can't go right any further with this one. remove it 
-                var ind = rights.indexOf(rights[0])
-                // Attack.methods.removeRightHit(rights[0]);
-                Attack.methods.removeRightHit(ind);
-              }
-
-              continue; //go back to top.
-
-
-            } else {  //not in ship position grid.
-
-              this.whiteO(rights[0])
-
-              //check to see if in grid
-              grid1 = Attack.methods.getAttackGrid();
-
-              if (grid1.includes(rights[0])) {
-                //remove from grid to prevent repeat shots.        
-                Attack.methods.updateAttackGrid(rights[0]);             //???????
-              }
-
-              //since it missed, remove it from rights
-              Attack.methods.removeRightHit(rights[0]);
-            }
-
-          } else {
-            if (lefts.length == 0 && rights.length == 0) {
-              autoGridAttack = 'true';
-            } else {
-              autoGridAttack = 'false';
               continue;
             }
+          }
 
-            break;
+          //right attack
+          if (ra && ra.length) {
+            if (ra.length > 0) {
+              var rdigit = this.getLastDigit(ra[0]);
+
+              if (this.allFleetShips.indexOf(ra[0]) != -1) { //hit
+                this.findUpdateShip(ra[0], false);
+
+                if (rdigit < 10) {
+                  var newGrid = ra[0] + 1;//next grid to the right
+                  ra.splice(0, 1, newGrid)
+                } else {//no more shots to the right.Remove from right Attack array
+                  ra.splice(0, 1)
+                }
+                count--;
+
+              } else {//missed
+                this.whiteO(ra[0])//mark grid
+                this.pushShotsRemoveFromAttackGrid(ra[0]);//add to shots fired. //remove from attack grid if exists                
+                ra.splice(0, 1)//remove from rightAttack array.
+                count--;
+              }
+              continue;
+            }
+          }
+          
+
+          this.figureSunk();
+          if(this.checkForWin()){
+            return;
           }
 
           if (Attack.methods.getAttackGrid().length == 0) {
-            if (lefts.length > 0 || rights.length > 0) {
-              continue;
-            }
-          }
-        }
-
-        //Loads random grid points to Salvo magazine
-        //randomly generate numbers from attackgrid
-        var grid = Attack.methods.getAttackGrid();
-        var salvo = [];
-        var tmp = 0;
-
-        //grabs random indexes of attack grid
-        while (tmp < count) {
-          var num = Math.floor(Math.random() * grid.length);
-
-          if (rights.includes(num) || lefts.includes(num) || Attack.methods.getShots().includes(num)) {     //?????????
             continue;
           }
 
-          if (!salvo.includes(grid[num])) { //if salvo doesn't already have the generated number
-            salvo.push(grid[num]);
-            tmp++;
-          }
+
+          //random attack
+          count = this.randomAttack(count);
+          var grid2 = Attack.methods.getAttackGrid();
+
         }
+      },
 
-        //remove from grid to prevent repeat shots.        
-
-        Attack.methods.updateAttackGrid(salvo);
-
-        //attacking with salvo. Check against allFleetShips.
-        for (var f = 0; f < salvo.length; f++) {
-          if (this.allFleetShips.includes(salvo[f])) {    
-
-            grid = this.findShip(this.ships.carrier, salvo[f], grid);
-            grid = this.findShip(this.ships.battleship, salvo[f], grid);
-            grid = this.findShip(this.ships.cruiser, salvo[f], grid);
-            grid = this.findShip(this.ships.destroyer, salvo[f], grid);
-            grid = this.findShip(this.ships.patrolboat, salvo[f], grid);
-
-          } else {
-            this.whiteO(salvo[f]);
-          }
-        }
-
-        this.figureSunk();
-
+      checkForWin() {
         if (this.fleetShipsSunk > 4) {
           this.msg = 'COMPUTER WON!'
           this.updateStats('false');
 
           var attackBtn = document.getElementById('attack2');
           attackBtn.disabled = 'true';
-          return;
+          return true;
         }
+      },
+
+      randomAttack(num) {
+        var count = num;
+        var grid = Attack.methods.getAttackGrid();
+        var salvo = [];
+        var tmp = 0;
+
+        if (count < grid.length) {
+          while (tmp < count) {
+            var num = Math.floor(Math.random() * grid.length);//grab random index
+
+            if (salvo.indexOf(grid[num]) == -1) { //!if salvo doesn't already have the generated number
+              salvo.push(grid[num]);
+              tmp++;
+            }
+          }
+
+        } else {//grid is smaller than number of counts remaining..probably at the end of the game
+          
+          for (var x = 0; x < grid.length; x++) {
+            salvo.push(grid[x]);
+          }
+        }
+
+        //have ending shots now. 
+        for (var i = 0; i < salvo.length; i++) {
+          if (this.allFleetShips.indexOf(salvo[i]) != -1) {
+            this.findUpdateShip(salvo[i], true);
+            Attack.methods.updateHits(salvo[i])
+            this.pushShotsRemoveFromAttackGrid(salvo[i]);
+          } else {
+            this.whiteO(salvo[i])//mark grid
+            this.pushShotsRemoveFromAttackGrid(salvo[i]); //store fired shots. remove from attack grid if present
+          }
+
+          count--;
+
+          if(count <= 0){
+            return count;
+          }
+        }
+
+        return count;
       },
 
       startAttack() {
@@ -802,12 +734,12 @@
 
         //num is the allowed number of shots fired
         for (var i = 0; i < numShots; i++) {
-          if (allShips.includes(firing[i])) {  //if it hits something...    need to update list
+          if (allShips.indexOf(firing[i]) != -1) {  //if it hits something...    need to update list
 
             //find ship
             for (var f = 0; f < 5; f++) {
-              if (allEnemyShips[f].positions.includes(firing[i])) {
-                if (!allEnemyShips[f].hits.includes(firing[i])) {
+              if (allEnemyShips[f].positions.indexOf(firing[i]) != -1) {
+                if (allEnemyShips[f].hits.indexOf(firing[i]) == -1) {//!
                   allEnemyShips[f].hits.push(firing[i]);
                   this.redX(firing[i]);
                 }
@@ -879,9 +811,9 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  * {
-    /* border: 1px solid yellow;  */
-  }
+  /* * {
+     border: 1px solid yellow;  
+  } */
 
   hr {
     padding: 0;
@@ -1021,10 +953,6 @@
     text-align: center;
   }
 
-  .cp {
-    /* border: 1px solid whitesmoke; */
-  }
-
   th {
     font-size: 10px;
     color: black;
@@ -1133,10 +1061,6 @@
 
   a {
     color: #42b983;
-  }
-
-  .status {
-    /* height:100px; */
   }
 
   .enemy {

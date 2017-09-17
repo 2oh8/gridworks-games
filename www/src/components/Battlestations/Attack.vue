@@ -160,7 +160,6 @@
 
 
 <script>
-
   export default {
     name: 'attack',
     allShips: [],
@@ -168,11 +167,11 @@
     referenceGrid: [],
     attackGrid: [],
     shipsSunk: '',
-    enemyShips: [], 
+    enemyShips: [],
     shotsFired: [],
 
-    goLeftHit: '',
-    goRightHit: '',
+    goLeftAttack: [],
+    goRightAttack: [],
 
     data() {
       return {
@@ -240,9 +239,14 @@
         return this.attackGrid;
       },
 
-      updateAttackGrid(arr) {//start#. //count)
+      removeFromAttackGrid(arr) {//start#. //count)
         //sort lowest to highest. Important!
-        var salvo = arr;//should work with one
+        //debugger
+
+        var salvo = [];//should work with one.nope
+        for (var x = 0; x < arr.length; x++) {
+          salvo.push(arr[x])
+        }
 
         if (arr.length > 1) {
           salvo = arr.sort(function (a, b) {
@@ -287,17 +291,16 @@
         }
       },
 
-      getRightHit() {
-        return this.goRightHit;
+      getRightAttack() {
+        return this.goRightAttack;
       },
 
-      getLeftHit() {
-        return this.goLeftHit;
+      getLeftAttack() {
+        return this.goLeftAttack;
       },
 
       updateHits(pt) {
         //need a left and right
-
         var tmp = pt.toString();
         var num = 0;
 
@@ -307,53 +310,37 @@
           num = tmp[1];
         }
 
-        this.shotsFired.push(pt);
-
-
         //corner cases
         if (num != 1 && num != 0) {
           //both
-          if (!this.goLeftHit.includes(pt - 1)) {
+          if (this.shotsFired.indexOf(pt - 1) == -1) {//if next proposed shot hasn't been taken then
+            if (this.goLeftAttack.indexOf(pt - 1) == -1) {
 
-            this.goLeftHit.push(pt - 1);
+              this.goLeftAttack.push(pt - 1);
+            }
           }
 
-          if (!this.goRightHit.includes(pt + 1)) {
-            this.goRightHit.push(pt + 1);
+          if (this.shotsFired.indexOf(pt + 1) == -1) {//if next proposed shot hasn't been taken then
+            if (this.goRightAttack.indexOf(pt + 1) == -1) {
+              this.goRightAttack.push(pt + 1);
+            }
           }
 
         } else if (num == 1) {
           //only right 
-          if (!this.goRightHit.includes(pt + 1)) {
-            this.goRightHit.push(pt + 1);
+          if (this.shotsFired.indexOf(pt + 1) == -1) {
+            if (this.goRightAttack.indexOf(pt + 1) == -1) {
+              this.goRightAttack.push(pt + 1);
+            }
           }
         } else if (num == 0) {
           //only left
-          if (!this.goLeftHit.includes(pt - 1)) {
-            this.goLeftHit.push(pt - 1);
+          if (this.shotsFired.indexOf(pt - 1) == -1) {
+            if (this.goLeftAttack.indexOf(pt - 1) == -1) {
+              this.goLeftAttack.push(pt - 1);
+            }
           }
         }
-      },
-
-      alterLeftHit(num) {
-        var ind = this.goLeftHit.indexOf(num + 1)
-        this.goLeftHit.splice(ind, 1)
-        this.goLeftHit.unshift(num)
-        this.shotsFired.push(num);
-
-      },
-
-      alterRightHit(num) {
-        this.goRightHit.splice(0, 1, num + 1)
-        this.shotsFired.push(num);
-      },
-
-      removeRightHit() {
-        this.goRightHit.splice(0, 1)
-      },
-
-      removeLeftHit() {
-        this.goLeftHit.splice(0, 1)
       },
 
       getShots() {
@@ -362,47 +349,6 @@
 
       updateShots(num) {
         this.shotsFired.push(num);
-      },
-
-      sortUnique() {
-        //this.scrub();
-        this.shotsFired.sort();
-
-        var tmp = [];
-        tmp = this.shotsFired;
-
-        this.shotsFired = [];
-
-        for (var x = 0; x < tmp.length; x++) {
-          if (tmp[x] < 101) {
-            if (!this.shotsFired.includes(tmp[x])) {
-              this.shotsFired.push(tmp[x])
-            }
-          }
-        }
-        this.shotsFired.sort();
-
-        //then scrub
-        this.scrub()
-      },
-
-      scrub() {
-        this.goLeftHit.sort();
-        this.goRightHit.sort();
-        this.shotsFired.sort();
-
-        for (var a = this.goLeftHit.length - 1; a > -1; a--) {
-          if (this.shotsFired.includes(this.goLeftHit[a])) {
-            this.goLeftHit.splice(a, 1)
-          }
-        }
-
-        for (var a = this.goRightHit.length - 1; a > -1; a--) {
-          if (this.shotsFired.includes(this.goRightHit[a])) {
-            this.goRightHit.splice(a, 1)
-          }
-        }
-
       },
 
       generateShips() {
@@ -422,8 +368,8 @@
         this.generateShip(2); //patrol boat
 
         this.shipsSunk = 0;
-        this.goLeftHit = [];
-        this.goRightHit = [];
+        this.goLeftAttack = [];
+        this.goRightAttack = [];
       },
 
       generateShip(occupy) {
@@ -468,7 +414,7 @@
           }
 
           for (var i = num; i < num + occupy; i++) {
-            if (!this.allShips.includes(i)) {
+            if (this.allShips.indexOf(i) == -1) {
               //if existing position not found, then load in temp array
               tempPositions.push(i);
             } else {
@@ -492,13 +438,12 @@
         var len = tempPositions.length;
         this.enemyShips[len - 2].positions = [];
 
-
         for (var z = 0; z < len; z++) {
           //make it visual for testing only
           //this.changeRed(tempPositions[z]);
 
           this.allShips.push(tempPositions[z]);
-          this.shotsFired.push(tempPositions[z]);
+          //this.shotsFired.push(tempPositions[z]);
           this.enemyShips[len - 2].positions.push(tempPositions[z]);
         }
 
@@ -538,7 +483,7 @@
           }
 
           for (var i = num; i < num + (occupy * 10); i += 10) {
-            if (!this.allShips.includes(i)) {
+            if (this.allShips.indexOf(i) == -1) {
               //if position not found, then load in temp array
               tempPositions1.push(i);
             } else {
@@ -569,7 +514,7 @@
           //this.changeRed(tempPositions1[z]);
 
           this.allShips.push(tempPositions1[z]);
-          this.shotsFired.push(tempPositions1[z]);
+          //this.shotsFired.push(tempPositions1[z]);
           this.enemyShips[length - 2].positions.push(tempPositions1[z]);
         }
 
