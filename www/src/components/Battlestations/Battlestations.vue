@@ -656,14 +656,6 @@
       },
 
       computersAttackTurn() {
-        //get shots able to fire based on ship count (1-5). Enemy is Computer.
-        //3 modes of attack...
-        //only one shot
-        //number of ships/2 (ceiling) so....1-3
-        //one shot per ship
-
-        //var count = Math.abs(this.baseshots - Attack.methods.getEnemyShipsSunk());//adjust this for # of ships instead of 5.
-
         var count = 0;
 
         if (this.basefactor == 1) {
@@ -675,7 +667,7 @@
         }
 
         if (this.basefactor == 4) {
-          count = 10;
+          count = 10 - (2 * Attack.methods.getEnemyShipsSunk());
         }
 
         while (count > 0) {
