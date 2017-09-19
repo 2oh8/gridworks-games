@@ -910,7 +910,7 @@
 
   .message {
     position: absolute;
-    bottom: 128px;
+    bottom: 122px;
     right: 42px;
     text-align: center;
     border-radius: 7px;
@@ -924,7 +924,7 @@
     border-radius: 10px;
     float: left;
     position: absolute;
-    bottom: 170px;
+    bottom: 157px;
     width: 99.5%;
   }
 
